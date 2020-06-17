@@ -1,8 +1,6 @@
 from random import randint, random
 import csv
 
-## This is NOT running right now and I don't know why :(
-
 tc = mc = fc = pc = 0
 agents = []
 
@@ -35,16 +33,16 @@ def simulation(mems:int=1, pots:int=498, forms:int=1,
     print('starting values:', 'members:', mc, 'potentials:',
               pc, 'formers:', fc)
 
-    l = len(params)
+    pl = len(params)
 
     for i in range(steps):
         record.append([mc, pc, fc])
         ## Not thrilled about this,
         ## it splits the stepping based on the number of args
         ## given in the tuple
-        if (l == 6):
+        if (pl == 6):
             step(*params)
-        elif (l == 4):
+        elif (pl == 4):
             simpleStep(*params)
         else:
             raise Exception('Param should have 4 or 6 values')
