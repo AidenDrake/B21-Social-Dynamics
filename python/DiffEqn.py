@@ -8,9 +8,11 @@ M = [1,]
 P = [2,]
 E = [3,]
 
-def run(M_0=1, P_0=498, E_0=1, delta_t= 0.7,
-        params:tuple=(0.01, 0.01, 0.1, 0.1, 0.1, 0.1), final_t =150):
-    """Runs the differentail eqn approximation. Uses finite difference method
+def diffrun(M_0=1, P_0=498, E_0=1, diff_delta_t= 0.7,
+            params:tuple=(0.01, 0.01, 0.1, 0.1, 0.1, 0.1), final_t=150,
+            should_print=False):
+    """Runs the differential eqn approximation. Uses finite difference method.
+    Returns 3 lists of values.
     [M, P, E]_0 = starting values
     _delta_t = change in t per round for approx algorithm
     params: (k, g, alpha, beta, c, phi) OR (a, b, c, phi)
@@ -18,14 +20,13 @@ def run(M_0=1, P_0=498, E_0=1, delta_t= 0.7,
 
     Note: Some modifications have been made from Hedstrom's eqns. d -> k
     and delta -> phi. I did this to avoid confusing myself."""
-    
-    global M, P, E, delta_t
-
-    delta_t = _delta_t
+    global M, P, E
 
     M = [M_0,]
     P = [P_0,]
     E = [E_0,]
+
+    delta_t = diff_delta_t
 
     ## A little bit of rodeoing to make sure that this model can handle the
     ## 4 and 6 parameter versions of the Hedstrom Model. 
@@ -50,7 +51,7 @@ def run(M_0=1, P_0=498, E_0=1, delta_t= 0.7,
     rec = [[M[0], P[0], E[0]],]
     
     i = 1
-    for t in np.arange(delta_t,150,delta_t):
+    for t in np.arange(delta_t, final_t,delta_t):
         newP = (E[i-1]*phi-M[i-1]*P[i-1]*a)*delta_t+P[i-1]
         P.append(newP) ##P[i] = newP
 
@@ -60,14 +61,14 @@ def run(M_0=1, P_0=498, E_0=1, delta_t= 0.7,
         newM = (M[i-1]*P[i-1]*a-E[i-1]*M[i-1]*b-M[i-1]*c)*delta_t+M[i-1]
         M.append(newM)
 
-        print(M[i], P[i], E[i])
+        if should_print:
+            print('M:', M[i], 'P:', P[i],'E:', E[i])
 
         rec.append([M[i], P[i], E[i]])
 
         i+=1
 
-    ##recordToCsv(rec)
-    plot(delta_t, final_t)
+    return rec
         
 def plot(delta_t, final_t):
     global P, E, M
@@ -82,7 +83,7 @@ def plot(delta_t, final_t):
     
     ax.plot(tScale, PotsArr, label='Pots')
     ax.plot(tScale, ExArr, label='Ex-mems')
-    ax.plot(tScale, MemArr, label='Mems')
+    ax.plot(tScale, MemArr, label='Mem')
     ax.legend()
     plt.show()
     
