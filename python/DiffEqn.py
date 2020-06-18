@@ -1,15 +1,14 @@
 ## Differential Eqn Testing -- won't be our final result
 import numpy as np
-import csv
 import matplotlib.pyplot as plt
+import csv
 
 ##Globals
 M = [1,]
 P = [2,]
 E = [3,]
-delta_t = 0.5
 
-def run(M_0=1, P_0=498, E_0=1, _delta_t= 0.7,
+def run(M_0=1, P_0=498, E_0=1, delta_t= 0.7,
         params:tuple=(0.01, 0.01, 0.1, 0.1, 0.1, 0.1), final_t =150):
     """Runs the differentail eqn approximation. Uses finite difference method
     [M, P, E]_0 = starting values
@@ -68,12 +67,12 @@ def run(M_0=1, P_0=498, E_0=1, _delta_t= 0.7,
         i+=1
 
     ##recordToCsv(rec)
-    ##plot()
+    plot(delta_t, final_t)
         
-def plot():
-    global P, E, M, delta_t
+def plot(delta_t, final_t):
+    global P, E, M
 
-    tScale = np.arange(0, 150, delta_t)
+    tScale = np.arange(0, final_t, delta_t)
     
     PotsArr = np.asarray(P)
     ExArr = np.asarray(E)

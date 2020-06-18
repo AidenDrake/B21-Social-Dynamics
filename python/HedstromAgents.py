@@ -1,4 +1,6 @@
 from random import randint, random
+import numpy as np
+import matplotlib.pyplot as plt
 import csv
 
 tc = mc = fc = pc = 0
@@ -7,11 +9,13 @@ agents = []
 IOGT_fitted_values={'mems':60, 'pots':2430, 'forms':10,
                     'params':(0.0003, 0.009, 0.08, 0.68),
                     'steps':100,}
+
+record = []
 ## The values for the independant order of good templars model
 
 def simulation(mems:int=1, pots:int=498, forms:int=1,
                params:tuple=(0.01, 0.01, 0.1, 0.1, 0.1, 0.1),
-               export:bool=True, steps:int=200) -> list:
+               export:bool=False, steps:int=200):
     """Runs the simulation. Default values represent the dummy trial
     from Hedstrom Chapter, Fig.2
     
@@ -22,7 +26,7 @@ def simulation(mems:int=1, pots:int=498, forms:int=1,
     params: (d, g, alpha, beta, c, delta) OR (a, b, c, delta)
     Export: write to csv?
     steps=how many steps to run"""
-    global agents
+    global agents, record
 
     record =[]
 
@@ -156,6 +160,30 @@ def recordToCsv(record):
         w = csv.writer(csvfile, delimiter=';')
         for lst in record:
             w.writerow(lst)
+
+def plot(delta_t, final_t):
+    global record
+
+    M = [lst[0] for lst in record]
+    P = [lst[1] for lst in record]
+    E = [lst[2] for lst in record]
+
+    tScale = np.arange(0, final_t+delta_t, delta_t) ## Not sure why this works
+
+    PotsArr = np.asarray(P)
+    ExArr = np.asarray(E)
+    MemArr = np.asarray(M)
+    
+    fig, ax = plt.subplots()
+    
+    ax.plot(tScale, PotsArr, label='Pots')
+    ax.plot(tScale, ExArr, label='Ex-mems')
+    ax.plot(tScale, MemArr, label='Mems')
+    ax.legend()
+    plt.show()
+
+
+    
 
 
 
