@@ -9,7 +9,7 @@ agents = []
 
 IOGT_fitted_values={'M_0':60, 'P_0':2430, 'E_0':10,
                     'params':(0.0003, 0.009, 0.08, 0.68),
-                    'steps':100,}
+                    'final_t':100,}
 ## The values for the independant order of good templars model
 
 ## Note: E for "ex-member" is used for "former" agents
@@ -23,7 +23,7 @@ def simvsdiff(M_0:int=1, P_0:int=498, E_0:int=1,
     
     agent_rec = simulation(M_0, P_0, E_0, params, False, final_t, should_print)
 
-    diff_rec = DiffEqn.diffrun(M_0, P_0, E_0, _delta_t, params, 200)
+    diff_rec = DiffEqn.diffrun(M_0, P_0, E_0, _delta_t, params, final_t)
 
     vsplot(agent_rec, diff_rec, 1, _delta_t, final_t)
 
@@ -240,6 +240,10 @@ def vsplot(agent_rec, diff_rec, agent_step, delta_t, final_t):
     ax.plot(diff_scale, diff_exArr, label='Ex-mems Diff')
     ax.plot(diff_scale, diff_memArr, label='Mems Diff')
 
+    ## matplotlib setup
+    ax.set_xlabel('time')
+    ax.set_ylabel('population')
+    ax.set_title('Members vs group populations, in ODE and ABM')
     ax.legend()
     plt.show()
 
