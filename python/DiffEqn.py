@@ -1,25 +1,39 @@
-## Differential Eqn Testing -- won't be our final result
+"""Implements the finite difference method to approximate and plot
+the solution to a set of differential equations, specifically a model
+of social movements, given by Peter Hedstrom in a 2006 paper. This
+module is capable of simulating parameters using the original inputs
+Hedstrom describes, as well as the "effective transition parameter"
+version given later in the paper.
+
+See:
+P Hedstrom, Explaining the growth patterns of social movements,
+Understanding Choice, Explaining Behavior (Oslo University Press,
+Norway, 2006).
+
+Note: Some modifications have been made from Hedstrom's original
+equations. d -> k and delta -> phi. I did this to avoid confusing
+myself, since "d" and "delta" are commonly used in the context of
+differential equations.
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
 
-##Globals
-M = [1,]
-P = [2,]
-E = [3,]
 
-def diffrun(M_0=1, P_0=498, E_0=1, diff_delta_t= 0.7,
-            params:tuple=(0.01, 0.01, 0.1, 0.1, 0.1, 0.1), final_t=150,
-            should_print=False):
-    """Runs the differential eqn approximation. Uses finite difference method.
-    Returns 3 lists of values.
-    [M, P, E]_0 = starting values
-    _delta_t = change in t per round for approx algorithm
-    params: (k, g, alpha, beta, c, phi) OR (a, b, c, phi)
-    final_t = the last value for t. (t always starts from 0)
+def diffrun(M_0=1, P_0=498, E_0=1, diff_delta_t:float= 0.7,
+            params:tuple=(0.01, 0.01, 0.1, 0.1, 0.1, 0.1),
+            final_t:int=150, should_print=False):
+    """Runs approximation of Hedstrom's equations. Uses
+    finite difference method. Default values represent the dummy trial
+    from Hedstrom paper, Fig.2. Returns a list of lists. 
 
-    Note: Some modifications have been made from Hedstrom's eqns. d -> k
-    and delta -> phi. I did this to avoid confusing myself."""
+    Keyword arguments:
+    M_0, P_0, E_0 -- starting values for members, potential, and former
+    agents respectively.
+    diff_delta_t -- change in t per round for approximation algorithm
+    params -- (k, g, alpha, beta, c, phi) OR (a, b, c, phi)
+    final_t -- the last value for t. (t always starts from 0)
+    """
     global M, P, E
 
     M = [M_0,]
@@ -69,15 +83,16 @@ def diffrun(M_0=1, P_0=498, E_0=1, diff_delta_t= 0.7,
         i+=1
 
     return rec
+
         
-def plot(delta_t, final_t):
-    global P, E, M
+def plot(delta_t, final_t, M, P, E):
+    """Puts data from a previous trial on a matplotlib graph"""
 
     tScale = np.arange(0, final_t, delta_t)
-    
+
+    MemArr = np.asarray(M)
     PotsArr = np.asarray(P)
     ExArr = np.asarray(E)
-    MemArr = np.asarray(M)
     
     fig, ax = plt.subplots()
     
@@ -87,12 +102,4 @@ def plot(delta_t, final_t):
     ax.legend()
     plt.show()
     
-        
-        
-    
-def recordToCsv(record):
-    with open('diffeqn.csv', 'wt',) as csvfile:
-        w = csv.writer(csvfile, delimiter=';')
-        for lst in record:
-            w.writerow(lst)
             
