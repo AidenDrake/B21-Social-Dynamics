@@ -34,13 +34,13 @@ void setup() {
 }
 
 public void reset() {
-  println("good golly miss molly");
   tlevel = 0;
 }
 
 public void grow() {
   tlevel++;
 }
+
 void draw() {
   background(0);
   stroke(255);
