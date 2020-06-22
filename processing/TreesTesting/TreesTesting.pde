@@ -1,7 +1,7 @@
 /**
  * Recursive tree program that's meant to be a testing enviroment for controlP5
  *
- * CP5 bang for reset, CP5 radio (or toggle?) for run
+ * CP5 bang for reset, CP5 toggle for run
  *
  */
 import controlP5.*;
@@ -22,22 +22,25 @@ void setup() {
 
   cp5 = new ControlP5(this);
   
-  s = cp5.addSlider2D("tree tilt").setPosition(30, 40)
+  s = cp5.addSlider2D("tree tilt").setPosition(30, 20)
     .setSize(100, 100).setArrayValue(new float[] {50, 50});
 
   cp5.addBang("reset")
-    .setPosition(200, 40)
+    .setPosition(150, 20)
     .setSize(40, 40)
     .setId(1)
     ;
 
   cp5.addBang("grow")
-    .setPosition(280, 40)
+    .setPosition(210, 20)
     .setSize(40, 40)
     .setId(1)
     ;
     
-    cp5.addToggle("anim").setPosition(340, 40).setSize(50, 20);
+    cp5.addToggle("anim")
+    .setPosition(270, 40).setSize(50, 20);
+    
+    //.setColorActive(color(124, 222, 0)); //Could be useful later
 }
 
 void draw() {
