@@ -1,9 +1,12 @@
 /**
  * Recursive tree program that's meant to be a testing enviroment for controlP5
+ *
+ * CP5 bang for reset, CP5 radio or toggle for run
+ *
  */
 import controlP5.*;
 
-int count = 0;
+int tlevel = 0;
 int j = 0;
 
 ControlP5 cp5;
@@ -13,11 +16,31 @@ void setup() {
   size(500, 500);
   background(0);
   cp5 = new ControlP5(this);
-  s = cp5.addSlider2D("tree tilt").setPosition(30,40)
-  .setSize(100,100).setArrayValue(new float[] {50,50});
+  s = cp5.addSlider2D("tree tilt").setPosition(30, 40)
+    .setSize(100, 100).setArrayValue(new float[] {50, 50});
+
+  cp5.addBang("reset")
+    .setPosition(200, 40)
+    .setSize(40, 40)
+    .setId(1)
+    ;
+
+  cp5.addBang("grow")
+    .setPosition(280, 40)
+    .setSize(40, 40)
+    .setId(1)
+    ;
   smooth();
 }
 
+public void reset() {
+  println("good golly miss molly");
+  tlevel = 0;
+}
+
+public void grow() {
+  tlevel++;
+}
 void draw() {
   background(0);
   stroke(255);
@@ -27,18 +50,17 @@ void draw() {
   //float widderDisplay= s.getArrayValue()[1];
   //text("c disp: "+clockDisplay+"  w disp: "+widderDisplay, 250, 50);
   pushMatrix();
-  tree(250, 500, 70, 0, count%10 ); //max 10 levels
+  tree(250, 500, 70, 0, tlevel%10 ); //max 10 levels
   popMatrix();
 
   if (keyPressed && (key == ' ')) {
     if (j > 20) {
-      count++;
+      tlevel++;
       j = 0;
     } else {
       j++;
     }
-  }
-  else {
+  } else {
     j=21;
   }
 }
