@@ -3,9 +3,10 @@
  * 
  * Work in progress
  */
-int wide = 1000;
-int tall = 1000;
+
 ArrayList<Agent> agents = new ArrayList();
+
+randomSeed(11235813); //debug
 
 void setup() {
   size(1000, 1000);
@@ -20,7 +21,7 @@ void draw() {
   stroke(0);
 
   pushMatrix();
-  translate(wide/2, tall/2);
+  translate(width/2, height/2);
 
   pushMatrix();
   rotate(radians(210));
@@ -37,6 +38,7 @@ void draw() {
     a.update();
     a.display();
     a.checkCollision(bigRadius);
+    //a.flatCollision(12, 12);
   }
   popMatrix();
 }
