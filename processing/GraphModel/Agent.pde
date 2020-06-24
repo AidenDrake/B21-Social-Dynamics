@@ -19,7 +19,7 @@ class Agent {
     this.velocity = PVector.random2D();
     velocity.mult(3);
   }
-  
+
   public Agent(PVector inputCoord, PVector inputVelocity, char inputGroup) {
     this.coord = inputCoord;
     this.group = inputGroup;
@@ -60,7 +60,7 @@ class Agent {
 
     //this.coord = new PVector(0,0);
 
-// Move stuff below into if statement. It was taken out for debug
+    // Move stuff below into if statement. It was taken out for debug
     float correction = (centerDistanceMag - maxDist) / 2.0;
     PVector d = centerDistanceVect.copy();
     PVector correctionVector = d.normalize().mult(correction*4);//*4?
@@ -76,7 +76,7 @@ class Agent {
     // collision line for debug
     stroke(255, 0, 0);
     line(coord.x, coord.y, coord.x+cosine*20, coord.y+sine*20);
-    
+
     //vel line for debug
     stroke(0, 200, 0);
     line(coord.x, coord.y, coord.x+velocity.x*20, coord.y+velocity.y*20);
@@ -100,12 +100,22 @@ class Agent {
 
     //println("center distance mag is: "+centerDistanceMag);
   }
-  
-  public void lineCollision(float m, float b) {
+
+  public void lineCollision() {
     float angle = atan2(coord.y, coord.x);
+    if (angle < 0) {
+      angle = (2*PI+angle);
+    }
+    
+    
     stroke(0, 0, 125);
     line(0, 0, cos(angle)*300, sin(angle)*300);
-    if (angle > 
+    if ((this.group ==  'P') && ((angle > (7*PI/6)) || (angle < (PI/2)))) {
+      this.coord = new PVector(-200, 200);
+    }
+    if ((this.group ==  'M') && ((angle > (7*PI/6)) || (angle < (PI/2)))) {
+    }
+    
     //boolean isCollision = ;
     //if (isCollision) {
     //  velocity = new PVector(0, 0);
