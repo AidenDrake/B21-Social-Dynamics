@@ -19,6 +19,12 @@ class Agent {
     this.velocity = PVector.random2D();
     velocity.mult(3);
   }
+  
+  public Agent(PVector inputCoord, PVector inputVelocity, char inputGroup) {
+    this.coord = inputCoord;
+    this.group = inputGroup;
+    this.velocity = inputVelocity;
+  }
 
   //Methods
   public void update() {
