@@ -10,7 +10,7 @@ void setup() {
   size(1000, 1000);
   PVector a = new PVector(30, 30);
 
-  agents.add(new Agent((new PVector(-200, 200)), (new PVector(-1, -2)), 'P'));
+  agents.add(new Agent((new PVector(-200, 200)), (new PVector(2.10, -0.76)), 'P'));
 }
 
 void draw() {
@@ -44,7 +44,7 @@ void draw() {
     
   fill(0);
   textSize(32);
-  text ("agenlg :" + degrees(angle), -300, -300);
+  text ("angle :" + degrees(angle), -300, -300);
 
   for (Agent a : agents) {
     a.update();

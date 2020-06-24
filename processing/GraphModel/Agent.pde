@@ -41,6 +41,10 @@ class Agent {
     noStroke();
     fill(0);
     ellipse(coord.x, coord.y, agentRadius*2, agentRadius*2);
+    
+    //debug
+    textSize(16);
+    text("velocity: <"+velocity.x+","+velocity.y+">", coord.x -20, coord.y-20);
   }
 
   public void checkCollision(float bigRadius) {
@@ -106,16 +110,28 @@ class Agent {
     if (angle < 0) {
       angle = (2*PI+angle);
     }
-    
-    
+
     stroke(0, 0, 125);
     line(0, 0, cos(angle)*300, sin(angle)*300);
+    //Key collision detection based on angle
     if ((this.group ==  'P') && ((angle > (7*PI/6)) || (angle < (PI/2)))) {
-      this.coord = new PVector(-200, 200);
+      if ((angle < (PI/2))) {
+        // colliding with line 3
+       // velocity = new PVector(0, 0);
+        PVector line3 = new PVector(0, 400);
+        float dotProduct = this.velocity.dot(line3);
+        float magProduct = velocity.mag()*line3.mag();
+        float maybeAngle = acos(dotProduct / magProduct);
+        float rotation = maybeAngle;
+        
+        PVector temp = new PVector();
+        temp.x = cos(maybeAngle*velocity.x)-sin(maybeAngle*velocity.y);
+        temp.y = sin(maybeAngle*velocity.x)+cos(maybeAngle*velocity.y);
+        
+        velocity = temp;
+      }
+      //this.coord = new PVector(-200, 200);
     }
-    if ((this.group ==  'M') && ((angle > (7*PI/6)) || (angle < (PI/2)))) {
-    }
-    
     //boolean isCollision = ;
     //if (isCollision) {
     //  velocity = new PVector(0, 0);
