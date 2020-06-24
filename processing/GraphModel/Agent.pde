@@ -101,11 +101,14 @@ class Agent {
     //println("center distance mag is: "+centerDistanceMag);
   }
   
-  public void flatCollision(float m, float b) {
-    boolean isCollision = (floor((coord.x*m+b))) > (floor(coord.y));
-    if (isCollision) {
-      velocity = new PVector(0, 0);
-    }
-    
+  public void lineCollision(float m, float b) {
+    float angle = atan2(coord.y, coord.x);
+    stroke(0, 0, 125);
+    line(0, 0, cos(angle)*300, sin(angle)*300);
+    if (angle > 
+    //boolean isCollision = ;
+    //if (isCollision) {
+    //  velocity = new PVector(0, 0);
+    //}
   }
 }
