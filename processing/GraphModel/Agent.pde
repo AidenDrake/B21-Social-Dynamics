@@ -12,7 +12,7 @@ class Agent {
   PVector velocity;
 
 
-  //Contstructor
+  //Constructor
   public Agent(PVector inputCoord, char inputGroup) {
     this.coord = inputCoord;
     this.group = inputGroup;
@@ -20,6 +20,7 @@ class Agent {
     velocity.mult(3);
   }
 
+  //Public methods
   public Agent(PVector inputCoord, PVector inputVelocity, char inputGroup) {
     this.coord = inputCoord;
     this.group = inputGroup;
@@ -88,25 +89,11 @@ class Agent {
     if (centerDistanceMag > maxDist) {
       // if collision with outside
       coord.sub(correctionVector);
-
-      // this is not at all right right now
-      PVector newVel = new PVector(0, 0);
-      newVel.x  = cosine * velocity.x - sine * velocity.y;
-      newVel.y  = cosine * velocity.y + sine * velocity.x;
-
-      //PVector neg = center.sub(centerDistanceVect);
-
-      //PVector normalNeg = neg.normalize();
-
-      //PVector newVel = normalNeg.mult(velocity.mag());
-
-      velocity = newVel;
     }
-
-    //println("center distance mag is: "+centerDistanceMag);
   }
 
-  public void lineCollision() {
+  //Private methods
+  private void lineCollision() {
     float angle = atan2(coord.y, coord.x);
     if (angle < 0) {
       angle = (2*PI+angle);
@@ -118,53 +105,32 @@ class Agent {
     if ((this.group ==  'P') && ((angle > (7*PI/6)) || (angle < (PI/2)))) {
       if ((angle < (PI/2))) {
         // colliding with line 3
-        
+
         PVector line3 = new PVector (0, 400);
-        
-        PVector newVel = collisionVector(velocity, line3, true);
-        
+
+        PVector newVel = getNewVel(line3, true);
+
         velocity = newVel;
       }
-      //this.coord = new PVector(-200, 200);
     }
-    //boolean isCollision = ;
-    //if (isCollision) {
-    //  velocity = new PVector(0, 0);
-    //}
   }
 
-  PVector proj(PVector a, PVector b) {
-    // returns the vector projection of b onto a.
-    // in use, a should be the normalized perpen
-    // tested!
-    float aMag = a.mag();
-    float aDotb =a.dot(b);
-    float temp = (aDotb / (aMag*aMag));
-    PVector out = a.mult(temp);
-    return out;
-  }
-
-  PVector getPerpen(PVector a) {
-    // might be the wrong sort of perpen. If so, flip signs
-    return new PVector(a.y, -a.x);
-  }
-
-  public PVector collisionVector(PVector velocity, PVector wall, boolean flip) {
+  private PVector getNewVel(PVector wall, boolean flip) {
     PVector velocopy = velocity.copy();
-    
+
     PVector perpen = getPerpen(wall);
     if (flip) {
       perpen.mult(-1);
     }
-    
+
     PVector normalPerp = perpen.normalize();
     PVector white = proj(normalPerp, velocopy);
     //coord = coord.add(white);
-    
+
     int mod = flip ? -2 : 2;
-    
+
     PVector out = velocopy.add(white.mult(mod));
-   
+
     return out ;
   }
 }

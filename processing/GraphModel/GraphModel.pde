@@ -37,6 +37,7 @@ void draw() {
   ////line(20, 20, mouse.x, mouse.y);
   float angle = atan2(mouse.y, mouse.x);
   //line(20, 20, cos(angle)*300, sin(angle)*300);
+  
 
  if (angle < 0) {
       angle = (2*PI+angle);
@@ -44,7 +45,7 @@ void draw() {
     
   fill(0);
   textSize(32);
-  text ("angle :" + degrees(angle), -300, -300);
+  //text ("angle :" + degrees(angle), -300, -300);
 
   for (Agent a : agents) {
     a.update();
