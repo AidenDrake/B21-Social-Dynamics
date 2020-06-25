@@ -41,7 +41,7 @@ class Agent {
     noStroke();
     fill(0);
     ellipse(coord.x, coord.y, agentRadius*2, agentRadius*2);
-    
+
     //debug
     textSize(16);
     text("velocity: <"+velocity.x+","+velocity.y+">", coord.x -20, coord.y-20);
@@ -86,6 +86,7 @@ class Agent {
     line(coord.x, coord.y, coord.x+velocity.x*20, coord.y+velocity.y*20);
 
     if (centerDistanceMag > maxDist) {
+      // if collision with outside
       coord.sub(correctionVector);
 
       // this is not at all right right now
@@ -117,18 +118,12 @@ class Agent {
     if ((this.group ==  'P') && ((angle > (7*PI/6)) || (angle < (PI/2)))) {
       if ((angle < (PI/2))) {
         // colliding with line 3
-       // velocity = new PVector(0, 0);
-        PVector line3 = new PVector(0, 400);
-        float dotProduct = this.velocity.dot(line3);
-        float magProduct = velocity.mag()*line3.mag();
-        float maybeAngle = acos(dotProduct / magProduct);
-        float rotation = maybeAngle;
         
-        PVector temp = new PVector();
-        temp.x = cos(maybeAngle*velocity.x)-sin(maybeAngle*velocity.y);
-        temp.y = sin(maybeAngle*velocity.x)+cos(maybeAngle*velocity.y);
+        PVector line3 = new PVector (0, 400);
         
-        velocity = temp;
+        PVector newVel = collisionVector(velocity, line3, true);
+        
+        velocity = newVel;
       }
       //this.coord = new PVector(-200, 200);
     }
@@ -136,5 +131,40 @@ class Agent {
     //if (isCollision) {
     //  velocity = new PVector(0, 0);
     //}
+  }
+
+  PVector proj(PVector a, PVector b) {
+    // returns the vector projection of b onto a.
+    // in use, a should be the normalized perpen
+    // tested!
+    float aMag = a.mag();
+    float aDotb =a.dot(b);
+    float temp = (aDotb / (aMag*aMag));
+    PVector out = a.mult(temp);
+    return out;
+  }
+
+  PVector getPerpen(PVector a) {
+    // might be the wrong sort of perpen. If so, flip signs
+    return new PVector(a.y, -a.x);
+  }
+
+  public PVector collisionVector(PVector velocity, PVector wall, boolean flip) {
+    PVector velocopy = velocity.copy();
+    
+    PVector perpen = getPerpen(wall);
+    if (flip) {
+      perpen.mult(-1);
+    }
+    
+    PVector normalPerp = perpen.normalize();
+    PVector white = proj(normalPerp, velocopy);
+    //coord = coord.add(white);
+    
+    int mod = flip ? -2 : 2;
+    
+    PVector out = velocopy.add(white.mult(mod));
+   
+    return out ;
   }
 }
