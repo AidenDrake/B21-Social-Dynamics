@@ -52,7 +52,7 @@ class Agent {
   }
 
 
-  public void checkCollision(float bigRadius) {
+  public void checkBigCollision(float bigRadius) {
     // Collisions against the "outer wall" of the big circle
     // Correction vector procedure adapted from the processing "Collisions" example
 
@@ -88,8 +88,7 @@ class Agent {
   }
 
 
-  //Private methods
-  private void lineCollision() {
+  public void checkLineCollision() {
     float angle = atan2(coord.y, coord.x);
     if (angle < 0) {
       angle = (2*PI+angle);
@@ -97,20 +96,64 @@ class Agent {
 
     stroke(0, 0, 125);
     line(0, 0, cos(angle)*300, sin(angle)*300);
-    //Key collision detection based on angle
-    if ((this.group ==  'P') && ((angle > (7*PI/6)) || (angle < (PI/2)))) {
+
+    //Do Collision detection based on angle -- if we really wanted to, we could adjust 
+    // so that this accounted for the radius of the circle. But maybe that's best left
+    // for another day.
+
+    float hitAngle = 99; 
+
+    switch (this.group) {
+    case 'P':
       if ((angle < (PI/2))) {
         // colliding with line 3
-
-        PVector line3 = new PVector (0, 400);
-
-        PVector newVel = getNewVel(line3, true);
-
-        velocity = newVel;
+        hitAngle = PI/2;
       }
+
+      //colliding with line 1
+      if (angle > (7*PI/6)) {
+        hitAngle = 7*PI/6;
+      }
+      break;
+      
+    case 'M':
+
+      //colliding with line 1
+      if (angle < (7*PI/6)) {
+        hitAngle = 7*PI/6;
+      }
+
+      //colliding with line 2
+      if (angle > (11*PI/6)) {
+        hitAngle = 11*PI/6;
+      }
+      break;
+      
+      case 'F':
+      //colliding with line 2
+      if ((angle > PI) && (angle < (11*PI/6))) {
+        println("ln 2");
+        hitAngle = 11*PI/6;
+      }
+      
+      //colliding with line 3
+      if ((angle > (PI/2))) {
+        println("ln 3");
+        // colliding with line 3
+        hitAngle = PI/2;
+      }
+      
+    }
+
+
+    if (hitAngle != 99) {
+      PVector collide = new PVector(cos(hitAngle)*400, sin(hitAngle)*400);
+      PVector newVel = getNewVel(collide, true);
+      velocity = newVel;
     }
   }
 
+  //Private methods
   private PVector getNewVel(PVector wall, boolean flip) {
     PVector velocopy = velocity.copy();
 

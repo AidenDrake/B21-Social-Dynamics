@@ -10,7 +10,7 @@ void setup() {
   size(1000, 1000);
   PVector a = new PVector(30, 30);
 
-  agents.add(new Agent((new PVector(-200, 200)), (new PVector(2.10, -0.76)), 'P'));
+  agents.add(new Agent((new PVector(200, 200)), (new PVector(2.10, -0.76)), 'F'));
 }
 
 void draw() {
@@ -24,6 +24,7 @@ void draw() {
 
   // Draw the big circle.
   // the wonky angles make it look pretty.
+  
   fill(255, 0, 51, 125); //light red
   arc(0, 0, bigRadius*2, bigRadius*2, 7*PI/6, 11*PI/6, PIE);
   fill(0, 153, 255, 125); //light blu
@@ -31,7 +32,7 @@ void draw() {
   fill(255, 255, 0, 125); //light yellow
   arc(0, 0, bigRadius*2, bigRadius*2, 15*PI/6, 19*PI/6, PIE); 
   //aka from PI/2 == 3PI/6 to 7PI/6
-
+  
   PVector mouse = new PVector(mouseX-width/2, mouseY-height/2);
   stroke(0, 0, 125);
   ////line(20, 20, mouse.x, mouse.y);
@@ -50,9 +51,8 @@ void draw() {
   for (Agent a : agents) {
     a.update();
     a.display();
-    a.checkCollision(bigRadius);
-    //a.flatCollision(12, 12);
-    a.lineCollision();
+    a.checkBigCollision(bigRadius);
+    a.checkLineCollision();
   }
   popMatrix();
 }
