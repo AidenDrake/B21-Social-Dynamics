@@ -187,12 +187,12 @@ class Agent {
       // we have to adjust the angles as follows. The upper bound += 2PI so that 
       // PI/2 becomes, for instance, 5PI/2. ...
       evalTheta2 += 2*PI;
-      
+
       //... Then if the angle is beyond 2PI degrees, instead
       //of starting the radian count over from zero, we add 2PI
-      if (angle < (theta1 - PI/12)) {
+      if (angle < (theta1 - PI)) {
         // PI/12 is for some margin of safety when agents stray beyond the lower bound
-        
+
         evalAngle += 2*PI;
       }
     }
@@ -223,7 +223,8 @@ class Pot extends Agent {
   public Pot() {
     //Randomized constructor
     float theta = random(bounds[1], bounds[2]);
-    coord = new PVector ((bigRadius - 10)*cos(theta), (bigRadius - 10)*sin(theta));
+    float dist = random(1, (bigRadius - 10));
+    coord = new PVector (dist*cos(theta), dist*sin(theta));
     velocity = PVector.random2D().mult(3);
   }
 
@@ -248,7 +249,8 @@ class Mem extends Agent {
   public Mem() {
     //Randomized constructor
     float theta = random(bounds[2], bounds[3]);
-    coord = new PVector ((bigRadius - 10)*cos(theta), (bigRadius - 10)*sin(theta));
+    float dist = random(1, (bigRadius - 10));
+    coord = new PVector (dist*cos(theta), dist*sin(theta));
     velocity = PVector.random2D().mult(3);
   }
 
@@ -272,8 +274,9 @@ class Former extends Agent {
 
   public Former() {
     //Randomized constructor
-    float theta = random(bounds[3], bounds[1]);
-    coord = new PVector ((bigRadius - 10)*cos(theta), (bigRadius - 10)*sin(theta));
+    float theta = random((2*PI-bounds[3]), bounds[1]);
+    float dist = random(1, (bigRadius - 10));
+    coord = new PVector (dist*cos(theta), dist*sin(theta));
     velocity = PVector.random2D().mult(3);
   }
 
