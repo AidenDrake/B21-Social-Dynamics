@@ -93,6 +93,10 @@ class Agent {
     if (angle < 0) {
       angle = (2*PI+angle);
     }
+    text ("angle :" + degrees(angle), -300, -300);
+    
+      //line(20, 20, cos(angle)*300, sin(angle)*300);
+
 
     stroke(0, 0, 125);
     line(0, 0, cos(angle)*300, sin(angle)*300);
@@ -132,13 +136,13 @@ class Agent {
       case 'F':
       //colliding with line 2
       if ((angle > PI) && (angle < (11*PI/6))) {
-        println("ln 2");
+        //println("ln 2");
         hitAngle = 11*PI/6;
       }
       
       //colliding with line 3
-      if ((angle > (PI/2))) {
-        println("ln 3");
+      if ((angle < PI) && (angle > (PI/2))) {
+        //println("ln 3");
         // colliding with line 3
         hitAngle = PI/2;
       }
