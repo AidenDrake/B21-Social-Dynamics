@@ -191,7 +191,7 @@ class Agent {
       //... Then if the angle is beyond 2PI degrees, instead
       //of starting the radian count over from zero, we add 2PI
       if (angle < (theta1 - PI)) {
-        // PI/12 is for some margin of safety when agents stray beyond the lower bound
+        // PI is for some margin of safety when agents stray beyond the lower bound
 
         evalAngle += 2*PI;
       }
