@@ -48,7 +48,7 @@ class Agent {
 
     //debug
     textSize(16);
-    text("velocity: <"+velocity.x+","+velocity.y+">", coord.x -20, coord.y-20);
+    //text("velocity: <"+velocity.x+","+velocity.y+">", coord.x -20, coord.y-20);
   }
 
 
@@ -93,13 +93,13 @@ class Agent {
     if (angle < 0) {
       angle = (2*PI+angle);
     }
-    text ("angle :" + degrees(angle), -300, -300);
+    //text ("angle :" + degrees(angle), -300, -300);
     
       //line(20, 20, cos(angle)*300, sin(angle)*300);
 
 
     stroke(0, 0, 125);
-    line(0, 0, cos(angle)*300, sin(angle)*300);
+    //line(0, 0, cos(angle)*300, sin(angle)*300);
 
     //Do Collision detection based on angle -- if we really wanted to, we could adjust 
     // so that this accounted for the radius of the circle. But maybe that's best left
