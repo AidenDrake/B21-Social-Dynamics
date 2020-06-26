@@ -1,16 +1,19 @@
 /**
  * Agent for our ABM
  */
- 
+
 public static final float bounds[] = {0, PI/2, 7*PI/6, 11*PI/6};
 //bounds[] is theta of lines 1, 2, & 3 respectively. The zero is a spacer.
+
+static int pontentials;
 
 class Agent {
   // There's a set radius for all agents
   public static final float agentRadius = 2.5;
-  
+
   // we're also going to get the bounds and bigRadius as finals:
   public static final float bigRadius = GraphModel.bigRadius;
+
 
   //Fields
   PVector coord;
@@ -23,9 +26,9 @@ class Agent {
     this.coord = inputCoord;
     this.velocity = inputVelocity;
   }
-  
+
   //Each subclass will have its own random constructor
-  protected Agent(){ 
+  protected Agent() {
   }
 
 
@@ -68,7 +71,7 @@ class Agent {
 
     //vel line for debug
     stroke(0, 200, 0);
-    line(coord.x, coord.y, coord.x+velocity.x*20, coord.y+velocity.y*20);
+    line(coord.x, coord.y, coord.x+velocity.x*10, coord.y+velocity.y*10);
 
     if (centerDistanceMag > maxDist) {
       // if collision with outside
@@ -88,13 +91,10 @@ class Agent {
 
 
   public void checkLineCollision() {
-    float angle = atan2(coord.y, coord.x);
-    if (angle < 0) {
-      angle = (2*PI+angle);
-    }
+    float angle = getAngle();
     float hitAngle = 99; 
 
-// let's get rid of this switch eventually
+    // let's get rid of this switch eventually
     switch (this.group) {
     case 'P':
       if ((angle < (PI/2))) {
@@ -107,7 +107,7 @@ class Agent {
         hitAngle = 7*PI/6;
       }
       break;
-      
+
     case 'M':
 
       //colliding with line 1
@@ -120,30 +120,39 @@ class Agent {
         hitAngle = 11*PI/6;
       }
       break;
-      
-      case 'F':
+
+    case 'F':
       //colliding with line 2
       if ((angle > PI) && (angle < (11*PI/6))) {
         hitAngle = 11*PI/6;
       }
-      
+
       //colliding with line 3
       if ((angle < PI) && (angle > (PI/2))) {
         // colliding with line 3
         hitAngle = PI/2;
       }
-      
-    }
-
-
-    if (hitAngle != 99) {
-      PVector collide = new PVector(cos(hitAngle)*bigRadius, sin(hitAngle)*bigRadius);
-      PVector newVel = getNewVel(collide, true);
-      velocity = newVel;
     }
   }
 
   //Protected methods
+  protected float getAngle() {
+    float angle = atan2(coord.y, coord.x);
+
+    // adjust so no negative angles (a personal preference)
+    if (angle < 0) {
+      angle = (2*PI+angle);
+    }
+
+    return angle;
+  }
+  
+  protected void doCollision(float hitAngle) {
+      PVector collide = new PVector(cos(hitAngle)*bigRadius, sin(hitAngle)*bigRadius);
+      PVector newVel = getNewVel(collide, true);
+      velocity = newVel;
+    }
+
   protected PVector getNewVel(PVector wall, boolean flip) {
     PVector velocopy = velocity.copy();
 
@@ -164,18 +173,41 @@ class Agent {
   }
 }
 
+
 //OOP city here we come, I didn't go to fancy programming school for nothing
-class Pot extends Agent{
-  
+class Pot extends Agent {
+
   //Constructor 1 -- debug
   public Pot(PVector inputCoord, PVector inputVel) {
     super(inputCoord, inputVel);
   }
-  
-  public Pot(){
+
+  public Pot() {
     //Randomized constructor
     float theta = random(bounds[1], bounds[2]);
     coord = new PVector ((bigRadius - 10)*cos(theta), (bigRadius - 10)*sin(theta));
     velocity = PVector.random2D().mult(3);
+  }
+
+  public void checkLineCollision() {
+    float angle = getAngle();
+    boolean isCollided  = false; 
+    float hitAngle = 99;
+
+    if ((angle < (PI/2))) {
+      // colliding with line 3
+      hitAngle = PI/2;
+      isCollided  = true;
+    }
+
+    //colliding with line 1
+    if (angle > (7*PI/6)) {
+      hitAngle = 7*PI/6;
+      isCollided = true;
+    }
+
+    if (isCollided) {
+      doCollision(hitAngle);
+    }
   }
 }
