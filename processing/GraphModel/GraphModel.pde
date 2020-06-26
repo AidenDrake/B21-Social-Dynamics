@@ -29,6 +29,9 @@ void setup() {
   for (int i = 0; i < 40; i++) {
     newRandEdge();
   }
+  
+  Edge egan = edges.get(2);
+  egan.highlight = true;
 }
 
 void draw() {
