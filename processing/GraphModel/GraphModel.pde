@@ -21,13 +21,14 @@ void setup() {
   for (int i = 0; i < 9; i++) {
     agents.add(new Mem());
   }
-  
-  for (int i = 0; i < 9; i++) {
+
+  for (int i = 0; i < 45; i++) {
     agents.add(new Former());
   }
-  
-  Edge egan = new Edge(agents.get(0), agents.get(10));
-  edges.add(egan);
+
+  for (int i = 0; i < 40; i++) {
+    newRandEdge();
+  }
 }
 
 void draw() {
@@ -69,9 +70,19 @@ void draw() {
     a.checkBigCollision(bigRadius);
     a.checkLineCollision();
   }
-  
-  for (Edge e : edges){
+
+  for (Edge e : edges) {
     e.display();
   }
   popMatrix();
+}
+
+Agent randAgent() {
+  int index = int(random(0, agents.size()));
+  return agents.get(index);
+}
+
+void newRandEdge() {
+  Edge e = new Edge(randAgent(), randAgent());
+  edges.add(e);
 }

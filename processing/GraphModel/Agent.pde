@@ -209,7 +209,7 @@ class Mem extends Agent {
     float theta = random(bounds[2], bounds[3]);
     float dist = random(1, (bigRadius - 10));
     coord = new PVector (dist*cos(theta), dist*sin(theta));
-    velocity = PVector.random2D().mult(3);
+    velocity = PVector.random2D().mult(4);
   }
 
   public void checkLineCollision() {
@@ -235,7 +235,7 @@ class Former extends Agent {
     float theta = random((2*PI-bounds[3]), bounds[1]);
     float dist = random(1, (bigRadius - 10));
     coord = new PVector (dist*cos(theta), dist*sin(theta));
-    velocity = PVector.random2D().mult(3);
+    velocity = PVector.random2D().mult(1);
   }
 
   public void checkLineCollision() {
