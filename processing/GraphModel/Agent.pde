@@ -176,16 +176,34 @@ class Agent {
   }
 
   protected Float hitEval(float angle, int lowerIndex, int upperIndex) {
-    // returns theta of collison line if there is one, else returns null 
+    // returns theta of collison line if there is one, else returns null;
     float theta1 = bounds[lowerIndex];
     float theta2 = bounds[upperIndex];
+    float evalAngle = angle;
+    float evalTheta2 = theta2;
+
+    if (theta2 < theta1) {
+      // if the "upper bound" is in fact, a smaller angle in radians than the lower bound
+      // we have to adjust the angles as follows. The upper bound += 2PI so that 
+      // PI/2 becomes, for instance, 5PI/2. ...
+      evalTheta2 += 2*PI;
+      
+      //... Then if the angle is beyond 2PI degrees, instead
+      //of starting the radian count over from zero, we add 2PI
+      if (angle < (theta1 - PI/12)) {
+        // PI/12 is for some margin of safety when agents stray beyond the lower bound
+        
+        evalAngle += 2*PI;
+      }
+    }
+
     Float hitAngle = null;
 
-    if (angle < theta1) {
+    if (evalAngle < theta1) {
       hitAngle = theta1;
     }
 
-    if (angle > theta2) {
+    if (evalAngle > evalTheta2) {
       hitAngle = theta2;
     }
 
@@ -238,6 +256,31 @@ class Mem extends Agent {
     float angle = getAngle();
 
     Float hitObj = hitEval(angle, 2, 3);
+    if (hitObj != null) {
+      float hitAngle = hitObj;
+      doCollision(hitAngle);
+    }
+  }
+}
+
+class Former extends Agent {
+
+  //Constructor 1 -- debug
+  public Former(PVector inputCoord, PVector inputVel) {
+    super(inputCoord, inputVel);
+  }
+
+  public Former() {
+    //Randomized constructor
+    float theta = random(bounds[3], bounds[1]);
+    coord = new PVector ((bigRadius - 10)*cos(theta), (bigRadius - 10)*sin(theta));
+    velocity = PVector.random2D().mult(3);
+  }
+
+  public void checkLineCollision() {
+    float angle = getAngle();
+
+    Float hitObj = hitEval(angle, 3, 1);
     if (hitObj != null) {
       float hitAngle = hitObj;
       doCollision(hitAngle);

@@ -20,6 +20,10 @@ void setup() {
   for (int i = 0; i < 9; i++) {
     agents.add(new Mem());
   }
+  
+  for (int i = 0; i < 9; i++) {
+    agents.add(new Former());
+  }
 }
 
 void draw() {
