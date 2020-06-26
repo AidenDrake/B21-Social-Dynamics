@@ -182,8 +182,7 @@ class Agent {
     Float hitAngle = null;
 
     if (angle < theta1) {
-      // colliding with line 3
-      hitAngle = PI/2;
+      hitAngle = theta1;
     }
 
     if (angle > theta2) {
@@ -214,6 +213,31 @@ class Pot extends Agent {
     float angle = getAngle();
 
     Float hitObj = hitEval(angle, 1, 2);
+    if (hitObj != null) {
+      float hitAngle = hitObj;
+      doCollision(hitAngle);
+    }
+  }
+}
+
+class Mem extends Agent {
+
+  //Constructor 1 -- debug
+  public Mem(PVector inputCoord, PVector inputVel) {
+    super(inputCoord, inputVel);
+  }
+
+  public Mem() {
+    //Randomized constructor
+    float theta = random(bounds[2], bounds[3]);
+    coord = new PVector ((bigRadius - 10)*cos(theta), (bigRadius - 10)*sin(theta));
+    velocity = PVector.random2D().mult(3);
+  }
+
+  public void checkLineCollision() {
+    float angle = getAngle();
+
+    Float hitObj = hitEval(angle, 2, 3);
     if (hitObj != null) {
       float hitAngle = hitObj;
       doCollision(hitAngle);

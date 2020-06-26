@@ -16,6 +16,10 @@ void setup() {
   for (int i = 0; i < 9; i++) {
     agents.add(new Pot());
   }
+
+  for (int i = 0; i < 9; i++) {
+    agents.add(new Mem());
+  }
 }
 
 void draw() {
