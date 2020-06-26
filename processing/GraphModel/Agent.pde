@@ -17,7 +17,8 @@ class Agent {
 
   //Fields
   PVector coord;
-  char group; //'M', 'P', or 'F'
+  char group; //'M', 'P', or 'F' 
+  // might get rid of this now that we have cool kid subclasses
   PVector velocity;
 
 
@@ -91,6 +92,8 @@ class Agent {
 
 
   public void checkLineCollision() {
+
+    // delete this all eventually
     float angle = getAngle();
     float hitAngle = 99; 
 
@@ -146,12 +149,12 @@ class Agent {
 
     return angle;
   }
-  
+
   protected void doCollision(float hitAngle) {
-      PVector collide = new PVector(cos(hitAngle)*bigRadius, sin(hitAngle)*bigRadius);
-      PVector newVel = getNewVel(collide, true);
-      velocity = newVel;
-    }
+    PVector collide = new PVector(cos(hitAngle)*bigRadius, sin(hitAngle)*bigRadius);
+    PVector newVel = getNewVel(collide, true);
+    velocity = newVel;
+  }
 
   protected PVector getNewVel(PVector wall, boolean flip) {
     PVector velocopy = velocity.copy();
@@ -170,6 +173,24 @@ class Agent {
     PVector out = velocopy.add(white.mult(mod));
 
     return out ;
+  }
+
+  protected Float hitEval(float angle, int lowerIndex, int upperIndex) {
+    // returns theta of collison line if there is one, else returns null 
+    float theta1 = bounds[lowerIndex];
+    float theta2 = bounds[upperIndex];
+    Float hitAngle = null;
+
+    if (angle < theta1) {
+      // colliding with line 3
+      hitAngle = PI/2;
+    }
+
+    if (angle > theta2) {
+      hitAngle = theta2;
+    }
+
+    return hitAngle;
   }
 }
 
@@ -191,22 +212,10 @@ class Pot extends Agent {
 
   public void checkLineCollision() {
     float angle = getAngle();
-    boolean isCollided  = false; 
-    float hitAngle = 99;
 
-    if ((angle < (PI/2))) {
-      // colliding with line 3
-      hitAngle = PI/2;
-      isCollided  = true;
-    }
-
-    //colliding with line 1
-    if (angle > (7*PI/6)) {
-      hitAngle = 7*PI/6;
-      isCollided = true;
-    }
-
-    if (isCollided) {
+    Float hitObj = hitEval(angle, 1, 2);
+    if (hitObj != null) {
+      float hitAngle = hitObj;
       doCollision(hitAngle);
     }
   }
