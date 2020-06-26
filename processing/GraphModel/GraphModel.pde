@@ -12,10 +12,18 @@ void setup() {
   size(1000, 1000);
   PVector a = new PVector(30, 30);
 
-  agents.add(new Agent((new PVector(200, 200)), (new PVector(2.10, -0.76)), 'F'));
-  //for (int i = 0; i < 9; i++) {
-  //  agents.add(new Agent((PVector.random2D().mult(200)), 'M'));
-  //}
+  //agents.add(new Agent((new PVector(200, 200)), (new PVector(2.10, -0.76))));
+  for (int i = 0; i < 9; i++) {
+    agents.add(new Pot());
+  }
+
+  for (int i = 0; i < 9; i++) {
+    agents.add(new Mem());
+  }
+  
+  for (int i = 0; i < 9; i++) {
+    agents.add(new Former());
+  }
 }
 
 void draw() {
