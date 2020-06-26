@@ -1,12 +1,16 @@
 /**
  * Agent for our ABM
  */
+ 
+public static final float bounds[] = {0, PI/2, 7*PI/6, 11*PI/6};
+//bounds[] is theta of lines 1, 2, & 3 respectively. The zero is a spacer.
 
 class Agent {
   // There's a set radius for all agents
   public static final float agentRadius = 2.5;
+  
+  // we're also going to get the bounds and bigRadius as finals:
   public static final float bigRadius = GraphModel.bigRadius;
-
 
   //Fields
   PVector coord;
@@ -14,24 +18,18 @@ class Agent {
   PVector velocity;
 
 
-  //Constructor
-  public Agent(PVector inputCoord, char inputGroup) {
+  //Constructor -- this one to make a "Generic" agent for debug
+  public Agent(PVector inputCoord, PVector inputVelocity) {
     this.coord = inputCoord;
-    this.group = inputGroup;
-    this.velocity = PVector.random2D();
-    velocity.mult(3);
+    this.velocity = inputVelocity;
+  }
+  
+  //Each subclass will have its own random constructor
+  protected Agent(){ 
   }
 
 
   //Public methods
-  public Agent(PVector inputCoord, PVector inputVelocity, char inputGroup) {
-    this.coord = inputCoord;
-    this.group = inputGroup;
-    this.velocity = inputVelocity;
-  }
-
-
-  //Methods
   public void update() {
     //if (keyPressed && key == 's'){
     //  velocity = velocity.mult(0.9);
@@ -94,20 +92,9 @@ class Agent {
     if (angle < 0) {
       angle = (2*PI+angle);
     }
-    //text ("angle :" + degrees(angle), -300, -300);
-    
-      //line(20, 20, cos(angle)*300, sin(angle)*300);
-
-
-    stroke(0, 0, 125);
-    //line(0, 0, cos(angle)*300, sin(angle)*300);
-
-    //Do Collision detection based on angle -- if we really wanted to, we could adjust 
-    // so that this accounted for the radius of the circle. But maybe that's best left
-    // for another day.
-
     float hitAngle = 99; 
 
+// let's get rid of this switch eventually
     switch (this.group) {
     case 'P':
       if ((angle < (PI/2))) {
@@ -137,13 +124,11 @@ class Agent {
       case 'F':
       //colliding with line 2
       if ((angle > PI) && (angle < (11*PI/6))) {
-        //println("ln 2");
         hitAngle = 11*PI/6;
       }
       
       //colliding with line 3
       if ((angle < PI) && (angle > (PI/2))) {
-        //println("ln 3");
         // colliding with line 3
         hitAngle = PI/2;
       }
@@ -158,8 +143,8 @@ class Agent {
     }
   }
 
-  //Private methods
-  private PVector getNewVel(PVector wall, boolean flip) {
+  //Protected methods
+  protected PVector getNewVel(PVector wall, boolean flip) {
     PVector velocopy = velocity.copy();
 
     PVector perpen = getPerpen(wall);
@@ -179,6 +164,18 @@ class Agent {
   }
 }
 
-//class Pot extends Agent{
-//  //OOP city here we come, I didn't go to fancy programming school for nothing
-//}
+//OOP city here we come, I didn't go to fancy programming school for nothing
+class Pot extends Agent{
+  
+  //Constructor 1 -- debug
+  public Pot(PVector inputCoord, PVector inputVel) {
+    super(inputCoord, inputVel);
+  }
+  
+  public Pot(){
+    //Randomized constructor
+    float theta = random(bounds[1], bounds[2]);
+    coord = new PVector ((bigRadius - 10)*cos(theta), (bigRadius - 10)*sin(theta));
+    velocity = PVector.random2D().mult(3);
+  }
+}
