@@ -5,6 +5,7 @@
 class Agent {
   // There's a set radius for all agents
   public static final float agentRadius = 2.5;
+  public static final float bigRadius = GraphModel.bigRadius;
 
 
   //Fields
@@ -47,7 +48,7 @@ class Agent {
     ellipse(coord.x, coord.y, agentRadius*2, agentRadius*2);
 
     //debug
-    textSize(16);
+    //textSize(16);
     //text("velocity: <"+velocity.x+","+velocity.y+">", coord.x -20, coord.y-20);
   }
 
@@ -151,7 +152,7 @@ class Agent {
 
 
     if (hitAngle != 99) {
-      PVector collide = new PVector(cos(hitAngle)*400, sin(hitAngle)*400);
+      PVector collide = new PVector(cos(hitAngle)*bigRadius, sin(hitAngle)*bigRadius);
       PVector newVel = getNewVel(collide, true);
       velocity = newVel;
     }
@@ -177,3 +178,7 @@ class Agent {
     return out ;
   }
 }
+
+//class Pot extends Agent{
+//  //OOP city here we come, I didn't go to fancy programming school for nothing
+//}
