@@ -91,53 +91,11 @@ class Agent {
   }
 
 
+
+
   public void checkLineCollision() {
-
-    // delete this all eventually
-    float angle = getAngle();
-    float hitAngle = 99; 
-
-    // let's get rid of this switch eventually
-    switch (this.group) {
-    case 'P':
-      if ((angle < (PI/2))) {
-        // colliding with line 3
-        hitAngle = PI/2;
-      }
-
-      //colliding with line 1
-      if (angle > (7*PI/6)) {
-        hitAngle = 7*PI/6;
-      }
-      break;
-
-    case 'M':
-
-      //colliding with line 1
-      if (angle < (7*PI/6)) {
-        hitAngle = 7*PI/6;
-      }
-
-      //colliding with line 2
-      if (angle > (11*PI/6)) {
-        hitAngle = 11*PI/6;
-      }
-      break;
-
-    case 'F':
-      //colliding with line 2
-      if ((angle > PI) && (angle < (11*PI/6))) {
-        hitAngle = 11*PI/6;
-      }
-
-      //colliding with line 3
-      if ((angle < PI) && (angle > (PI/2))) {
-        // colliding with line 3
-        hitAngle = PI/2;
-      }
-    }
-  }
-
+  }  
+  
   //Protected methods
   protected float getAngle() {
     float angle = atan2(coord.y, coord.x);
