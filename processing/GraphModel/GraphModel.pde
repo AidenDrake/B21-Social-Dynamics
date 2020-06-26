@@ -7,6 +7,7 @@
 public final static float bigRadius = 400;
 
 ArrayList<Agent> agents = new ArrayList();
+ArrayList<Edge> edges = new ArrayList();
 
 void setup() {
   size(1000, 1000);
@@ -24,6 +25,9 @@ void setup() {
   for (int i = 0; i < 9; i++) {
     agents.add(new Former());
   }
+  
+  Edge egan = new Edge(agents.get(0), agents.get(10));
+  edges.add(egan);
 }
 
 void draw() {
@@ -64,6 +68,10 @@ void draw() {
     a.display();
     a.checkBigCollision(bigRadius);
     a.checkLineCollision();
+  }
+  
+  for (Edge e : edges){
+    e.display();
   }
   popMatrix();
 }

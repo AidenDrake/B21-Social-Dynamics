@@ -16,7 +16,7 @@ class Agent {
 
 
   //Fields
-  PVector coord;
+  public PVector coord;
   char group; //'M', 'P', or 'F' 
   // might get rid of this now that we have cool kid subclasses
   PVector velocity;
@@ -71,8 +71,8 @@ class Agent {
     float maxDist = bigRadius-agentRadius;
 
     //vel line for debug
-    stroke(0, 200, 0);
-    line(coord.x, coord.y, coord.x+velocity.x*10, coord.y+velocity.y*10);
+    //stroke(0, 200, 0);
+    //line(coord.x, coord.y, coord.x+velocity.x*10, coord.y+velocity.y*10);
 
     if (centerDistanceMag > maxDist) {
       // if collision with outside
