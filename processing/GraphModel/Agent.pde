@@ -22,7 +22,7 @@ class Agent {
   PVector velocity;
   PVector homeVel;
 
-  Agent puller = null;
+  public Agent puller = null;
   boolean pulled = false;
 
 
@@ -174,22 +174,22 @@ class Agent {
 
     return hitAngle;
   }
-  
+
   public char getZone() {
     //make protected
     float angle = getAngle();
-    
-    
+
+
     // if farther away from the circle than radius break or fix in some way
-    
-    if (angle >= bounds[1] && angle <= bounds[2]){
+
+    if (angle >= bounds[1] && angle <= bounds[2]) {
       return 'P';
     }
-    
-     if (angle >= bounds[2] && angle <= bounds[3]){
+
+    if (angle >= bounds[2] && angle <= bounds[3]) {
       return 'M';
     }
-    
+
     return 'F';
   }
 
@@ -198,14 +198,22 @@ class Agent {
     //if (this.puller == null) { //should never come up, I hope
     //  return;
     //}
-    
-    
 
-    if ((this.getZone() == this.getType())) {
-      velocity.add(new PVector(0.1, 0.1));
-    }
+    //PVector target = puller.coord.copy();
+    PVector target = new PVector(mouseX-width/2, mouseY-height/2);
+    float angle = atan2( target.y-coord.y, target.x - coord.x );
+
+    stroke(0, 125, 0);
+    strokeWeight(1);
     
+    PVector accl = (new PVector(cos(angle)*0.1, sin(angle)* 0.1));
+    line(coord.x, coord.y, coord.x+accl.x*200, coord.y+accl.y*200);
+        
+    if ((this.getZone() == this.getType())) {
+      velocity.add(accl);
+    }
   }
+
 
   public char getType() {
     return 'S'; //SUPER
