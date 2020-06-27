@@ -67,16 +67,21 @@ void draw() {
   textSize(32);
   //text ("angle :" + degrees(angle), -300, -300);
 
+
+  for (Agent a : agents) {
+    a.update();
+    a.checkBigCollision(bigRadius);
+    a.checkLineCollision();
+  }
+
   for (Edge e : edges) {
     e.display();
   }
 
-  for (Agent a : agents) {
-    a.update();
+  for (Agent a : agents) { 
     a.display();
-    a.checkBigCollision(bigRadius);
-    a.checkLineCollision();
   }
+
 
   popMatrix();
 }

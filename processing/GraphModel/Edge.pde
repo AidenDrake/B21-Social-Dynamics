@@ -31,4 +31,10 @@ class Edge {
   public void unHighlight(){
     this.highlight = true;
   }
+  
+  public void successfulRecruit(){
+    //Make private
+    highlight = true; 
+    
+  }
 }
