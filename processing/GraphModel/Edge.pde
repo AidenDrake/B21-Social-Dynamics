@@ -34,7 +34,7 @@ class Edge {
   
   public void successfulRecruit(){
     //Make private
-    highlight = true; 
+    highlight = true;
     
   }
 }

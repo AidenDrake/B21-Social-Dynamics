@@ -20,12 +20,18 @@ class Agent {
   char group; //'M', 'P', or 'F' 
   // might get rid of this now that we have cool kid subclasses
   PVector velocity;
+  PVector homeVel;
+  
+  Agent puller = null;
+  boolean pulled = false;
+  
 
 
   //Constructor -- this one to make a "Generic" agent for debug
   public Agent(PVector inputCoord, PVector inputVelocity) {
     this.coord = inputCoord;
     this.velocity = inputVelocity;
+    this.homeVel = inputVelocity;
   }
 
   //Each subclass will have its own random constructor
@@ -166,6 +172,13 @@ class Agent {
     }
 
     return hitAngle;
+  }
+  
+  public void getsPulled(){
+    // change to protected, will be called from update
+    if (this.puller == null){ //should never come up, I hope
+      return;
+    }
   }
 }
 

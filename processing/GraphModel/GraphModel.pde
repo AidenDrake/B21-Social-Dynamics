@@ -14,24 +14,24 @@ void setup() {
   PVector a = new PVector(30, 30);
 
   //agents.add(new Agent((new PVector(200, 200)), (new PVector(2.10, -0.76))));
-  for (int i = 0; i < 9; i++) {
+  for (int i = 0; i < 2; i++) {
     agents.add(new Pot());
   }
 
-  for (int i = 0; i < 9; i++) {
+  for (int i = 0; i < 2; i++) {
     agents.add(new Mem());
   }
 
-  for (int i = 0; i < 45; i++) {
-    agents.add(new Former());
-  }
+  //for (int i = 0; i < 45; i++) {
+  //  agents.add(new Former());
+  //}
 
-  for (int i = 0; i < 40; i++) {
+  for (int i = 0; i < 2; i++) {
     newRandEdge();
   }
 
-  Edge egan = edges.get(2);
-  egan.highlight();
+  //Edge egan = edges.get(0);
+  //egan.highlight();
 }
 
 void draw() {
