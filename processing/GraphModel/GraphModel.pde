@@ -7,28 +7,37 @@
 public final static float bigRadius = 400;
 
 ArrayList<Agent> agents = new ArrayList();
-ArrayList<Edge> edges = new ArrayList();
+ArrayList<Edge> edges = new ArrayList(); 
 
 void setup() {
   size(1000, 1000);
   PVector a = new PVector(30, 30);
 
   //agents.add(new Agent((new PVector(200, 200)), (new PVector(2.10, -0.76))));
-  for (int i = 0; i < 2; i++) {
-    agents.add(new Pot());
-  }
+  //for (int i = 0; i < 1; i++) {
+  //  agents.add(new Pot());
+  //}
+  
+  Pot steve = new Pot();
+  agents.add(steve);
+  
+  Mem milo = new Mem();
+  agents.add(milo);
+  
+  Edge e = new Edge(steve, milo);
+  edges.add(e);
 
-  for (int i = 0; i < 2; i++) {
-    agents.add(new Mem());
-  }
+  //for (int i = 0; i < 2; i++) {
+  //  agents.add(new Mem());
+  //}
 
   //for (int i = 0; i < 45; i++) {
   //  agents.add(new Former());
   //}
 
-  for (int i = 0; i < 2; i++) {
-    newRandEdge();
-  }
+  //for (int i = 0; i < 2; i++) {
+  //  newRandEdge();
+  //}
 
   //Edge egan = edges.get(0);
   //egan.highlight();
@@ -67,13 +76,6 @@ void draw() {
   textSize(32);
   //text ("angle :" + degrees(angle), -300, -300);
 
-
-  for (Agent a : agents) {
-    a.update();
-    a.checkBigCollision(bigRadius);
-    a.checkLineCollision();
-  }
-
   for (Edge e : edges) {
     e.display();
   }
@@ -81,7 +83,17 @@ void draw() {
   for (Agent a : agents) { 
     a.display();
   }
-
+  
+  for (Agent a : agents) {
+    a.update();
+    a.checkBigCollision(bigRadius);
+    a.checkLineCollision();
+  }
+  
+  Agent steve = agents.get(0);
+  Agent milo = agents.get(1);
+  
+  steve.setPuller(milo);
 
   popMatrix();
 }

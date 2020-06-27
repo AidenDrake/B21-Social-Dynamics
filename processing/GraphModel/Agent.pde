@@ -23,7 +23,7 @@ class Agent {
   PVector homeVel;
 
   public Agent puller = null;
-  boolean pulled = false;
+  boolean isPulled = false;
 
 
 
@@ -41,12 +41,9 @@ class Agent {
 
   //Public methods
   public void update() {
-    //if (keyPressed && key == 's'){
-    //  velocity = velocity.mult(0.9);
-    //}
-    //if (keyPressed && key == 'a'){
-    //  velocity = velocity.mult(1.1);
-    //}
+    if (isPulled){
+      this.getsPulled();
+    }
     coord.add(velocity);
   }
 
@@ -195,23 +192,29 @@ class Agent {
 
   public void getsPulled() {
     // change to protected, will be called from update
-    //if (this.puller == null) { //should never come up, I hope
-    //  return;
-    //}
+    if (this.puller == null) { //should never come up, I hope
+      return;
+    }
 
     //PVector target = puller.coord.copy();
-    PVector target = new PVector(mouseX-width/2, mouseY-height/2);
+    //PVector target = new PVector(mouseX-width/2, mouseY-height/2);
+    PVector target = puller.coord.copy();
     float angle = atan2( target.y-coord.y, target.x - coord.x );
 
     stroke(0, 125, 0);
     strokeWeight(1);
-    
+
     PVector accl = (new PVector(cos(angle)*0.1, sin(angle)* 0.1));
     line(coord.x, coord.y, coord.x+accl.x*200, coord.y+accl.y*200);
-        
+
     if ((this.getZone() == this.getType())) {
       velocity.add(accl);
     }
+  }
+
+  public void setPuller(Agent a) {
+    this.puller = a;
+    this.isPulled = true;
   }
 
 
