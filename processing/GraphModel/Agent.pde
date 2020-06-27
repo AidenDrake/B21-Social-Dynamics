@@ -56,10 +56,9 @@ class Agent {
     ellipse(coord.x, coord.y, agentRadius*2, agentRadius*2);
 
     //debug
-    //textSize(16);
+    textSize(16);
     //text("velocity: <"+velocity.x+","+velocity.y+">", coord.x -20, coord.y-20);
-    //text("zone: "+this.getZone(), coord.x -20, coord.y-20);
-
+    text("zone: "+this.getZone(), coord.x -20, coord.y-20);
   }
 
 
@@ -175,34 +174,41 @@ class Agent {
 
     return hitAngle;
   }
-
+  
   public char getZone() {
     //make protected
     float angle = getAngle();
-
-    Float evalPot = hitEval(angle, 1, 2);
-    if (evalPot != null) {
+    
+    
+    // if farther away from the circle than radius break or fix in some way
+    
+    if (angle >= bounds[1] && angle <= bounds[2]){
       return 'P';
     }
-
-    Float evalMem = hitEval(angle, 2, 3);
-    if (evalMem != null) {
+    
+     if (angle >= bounds[2] && angle <= bounds[3]){
       return 'M';
     }
-
-    Float evalFormer = hitEval(angle, 3, 1);
-    if (evalFormer != null) {
-      return 'F';
-    }
     
-    return 'X'; // this means there was a BIG problem
+    return 'F';
   }
 
   public void getsPulled() {
     // change to protected, will be called from update
-    if (this.puller == null) { //should never come up, I hope
-      return;
+    //if (this.puller == null) { //should never come up, I hope
+    //  return;
+    //}
+    
+    
+
+    if ((this.getZone() == this.getType())) {
+      velocity.add(new PVector(0.1, 0.1));
     }
+    
+  }
+
+  public char getType() {
+    return 'S'; //SUPER
   }
 }
 
@@ -232,6 +238,10 @@ class Pot extends Agent {
       doCollision(hitAngle);
     }
   }
+
+  public char getType() {
+    return 'P';
+  }
 }
 
 class Mem extends Agent {
@@ -258,6 +268,10 @@ class Mem extends Agent {
       doCollision(hitAngle);
     }
   }
+
+  public char getType() {
+    return 'M';
+  }
 }
 
 class Former extends Agent {
@@ -283,5 +297,9 @@ class Former extends Agent {
       float hitAngle = hitObj;
       doCollision(hitAngle);
     }
+  }
+
+  public char getType() {
+    return 'F';
   }
 }
