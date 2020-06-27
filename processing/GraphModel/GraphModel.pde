@@ -29,9 +29,9 @@ void setup() {
   for (int i = 0; i < 40; i++) {
     newRandEdge();
   }
-  
+
   Edge egan = edges.get(2);
-  egan.highlight = true;
+  egan.highlight();
 }
 
 void draw() {
@@ -67,6 +67,10 @@ void draw() {
   textSize(32);
   //text ("angle :" + degrees(angle), -300, -300);
 
+  for (Edge e : edges) {
+    e.display();
+  }
+
   for (Agent a : agents) {
     a.update();
     a.display();
@@ -74,9 +78,6 @@ void draw() {
     a.checkLineCollision();
   }
 
-  for (Edge e : edges) {
-    e.display();
-  }
   popMatrix();
 }
 

@@ -5,7 +5,7 @@ class Edge {
   //fields
   Agent a;
   Agent b;
-  public boolean highlight = false;
+  private boolean highlight = false;
 
   public Edge(Agent _a, Agent _b) {
     this.a = _a;
@@ -22,5 +22,13 @@ class Edge {
     }
 
     line(a.coord.x, a.coord.y, b.coord.x, b.coord.y);
+  }
+  
+   public void highlight(){
+    this.highlight = true;
+  }
+  
+  public void unHighlight(){
+    this.highlight = true;
   }
 }
