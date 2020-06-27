@@ -21,10 +21,10 @@ class Agent {
   // might get rid of this now that we have cool kid subclasses
   PVector velocity;
   PVector homeVel;
-  
+
   Agent puller = null;
   boolean pulled = false;
-  
+
 
 
   //Constructor -- this one to make a "Generic" agent for debug
@@ -58,6 +58,8 @@ class Agent {
     //debug
     //textSize(16);
     //text("velocity: <"+velocity.x+","+velocity.y+">", coord.x -20, coord.y-20);
+    //text("zone: "+this.getZone(), coord.x -20, coord.y-20);
+
   }
 
 
@@ -101,7 +103,7 @@ class Agent {
 
   public void checkLineCollision() {
   }  
-  
+
   //Protected methods
   protected float getAngle() {
     float angle = atan2(coord.y, coord.x);
@@ -173,10 +175,32 @@ class Agent {
 
     return hitAngle;
   }
-  
-  public void getsPulled(){
+
+  public char getZone() {
+    //make protected
+    float angle = getAngle();
+
+    Float evalPot = hitEval(angle, 1, 2);
+    if (evalPot != null) {
+      return 'P';
+    }
+
+    Float evalMem = hitEval(angle, 2, 3);
+    if (evalMem != null) {
+      return 'M';
+    }
+
+    Float evalFormer = hitEval(angle, 3, 1);
+    if (evalFormer != null) {
+      return 'F';
+    }
+    
+    return 'X'; // this means there was a BIG problem
+  }
+
+  public void getsPulled() {
     // change to protected, will be called from update
-    if (this.puller == null){ //should never come up, I hope
+    if (this.puller == null) { //should never come up, I hope
       return;
     }
   }
