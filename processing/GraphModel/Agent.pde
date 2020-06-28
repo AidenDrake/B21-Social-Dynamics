@@ -17,13 +17,12 @@ class Agent {
 
   //Fields
   public PVector coord;
-  char group; //'M', 'P', or 'F' 
-  // might get rid of this now that we have cool kid subclasses
   PVector velocity;
   PVector homeVel;
 
   public Agent puller = null;
   boolean isPulled = false;
+  boolean centerCollide = true;
 
 
 
@@ -34,6 +33,15 @@ class Agent {
     this.homeVel = inputVelocity;
   }
 
+  protected Agent(Agent a) {
+    this.coord = a.coord;
+    this.velocity = a.velocity;
+    this.homeVel = a.homeVel;
+    this.puller = a.puller;
+    this.isPulled = a.isPulled;
+    this.centerCollide = a.centerCollide;
+  }
+
   //Each subclass will have its own random constructor
   protected Agent() {
   }
@@ -41,8 +49,13 @@ class Agent {
 
   //Public methods
   public void update() {
-    if (isPulled){
+    if (isPulled) {
       this.getsPulled();
+    }
+    this.checkBigCollision(bigRadius);
+
+    if (this.centerCollide) {
+      this.checkLineCollision();
     }
     coord.add(velocity);
   }
@@ -207,14 +220,24 @@ class Agent {
     PVector accl = (new PVector(cos(angle)*0.1, sin(angle)* 0.1));
     line(coord.x, coord.y, coord.x+accl.x*200, coord.y+accl.y*200);
 
-    if ((this.getZone() == this.getType())) {
+    if (isPulled) {
       velocity.add(accl);
+    }
+
+    if (this.getZone() == this.getType() && !centerCollide) { // really really need to fix this
+      //println("this ran");
+      // need a Convert function
+      centerCollide = true;
+      //this.velocity = new PVector(0,0);
     }
   }
 
   public void setPuller(Agent a) {
+    //initiates pulling process. might be called from edge or from a do conversion
+    // -- which will be different by subclss
     this.puller = a;
     this.isPulled = true;
+    this.centerCollide = false;
   }
 
 
@@ -225,21 +248,21 @@ class Agent {
 
 
 //OOP city here we come, I didn't go to fancy programming school for nothing
-class Pot extends Agent {
+class Potential extends Agent {
 
   //Constructor 1 -- debug
-  public Pot(PVector inputCoord, PVector inputVel) {
+  public Potential(PVector inputCoord, PVector inputVel) {
     super(inputCoord, inputVel);
   }
 
-  public Pot() {
+  public Potential() {
     //Randomized constructor
     float theta = random(bounds[1], bounds[2]);
     float dist = random(1, (bigRadius - 10));
     coord = new PVector (dist*cos(theta), dist*sin(theta));
     velocity = PVector.random2D().mult(3);
   }
-
+  
   public void checkLineCollision() {
     float angle = getAngle();
 
@@ -255,14 +278,14 @@ class Pot extends Agent {
   }
 }
 
-class Mem extends Agent {
+class Member extends Agent {
 
   //Constructor 1 -- debug
-  public Mem(PVector inputCoord, PVector inputVel) {
+  public Member(PVector inputCoord, PVector inputVel) {
     super(inputCoord, inputVel);
   }
 
-  public Mem() {
+  public Member() {
     //Randomized constructor
     float theta = random(bounds[2], bounds[3]);
     float dist = random(1, (bigRadius - 10));
@@ -270,7 +293,13 @@ class Mem extends Agent {
     velocity = PVector.random2D().mult(4);
   }
 
+  public Member(Agent p) {
+    super(p);
+  }
+
+
   public void checkLineCollision() {
+   // println("ran for agent" + this.toString());
     float angle = getAngle();
 
     Float hitObj = hitEval(angle, 2, 3);
@@ -309,8 +338,18 @@ class Former extends Agent {
       doCollision(hitAngle);
     }
   }
-
+  
   public char getType() {
     return 'F';
   }
+}
+
+public Potential ftop(Former f) {
+  return null;
+}
+
+public Member PtoM(Agent p) {
+  Member out = new Member(p);
+  p = null; 
+  return out;
 }

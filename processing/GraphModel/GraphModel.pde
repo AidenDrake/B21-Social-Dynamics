@@ -18,14 +18,21 @@ void setup() {
   //  agents.add(new Pot());
   //}
   
-  Pot steve = new Pot();
+  Potential steve = new Potential();
   agents.add(steve);
+  agents.set(0, PtoM(agents.get(0)));
+  println(agents.get(0).getType());
   
-  Mem milo = new Mem();
+  Member milo = new Member();
   agents.add(milo);
   
   Edge e = new Edge(steve, milo);
   edges.add(e);
+  
+  Agent c= agents.get(0);
+  Agent d = agents.get(1);
+  
+  c.setPuller(d);
 
   //for (int i = 0; i < 2; i++) {
   //  agents.add(new Mem());
@@ -86,14 +93,9 @@ void draw() {
   
   for (Agent a : agents) {
     a.update();
-    a.checkBigCollision(bigRadius);
-    a.checkLineCollision();
   }
   
-  Agent steve = agents.get(0);
-  Agent milo = agents.get(1);
   
-  steve.setPuller(milo);
 
   popMatrix();
 }
