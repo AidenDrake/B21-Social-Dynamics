@@ -26,12 +26,14 @@ class Agent {
 
 
 
-  //Constructor -- this one to make a "Generic" agent for debug
+  //Constructors
+  // this one to make a "Generic" agent for debug
   public Agent(PVector inputCoord, PVector inputVelocity) {
     this.coord = inputCoord;
     this.velocity = inputVelocity;
   }
 
+  // this one is used for conversions
   protected Agent(Agent a) {
     this.coord = a.coord;
     this.velocity = a.velocity;
@@ -45,8 +47,12 @@ class Agent {
   protected Agent() {
   }
 
-  // ***MUY IMPORTANTE***
+  // ***MUY IMPORTANTE*** - Constructor to be used by subclasses
   protected Agent(int lbi, int ubi, float speed) {
+    // Each subclass provides the Lower Bound Index and Upper Bound index
+    // to specify the lines that they bounce off of. The speed is also set 
+    // on a subclass basis. This function takes those parameters and makes 
+    // an agent of the appropriate type.
     float theta;
     if (lbi > ubi ) {
       // this is to handle formers. Bit of a messy fix.
@@ -55,8 +61,10 @@ class Agent {
       theta = random(bounds[lbi], bounds[ubi]);
     }  
 
+    // generate a random distance from center,
+    // and a random angle from center to randomly place the agent.
     float dist = random(1, (bigRadius - 10));
-    coord = new PVector (dist*cos(theta), dist*sin(theta));
+    coord = new PVector (dist*cos(theta), dist*sin(theta)); 
     velocity = PVector.random2D().mult(speed);
 
     this.rmsq = velocity.magSq();
@@ -85,6 +93,18 @@ class Agent {
     textSize(16);
     //text("velocity: <"+velocity.x+","+velocity.y+">", coord.x -20, coord.y-20);
     text("zone: "+this.getZone(), coord.x -20, coord.y-20);
+  }
+
+  public void setPuller(Agent a) {
+    //initiates pulling process. Should be called from edge
+    this.puller = a;
+    this.isPulled = true;
+    this.centerCollide = false;
+  }
+
+
+  public char getType() {
+    return 'S'; //SUPER
   }
 
 
@@ -127,6 +147,7 @@ class Agent {
 
 
   public void checkLineCollision() {
+    // will be implemented by the subclasses
   }  
 
   //Protected methods
@@ -257,19 +278,6 @@ class Agent {
       //this.velocity = new PVector(0,0);
     }
   }
-
-  public void setPuller(Agent a) {
-    //initiates pulling process. might be called from edge or from a do conversion
-    // -- which will be different by subclss
-    this.puller = a;
-    this.isPulled = true;
-    this.centerCollide = false;
-  }
-
-
-  public char getType() {
-    return 'S'; //SUPER
-  }
 }
 
 
@@ -277,7 +285,7 @@ class Agent {
 class Potential extends Agent {
   static final float speed = 3.0;
 
-  //Constructor 1 -- debug
+  //Constructor 1 for debug
   public Potential(PVector inputCoord, PVector inputVel) {
     super(inputCoord, inputVel);
   }
@@ -379,6 +387,8 @@ class Former extends Agent {
   }
 }
 
+// Conversion functions. Note that these are not part of the
+// Agent class. 
 public Potential AtoP(Agent a) {
   Potential out = new Potential(a);
   a = null;
@@ -391,7 +401,7 @@ public Member AtoM(Agent a) {
   return out;
 }
 
-public Former AtoF(Agent a){
+public Former AtoF(Agent a) {
   Former out = new Former(a);
   a = null; 
   return out;
