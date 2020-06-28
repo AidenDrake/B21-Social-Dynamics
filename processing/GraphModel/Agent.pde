@@ -54,11 +54,11 @@ class Agent {
     } else {
       theta = random(bounds[lbi], bounds[ubi]);
     }  
-    
+
     float dist = random(1, (bigRadius - 10));
     coord = new PVector (dist*cos(theta), dist*sin(theta));
     velocity = PVector.random2D().mult(speed);
-    
+
     this.rmsq = velocity.magSq();
   }
 
@@ -103,7 +103,7 @@ class Agent {
     //Maximum distance before touching edge
     float maxDist = bigRadius-agentRadius;
 
-   // vel line for debug
+    // vel line for debug
     //stroke(0, 200, 0);
     //line(coord.x, coord.y, coord.x+velocity.x*10, coord.y+velocity.y*10);
 
@@ -242,7 +242,7 @@ class Agent {
       } else {
         float magSquared = velocity.magSq();
         if ( magSquared > rmsq) {
-          println("magSquared is: "+magSquared+" rmsq: "+rmsq);
+          //println("magSquared is: "+magSquared+" rmsq: "+rmsq);
           velocity.mult(0.99);
         } else {
           isPulled = false;
@@ -275,6 +275,7 @@ class Agent {
 
 //OOP city here we come, I didn't go to fancy programming school for nothing
 class Potential extends Agent {
+  static final float speed = 3.0;
 
   //Constructor 1 -- debug
   public Potential(PVector inputCoord, PVector inputVel) {
@@ -283,7 +284,13 @@ class Potential extends Agent {
 
   public Potential() {
     //Randomized constructor
-    super(1, 2, 3);
+    super(1, 2, speed);
+    rmsq= sq(speed);
+  }
+
+  public Potential(Agent a) {
+    super(a);
+    rmsq = sq(speed) ;
   }
 
   public void checkLineCollision() {
@@ -302,6 +309,7 @@ class Potential extends Agent {
 }
 
 class Member extends Agent {
+  static final float speed = 4.0;
 
   //Constructor 1 -- debug
   public Member(PVector inputCoord, PVector inputVel) {
@@ -310,11 +318,12 @@ class Member extends Agent {
 
   public Member() {
     //Randomized constructor
-    super(2, 3, 4);
+    super(2, 3, speed);
   }
 
   public Member(Agent p) {
     super(p);
+    rmsq = sq(speed) ;
   }
 
 
@@ -335,6 +344,7 @@ class Member extends Agent {
 }
 
 class Former extends Agent {
+  static final float speed = 1.0;
 
   //Constructor 1 -- debug
   public Former(PVector inputCoord, PVector inputVel) {
@@ -344,7 +354,12 @@ class Former extends Agent {
 
   public Former() {
     //randomized constructor
-    super(3, 1, 1);
+    super(3, 1, speed);
+  }
+
+  public Former(Agent a) {
+    super(a);
+    rmsq = sq(speed) ;
   }
 
   public void checkLineCollision() {
@@ -357,16 +372,20 @@ class Former extends Agent {
     }
   }
 
+
+
   public char getType() {
     return 'F';
   }
 }
 
-public Potential ftop(Former f) {
-  return null;
+public Potential AtoP(Agent a) {
+  Potential out = new Potential(a);
+  a = null;
+  return out;
 }
 
-public Member PtoM(Agent p) {
+public Member AtoM(Agent p) {
   Member out = new Member(p);
   p = null; 
   return out;
