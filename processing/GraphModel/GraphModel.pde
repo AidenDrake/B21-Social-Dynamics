@@ -16,9 +16,9 @@ void setup() {
   PVector a = new PVector(30, 30);
 
   //agents.add(new Agent((new PVector(200, 200)), (new PVector(2.10, -0.76))));
-  for (int i = 0; i < 10; i++) {
-    agents.add(new Potential());
-  }
+  //for (int i = 0; i < 10; i++) {
+  //  agents.add(new Potential());
+  //}
 
   Potential steve = new Potential();
   agents.add(steve);
@@ -30,17 +30,17 @@ void setup() {
   Edge e = new Edge(steve, milo);
   edges.add(e);
 
-  for (int i = 0; i < 9; i++) {
-    agents.add(new Member());
-  }
+  //for (int i = 0; i < 9; i++) {
+  //  agents.add(new Member());
+  //}
 
-  for (int i = 0; i < 9; i++) {
-    agents.add(new Former());
-  }
+  //for (int i = 0; i < 9; i++) {
+  //  agents.add(new Former());
+  //}
 
-  for (int i = 0; i < 2; i++) {
-    newRandEdge();
-  }
+  //for (int i = 0; i < 2; i++) {
+  //  newRandEdge();
+  //}
 
   //Edge egan = edges.get(0);
   //egan.highlight();

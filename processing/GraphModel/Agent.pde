@@ -58,6 +58,8 @@ class Agent {
     float dist = random(1, (bigRadius - 10));
     coord = new PVector (dist*cos(theta), dist*sin(theta));
     velocity = PVector.random2D().mult(speed);
+    
+    this.rmsq = velocity.magSq();
   }
 
 
