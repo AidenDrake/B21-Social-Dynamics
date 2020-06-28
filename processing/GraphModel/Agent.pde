@@ -45,8 +45,16 @@ class Agent {
   protected Agent() {
   }
 
-  protected Agent(int lowerBound, int upperBound, float speed) {
-    float theta = random((2*PI-bounds[lowerBound]), bounds[upperBound]);
+  // ***MUY IMPORTANTE***
+  protected Agent(int lbi, int ubi, float speed) {
+    float theta;
+    if (lbi > ubi ) {
+      // this is to handle formers. Bit of a messy fix.
+      theta = random((2*PI-bounds[3]), bounds[1]);
+    } else {
+      theta = random(bounds[lbi], bounds[ubi]);
+    }  
+    
     float dist = random(1, (bigRadius - 10));
     coord = new PVector (dist*cos(theta), dist*sin(theta));
     velocity = PVector.random2D().mult(speed);
@@ -93,7 +101,7 @@ class Agent {
     //Maximum distance before touching edge
     float maxDist = bigRadius-agentRadius;
 
-    //vel line for debug
+   // vel line for debug
     //stroke(0, 200, 0);
     //line(coord.x, coord.y, coord.x+velocity.x*10, coord.y+velocity.y*10);
 
@@ -337,27 +345,27 @@ class Former extends Agent {
     super(3, 1, 1);
   }
 
-    public void checkLineCollision() {
-      float angle = getAngle();
+  public void checkLineCollision() {
+    float angle = getAngle();
 
-      Float hitObj = hitEval(angle, 3, 1);
-      if (hitObj != null) {
-        float hitAngle = hitObj;
-        doCollision(hitAngle);
-      }
-    }
-
-    public char getType() {
-      return 'F';
+    Float hitObj = hitEval(angle, 3, 1);
+    if (hitObj != null) {
+      float hitAngle = hitObj;
+      doCollision(hitAngle);
     }
   }
 
-  public Potential ftop(Former f) {
-    return null;
+  public char getType() {
+    return 'F';
   }
+}
 
-  public Member PtoM(Agent p) {
-    Member out = new Member(p);
-    p = null; 
-    return out;
-  }
+public Potential ftop(Former f) {
+  return null;
+}
+
+public Member PtoM(Agent p) {
+  Member out = new Member(p);
+  p = null; 
+  return out;
+}
