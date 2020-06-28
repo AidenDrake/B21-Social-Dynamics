@@ -16,38 +16,71 @@ class Agent {
 
 
   //Fields
-  PVector coord;
-  char group; //'M', 'P', or 'F' 
-  // might get rid of this now that we have cool kid subclasses
+  public PVector coord;
   PVector velocity;
+  float rmsq; //resting magnituded squared
+
+  public Agent puller = null;
+  boolean isPulled = false;
+  boolean centerCollide = true;
 
 
-  //Constructor -- this one to make a "Generic" agent for debug
+
+  //Constructors
+  // this one to make a "Generic" agent for debug
   public Agent(PVector inputCoord, PVector inputVelocity) {
     this.coord = inputCoord;
     this.velocity = inputVelocity;
+  }
+
+  // this one is used for conversions
+  protected Agent(Agent a) {
+    this.coord = a.coord;
+    this.velocity = a.velocity;
+    this.rmsq = a.rmsq;
+    this.puller = a.puller;
+    this.isPulled = a.isPulled;
+    this.centerCollide = a.centerCollide;
   }
 
   //Each subclass will have its own random constructor
   protected Agent() {
   }
 
+  // ***MUY IMPORTANTE*** - Constructor to be used by subclasses
   protected Agent(int lbi, int ubi, float speed) {
+    // Each subclass provides the Lower Bound Index and Upper Bound index
+    // to specify the lines that they bounce off of. The speed is also set 
+    // on a subclass basis. This function takes those parameters and makes 
+    // an agent of the appropriate type.
     float theta;
     if (lbi > ubi ) {
       // this is to handle formers. Bit of a messy fix.
       theta = random((2*PI-bounds[3]), bounds[1]);
     } else {
       theta = random(bounds[lbi], bounds[ubi]);
-    }
+    }  
+
+    // generate a random distance from center,
+    // and a random angle from center to randomly place the agent.
     float dist = random(1, (bigRadius - 10));
-    coord = new PVector (dist*cos(theta), dist*sin(theta));
+    coord = new PVector (dist*cos(theta), dist*sin(theta)); 
     velocity = PVector.random2D().mult(speed);
+
+    this.rmsq = velocity.magSq();
   }
 
 
   //Public methods
   public void update() {
+    if (isPulled) {
+      this.getsPulled();
+    }
+    this.checkBigCollision(bigRadius);
+
+    if (this.centerCollide) {
+      this.checkLineCollision();
+    }
     coord.add(velocity);
   }
 
@@ -57,8 +90,21 @@ class Agent {
     ellipse(coord.x, coord.y, agentRadius*2, agentRadius*2);
 
     //debug
-    //textSize(16);
+    textSize(16);
     //text("velocity: <"+velocity.x+","+velocity.y+">", coord.x -20, coord.y-20);
+    text("zone: "+this.getZone(), coord.x -20, coord.y-20);
+  }
+
+  public void setPuller(Agent a) {
+    //initiates pulling process. Should be called from edge
+    this.puller = a;
+    this.isPulled = true;
+    this.centerCollide = false;
+  }
+
+
+  public char getType() {
+    return 'S'; //SUPER
   }
 
 
@@ -77,9 +123,9 @@ class Agent {
     //Maximum distance before touching edge
     float maxDist = bigRadius-agentRadius;
 
-    //vel line for debug
-    stroke(0, 200, 0);
-    line(coord.x, coord.y, coord.x+velocity.x*10, coord.y+velocity.y*10);
+    // vel line for debug
+    //stroke(0, 200, 0);
+    //line(coord.x, coord.y, coord.x+velocity.x*10, coord.y+velocity.y*10);
 
     if (centerDistanceMag > maxDist) {
       // if collision with outside
@@ -101,6 +147,7 @@ class Agent {
 
 
   public void checkLineCollision() {
+    // will be implemented by the subclasses
   }  
 
   //Protected methods
@@ -174,20 +221,84 @@ class Agent {
 
     return hitAngle;
   }
+
+  public char getZone() {
+    //make protected
+    float angle = getAngle();
+
+
+    // if farther away from the circle than radius break or fix in some way
+
+    if (angle >= bounds[1] && angle <= bounds[2]) {
+      return 'P';
+    }
+
+    if (angle >= bounds[2] && angle <= bounds[3]) {
+      return 'M';
+    }
+
+    return 'F';
+  }
+
+  public void getsPulled() {
+    // change to protected, will be called from update
+    if (this.puller == null) { //should never come up, I hope
+      return;
+    }
+
+    //PVector target = puller.coord.copy();
+    //PVector target = new PVector(mouseX-width/2, mouseY-height/2);
+    PVector target = puller.coord.copy();
+    float angle = atan2( target.y-coord.y, target.x - coord.x );
+
+    stroke(0, 125, 0);
+    strokeWeight(1);
+
+    PVector accl = (new PVector(cos(angle)*0.1, sin(angle)* 0.1));
+    line(coord.x, coord.y, coord.x+accl.x*200, coord.y+accl.y*200);
+
+    if (isPulled) {
+      if (!centerCollide) {
+        velocity.add(accl);
+      } else {
+        float magSquared = velocity.magSq();
+        if ( magSquared > rmsq) {
+          //println("magSquared is: "+magSquared+" rmsq: "+rmsq);
+          velocity.mult(0.99);
+        } else {
+          isPulled = false;
+        }
+      }
+    }
+
+    if (this.getZone() == this.getType() && !centerCollide) { // really really need to fix this
+      //println("this ran");
+      // need a Convert function
+      centerCollide = true;
+      //this.velocity = new PVector(0,0);
+    }
+  }
 }
 
 
 //OOP city here we come, I didn't go to fancy programming school for nothing
 class Potential extends Agent {
+  static final float speed = 3.0;
 
-  //Constructor 1 -- debug
+  //Constructor 1 for debug
   public Potential(PVector inputCoord, PVector inputVel) {
     super(inputCoord, inputVel);
   }
 
   public Potential() {
     //Randomized constructor
-    super(1, 2, 3);
+    super(1, 2, speed);
+    rmsq= sq(speed);
+  }
+
+  public Potential(Agent a) {
+    super(a);
+    rmsq = sq(speed) ;
   }
 
   public void checkLineCollision() {
@@ -199,9 +310,14 @@ class Potential extends Agent {
       doCollision(hitAngle);
     }
   }
+
+  public char getType() {
+    return 'P';
+  }
 }
 
 class Member extends Agent {
+  static final float speed = 4.0;
 
   //Constructor 1 -- debug
   public Member(PVector inputCoord, PVector inputVel) {
@@ -209,11 +325,18 @@ class Member extends Agent {
   }
 
   public Member() {
-    // random constructor
-    super(2, 3, 3);
+    //Randomized constructor
+    super(2, 3, speed);
   }
 
+  public Member(Agent p) {
+    super(p);
+    rmsq = sq(speed) ;
+  }
+
+
   public void checkLineCollision() {
+    // println("ran for agent" + this.toString());
     float angle = getAngle();
 
     Float hitObj = hitEval(angle, 2, 3);
@@ -222,18 +345,29 @@ class Member extends Agent {
       doCollision(hitAngle);
     }
   }
+
+  public char getType() {
+    return 'M';
+  }
 }
 
 class Former extends Agent {
+  static final float speed = 1.0;
 
   //Constructor 1 -- debug
   public Former(PVector inputCoord, PVector inputVel) {
     super(inputCoord, inputVel);
   }
 
+
   public Former() {
-    // random constructor
-    super(3, 1, 3);
+    //randomized constructor
+    super(3, 1, speed);
+  }
+
+  public Former(Agent a) {
+    super(a);
+    rmsq = sq(speed) ;
   }
 
   public void checkLineCollision() {
@@ -245,4 +379,30 @@ class Former extends Agent {
       doCollision(hitAngle);
     }
   }
+
+
+
+  public char getType() {
+    return 'F';
+  }
+}
+
+// Conversion functions. Note that these are not part of the
+// Agent class. 
+public Potential AtoP(Agent a) {
+  Potential out = new Potential(a);
+  a = null;
+  return out;
+}
+
+public Member AtoM(Agent a) {
+  Member out = new Member(a);
+  a = null; 
+  return out;
+}
+
+public Former AtoF(Agent a) {
+  Former out = new Former(a);
+  a = null; 
+  return out;
 }
