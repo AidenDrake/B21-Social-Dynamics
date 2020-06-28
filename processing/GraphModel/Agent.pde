@@ -32,15 +32,22 @@ class Agent {
   protected Agent() {
   }
 
+  protected Agent(int lbi, int ubi, float speed) {
+    float theta;
+    if (lbi > ubi ) {
+      // this is to handle formers. Bit of a messy fix.
+      theta = random((2*PI-bounds[3]), bounds[1]);
+    } else {
+      theta = random(bounds[lbi], bounds[ubi]);
+    }
+    float dist = random(1, (bigRadius - 10));
+    coord = new PVector (dist*cos(theta), dist*sin(theta));
+    velocity = PVector.random2D().mult(speed);
+  }
+
 
   //Public methods
   public void update() {
-    //if (keyPressed && key == 's'){
-    //  velocity = velocity.mult(0.9);
-    //}
-    //if (keyPressed && key == 'a'){
-    //  velocity = velocity.mult(1.1);
-    //}
     coord.add(velocity);
   }
 
@@ -95,7 +102,7 @@ class Agent {
 
   public void checkLineCollision() {
   }  
-  
+
   //Protected methods
   protected float getAngle() {
     float angle = atan2(coord.y, coord.x);
@@ -180,10 +187,7 @@ class Pot extends Agent {
 
   public Pot() {
     //Randomized constructor
-    float theta = random(bounds[1], bounds[2]);
-    float dist = random(1, (bigRadius - 10));
-    coord = new PVector (dist*cos(theta), dist*sin(theta));
-    velocity = PVector.random2D().mult(3);
+    super(1, 2, 3);
   }
 
   public void checkLineCollision() {
@@ -205,11 +209,8 @@ class Mem extends Agent {
   }
 
   public Mem() {
-    //Randomized constructor
-    float theta = random(bounds[2], bounds[3]);
-    float dist = random(1, (bigRadius - 10));
-    coord = new PVector (dist*cos(theta), dist*sin(theta));
-    velocity = PVector.random2D().mult(3);
+    // random constructor
+    super(2, 3, 3);
   }
 
   public void checkLineCollision() {
@@ -231,11 +232,8 @@ class Former extends Agent {
   }
 
   public Former() {
-    //Randomized constructor
-    float theta = random((2*PI-bounds[3]), bounds[1]);
-    float dist = random(1, (bigRadius - 10));
-    coord = new PVector (dist*cos(theta), dist*sin(theta));
-    velocity = PVector.random2D().mult(3);
+    // random constructor
+    super(3, 1, 3);
   }
 
   public void checkLineCollision() {
