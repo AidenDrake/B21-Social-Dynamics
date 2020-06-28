@@ -9,42 +9,38 @@ public final static float bigRadius = 400;
 ArrayList<Agent> agents = new ArrayList();
 ArrayList<Edge> edges = new ArrayList(); 
 
+int j = 0;
+
 void setup() {
   size(1000, 1000);
   PVector a = new PVector(30, 30);
 
   //agents.add(new Agent((new PVector(200, 200)), (new PVector(2.10, -0.76))));
-  //for (int i = 0; i < 1; i++) {
-  //  agents.add(new Pot());
-  //}
-  
+  for (int i = 0; i < 10; i++) {
+    agents.add(new Potential());
+  }
+
   Potential steve = new Potential();
   agents.add(steve);
-  agents.set(0, PtoM(agents.get(0)));
-  println(agents.get(0).getType());
-  
+
+
   Member milo = new Member();
   agents.add(milo);
-  
+
   Edge e = new Edge(steve, milo);
   edges.add(e);
-  
-  Agent c= agents.get(0);
-  Agent d = agents.get(1);
-  
-  c.setPuller(d);
 
-  //for (int i = 0; i < 2; i++) {
-  //  agents.add(new Mem());
-  //}
+  for (int i = 0; i < 9; i++) {
+    agents.add(new Member());
+  }
 
-  //for (int i = 0; i < 45; i++) {
-  //  agents.add(new Former());
-  //}
+  for (int i = 0; i < 9; i++) {
+    agents.add(new Former());
+  }
 
-  //for (int i = 0; i < 2; i++) {
-  //  newRandEdge();
-  //}
+  for (int i = 0; i < 2; i++) {
+    newRandEdge();
+  }
 
   //Edge egan = edges.get(0);
   //egan.highlight();
@@ -90,12 +86,22 @@ void draw() {
   for (Agent a : agents) { 
     a.display();
   }
-  
+
   for (Agent a : agents) {
     a.update();
   }
-  
-  
+
+  if (mousePressed && (j < 1)) {
+    agents.set(0, PtoM(agents.get(0)));
+    println(agents.get(0).getType());
+
+    Agent c= agents.get(0);
+    Agent d = agents.get(1);
+
+    c.setPuller(d);
+    j++;
+  }
+
 
   popMatrix();
 }

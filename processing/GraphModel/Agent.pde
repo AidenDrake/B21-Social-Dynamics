@@ -18,7 +18,7 @@ class Agent {
   //Fields
   public PVector coord;
   PVector velocity;
-  PVector homeVel;
+  float rmsq; //resting magnituded squared
 
   public Agent puller = null;
   boolean isPulled = false;
@@ -30,13 +30,12 @@ class Agent {
   public Agent(PVector inputCoord, PVector inputVelocity) {
     this.coord = inputCoord;
     this.velocity = inputVelocity;
-    this.homeVel = inputVelocity;
   }
 
   protected Agent(Agent a) {
     this.coord = a.coord;
     this.velocity = a.velocity;
-    this.homeVel = a.homeVel;
+    this.rmsq = a.rmsq;
     this.puller = a.puller;
     this.isPulled = a.isPulled;
     this.centerCollide = a.centerCollide;
@@ -44,6 +43,13 @@ class Agent {
 
   //Each subclass will have its own random constructor
   protected Agent() {
+  }
+
+  protected Agent(int lowerBound, int upperBound, float speed) {
+    float theta = random((2*PI-bounds[lowerBound]), bounds[upperBound]);
+    float dist = random(1, (bigRadius - 10));
+    coord = new PVector (dist*cos(theta), dist*sin(theta));
+    velocity = PVector.random2D().mult(speed);
   }
 
 
@@ -221,7 +227,17 @@ class Agent {
     line(coord.x, coord.y, coord.x+accl.x*200, coord.y+accl.y*200);
 
     if (isPulled) {
-      velocity.add(accl);
+      if (!centerCollide) {
+        velocity.add(accl);
+      } else {
+        float magSquared = velocity.magSq();
+        if ( magSquared > rmsq) {
+          println("magSquared is: "+magSquared+" rmsq: "+rmsq);
+          velocity.mult(0.99);
+        } else {
+          isPulled = false;
+        }
+      }
     }
 
     if (this.getZone() == this.getType() && !centerCollide) { // really really need to fix this
@@ -257,12 +273,9 @@ class Potential extends Agent {
 
   public Potential() {
     //Randomized constructor
-    float theta = random(bounds[1], bounds[2]);
-    float dist = random(1, (bigRadius - 10));
-    coord = new PVector (dist*cos(theta), dist*sin(theta));
-    velocity = PVector.random2D().mult(3);
+    super(1, 2, 3);
   }
-  
+
   public void checkLineCollision() {
     float angle = getAngle();
 
@@ -287,10 +300,7 @@ class Member extends Agent {
 
   public Member() {
     //Randomized constructor
-    float theta = random(bounds[2], bounds[3]);
-    float dist = random(1, (bigRadius - 10));
-    coord = new PVector (dist*cos(theta), dist*sin(theta));
-    velocity = PVector.random2D().mult(4);
+    super(2, 3, 4);
   }
 
   public Member(Agent p) {
@@ -299,7 +309,7 @@ class Member extends Agent {
 
 
   public void checkLineCollision() {
-   // println("ran for agent" + this.toString());
+    // println("ran for agent" + this.toString());
     float angle = getAngle();
 
     Float hitObj = hitEval(angle, 2, 3);
@@ -321,35 +331,33 @@ class Former extends Agent {
     super(inputCoord, inputVel);
   }
 
+
   public Former() {
-    //Randomized constructor
-    float theta = random((2*PI-bounds[3]), bounds[1]);
-    float dist = random(1, (bigRadius - 10));
-    coord = new PVector (dist*cos(theta), dist*sin(theta));
-    velocity = PVector.random2D().mult(1);
+    //randomized constructor
+    super(3, 1, 1);
   }
 
-  public void checkLineCollision() {
-    float angle = getAngle();
+    public void checkLineCollision() {
+      float angle = getAngle();
 
-    Float hitObj = hitEval(angle, 3, 1);
-    if (hitObj != null) {
-      float hitAngle = hitObj;
-      doCollision(hitAngle);
+      Float hitObj = hitEval(angle, 3, 1);
+      if (hitObj != null) {
+        float hitAngle = hitObj;
+        doCollision(hitAngle);
+      }
+    }
+
+    public char getType() {
+      return 'F';
     }
   }
-  
-  public char getType() {
-    return 'F';
+
+  public Potential ftop(Former f) {
+    return null;
   }
-}
 
-public Potential ftop(Former f) {
-  return null;
-}
-
-public Member PtoM(Agent p) {
-  Member out = new Member(p);
-  p = null; 
-  return out;
-}
+  public Member PtoM(Agent p) {
+    Member out = new Member(p);
+    p = null; 
+    return out;
+  }
