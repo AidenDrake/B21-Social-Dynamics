@@ -385,8 +385,14 @@ public Potential AtoP(Agent a) {
   return out;
 }
 
-public Member AtoM(Agent p) {
-  Member out = new Member(p);
-  p = null; 
+public Member AtoM(Agent a) {
+  Member out = new Member(a);
+  a = null; 
+  return out;
+}
+
+public Former AtoF(Agent a){
+  Former out = new Former(a);
+  a = null; 
   return out;
 }
