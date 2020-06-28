@@ -92,13 +92,13 @@ void draw() {
   }
 
   if (mousePressed && (j < 1)) {
-    agents.set(0, AtoM(agents.get(0)));
+    agents.set(1, AtoP(agents.get(1)));
     println(agents.get(0).getType());
 
     Agent c= agents.get(0);
     Agent d = agents.get(1);
 
-    c.setPuller(d);
+    d.setPuller(c);
     j++;
   }
 
