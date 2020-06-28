@@ -178,14 +178,14 @@ class Agent {
 
 
 //OOP city here we come, I didn't go to fancy programming school for nothing
-class Pot extends Agent {
+class Potential extends Agent {
 
   //Constructor 1 -- debug
-  public Pot(PVector inputCoord, PVector inputVel) {
+  public Potential(PVector inputCoord, PVector inputVel) {
     super(inputCoord, inputVel);
   }
 
-  public Pot() {
+  public Potential() {
     //Randomized constructor
     super(1, 2, 3);
   }
@@ -201,14 +201,14 @@ class Pot extends Agent {
   }
 }
 
-class Mem extends Agent {
+class Member extends Agent {
 
   //Constructor 1 -- debug
-  public Mem(PVector inputCoord, PVector inputVel) {
+  public Member(PVector inputCoord, PVector inputVel) {
     super(inputCoord, inputVel);
   }
 
-  public Mem() {
+  public Member() {
     // random constructor
     super(2, 3, 3);
   }
