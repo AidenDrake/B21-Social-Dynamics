@@ -15,8 +15,6 @@ class Edge {
   public Edge(Agent _a, Agent _b) {
     this.a = _a;
     this.b = _b;
-    //if (edges.contains(this)){
-    //}
   }
 
   public void display() {
@@ -45,9 +43,16 @@ class Edge {
   }
   
   @Override
+  public String toString(){
+    return("("+this.a+", "+this.b+")");
+  }
+  
+  @Override
   public boolean equals(Object obj){
     // returns true if an edge has the same two objects as another
     // this is used for the hashset
+    
+    // I don't think it works
     if (!(obj instanceof Edge)){
       return false;
     }

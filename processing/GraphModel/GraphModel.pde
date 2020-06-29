@@ -3,11 +3,11 @@
  * 
  * Work in progress
  */
+import java.util.HashSet;
 
 public final static float bigRadius = 400;
 
-ArrayList<Agent> agents = new ArrayList();
-ArrayList<Edge> edges = new ArrayList(); 
+ArrayList<Agent> agents = new ArrayList<Agent>(); 
 
 int j = 0;
 
@@ -16,9 +16,9 @@ void setup() {
   PVector a = new PVector(30, 30);
 
   //agents.add(new Agent((new PVector(200, 200)), (new PVector(2.10, -0.76))));
-  //for (int i = 0; i < 10; i++) {
-  //  agents.add(new Potential());
-  //}
+  for (int i = 0; i < 10; i++) {
+    agents.add(new Potential());
+  }
 
   Potential steve = new Potential();
   agents.add(steve);
@@ -27,20 +27,21 @@ void setup() {
   Member milo = new Member();
   agents.add(milo);
 
-  Edge e = new Edge(steve, milo);
-  edges.add(e);
+  //Edge e = new Edge(steve, milo);
+  //edges.add(e);
 
-  //for (int i = 0; i < 9; i++) {
-  //  agents.add(new Member());
-  //}
+  for (int i = 0; i < 9; i++) {
+    agents.add(new Member());
+  }
 
-  //for (int i = 0; i < 9; i++) {
-  //  agents.add(new Former());
-  //}
+  for (int i = 0; i < 9; i++) {
+    agents.add(new Former());
+  }
 
-  //for (int i = 0; i < 2; i++) {
-  //  newRandEdge();
-  //}
+  for (int i = 0; i < 10; i++) {
+    println(edges);
+    newRandEdge();
+  }
 
   //Edge egan = edges.get(0);
   //egan.highlight();
@@ -112,6 +113,13 @@ Agent randAgent() {
 }
 
 void newRandEdge() {
+  int j = 20;
   Edge e = new Edge(randAgent(), randAgent());
-  edges.add(e);
+  while ((edges.contains(e)) && j<20) { // avoid duplicates 
+  // j is a dumb hack to avoid an infinite loop
+    e = new Edge(randAgent(), randAgent());
+    println("MOOP!!!");
+    j ++; 
+  }
+    edges.add(e);
 }

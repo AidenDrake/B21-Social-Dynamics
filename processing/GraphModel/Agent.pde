@@ -7,6 +7,12 @@ public static final float bounds[] = {0, PI/2, 7*PI/6, 11*PI/6};
 
 static int pontentials;
 
+public ArrayList<Potential> potentials = new ArrayList();
+public ArrayList<Member> members = new ArrayList();
+public ArrayList<Former> formers = new ArrayList();
+
+static int counter = 100;
+
 class Agent {
   // There's a set radius for all agents
   public static final float agentRadius = 2.5;
@@ -23,7 +29,7 @@ class Agent {
   public Agent puller = null;
   boolean isPulled = false;
   boolean centerCollide = true;
-
+  int index = counter++; 
 
 
   //Constructors
@@ -41,6 +47,7 @@ class Agent {
     this.puller = a.puller;
     this.isPulled = a.isPulled;
     this.centerCollide = a.centerCollide;
+    this.index = a.index;
   }
 
   //Each subclass will have its own random constructor
@@ -68,6 +75,7 @@ class Agent {
     velocity = PVector.random2D().mult(speed);
 
     this.rmsq = velocity.magSq();
+    this.index = counter++;
   }
 
 
@@ -83,16 +91,16 @@ class Agent {
     }
     coord.add(velocity);
   }
-
+  
   public void display() {
     noStroke();
     fill(0);
     ellipse(coord.x, coord.y, agentRadius*2, agentRadius*2);
 
     //debug
-    textSize(16);
+   // textSize(16);
     //text("velocity: <"+velocity.x+","+velocity.y+">", coord.x -20, coord.y-20);
-    text("zone: "+this.getZone(), coord.x -20, coord.y-20);
+    //text("zone: "+this.getZone(), coord.x -20, coord.y-20);
   }
 
   public void setPuller(Agent a) {
@@ -142,9 +150,11 @@ class Agent {
       this.velocity = getNewVel(getPerpen(centerDistanceVect), true);
     }
   }
-
-
-
+  
+  @Override
+  public String toString(){
+    return (this.getType() + ", agent #"+ index);
+  }
 
   public void checkLineCollision() {
     // will be implemented by the subclasses
