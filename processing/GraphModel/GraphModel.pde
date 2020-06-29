@@ -4,6 +4,7 @@
  * Work in progress
  */
 import java.util.HashSet;
+import java.util.Objects;
 
 public final static float bigRadius = 400;
 
@@ -39,7 +40,7 @@ void setup() {
   }
 
   for (int i = 0; i < 10; i++) {
-    println(edges);
+    //println(edges);
     newRandEdge();
   }
 
@@ -94,7 +95,7 @@ void draw() {
 
   if (mousePressed && (j < 1)) {
     agents.set(1, AtoP(agents.get(1)));
-    println(agents.get(0).getType());
+    //println(agents.get(0).getType());
 
     Agent c= agents.get(0);
     Agent d = agents.get(1);
