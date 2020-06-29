@@ -51,9 +51,7 @@ class Edge {
   public boolean equals(Object obj){
     // returns true if an edge has the same two objects as another
     // this is used for the hashset
-    
-    // I don't think it works
-    if (!(obj instanceof Edge)){
+      if (!(obj instanceof Edge)){
       return false;
     }
     Edge e = (Edge) obj; 
@@ -65,5 +63,20 @@ class Edge {
       return (this.b.equals(e.a));
     }
     return false;
+  }
+  
+  @Override
+  public int hashCode() {
+    Agent x;
+    Agent y;
+    if (a.getIndex()<b.getIndex()){
+      x = a;
+      y = b;
+    }
+    else {
+      x = b;
+      y = a;
+    }
+    return Objects.hash(x, y);
   }
 }

@@ -232,6 +232,10 @@ class Agent {
     return hitAngle;
   }
 
+ public int getIndex(){
+    return this.index;
+  }
+  
   public char getZone() {
     //make protected
     float angle = getAngle();
@@ -359,6 +363,8 @@ class Member extends Agent {
   public char getType() {
     return 'M';
   }
+  
+ 
 }
 
 class Former extends Agent {
