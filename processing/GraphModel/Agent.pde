@@ -153,7 +153,7 @@ class Agent {
   
   @Override
   public String toString(){
-    return (this.getType() + ", agent #"+ index);
+    return (this.getType() + " #"+ index);
   }
 
   public void checkLineCollision() {

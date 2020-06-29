@@ -69,16 +69,16 @@ void draw() {
   PVector mouse = new PVector(mouseX-width/2, mouseY-height/2);
   stroke(0, 0, 125);
   ////line(20, 20, mouse.x, mouse.y);
-  float angle = atan2(mouse.y, mouse.x);
+  //float angle = atan2(mouse.y, mouse.x);
   //line(20, 20, cos(angle)*300, sin(angle)*300);
 
 
-  if (angle < 0) {
-    angle = (2*PI+angle);
-  }
+  //if (angle < 0) {
+  //  angle = (2*PI+angle);
+  //}
 
-  fill(0);
-  textSize(32);
+  //fill(0);
+  //textSize(32);
   //text ("angle :" + degrees(angle), -300, -300);
 
   for (Edge e : edges) {
@@ -114,13 +114,23 @@ Agent randAgent() {
 }
 
 void newRandEdge() {
-  int j = 20;
-  Edge e = new Edge(randAgent(), randAgent());
-  while ((edges.contains(e)) && j<20) { // avoid duplicates 
-  // j is a dumb hack to avoid an infinite loop
-    e = new Edge(randAgent(), randAgent());
-    println("MOOP!!!");
-    j ++; 
+  //println("this ran");
+  int j = 0;
+  Edge e = null;
+  //println("contains e? " + edges.contains(e));
+  while (((edges.contains(e)) && j<20) || e == null ) { // avoid duplicate edges
+    //println("eccl");
+    // j is a dumb hack to avoid an infinite loop
+    Agent randy = randAgent();
+    Agent randall = randAgent();
+    while (randy.equals(randall)) { // if we pick one that's the same, pick again
+      randall = randAgent();
+    }
+    e = new Edge(randy, randall);
+    //println("MOOP!!!");
+    j ++;
+    println("new e is "+e);
   }
-    edges.add(e);
+  println("added "+e);
+  edges.add(e);
 }
