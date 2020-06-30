@@ -24,7 +24,7 @@ class Edge {
   }
 
   public void store() {
-    boolean hasPotential = a instanceof Potential || b instanceof Potential; //get it?
+    boolean hasPotential = a instanceof Potential || b instanceof Potential;
     boolean memberStatus = a instanceof Member || b instanceof Member;
     boolean isFormative = a instanceof Former || b instanceof Former;
 
@@ -59,9 +59,9 @@ class Edge {
     this.highlight = true;
   }
 
-  public void successfulRecruit() {
-    //Make private
+  public void recruitPtoM() {
     highlight = true;
+    
   }
 
   @Override
@@ -98,5 +98,20 @@ class Edge {
       y = a;
     }
     return Objects.hash(x, y);
+  }
+  
+  protected Agent getMember(){
+    // could be parameterized
+    // returns a member if there is one
+    // else returns null
+    if (a instanceof Member){
+      return a;
+    }
+    else if (b instanceof Member){
+      return b;
+    }
+    else {
+      return null;
+    }
   }
 }

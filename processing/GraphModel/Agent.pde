@@ -99,7 +99,7 @@ class Agent {
     textSize(16);
     //text("velocity: <"+velocity.x+","+velocity.y+">", coord.x -20, coord.y-20);
     //text("zone: "+this.getZone(), coord.x -20, coord.y-20);
-    //text("#"+this.getIndex(), coord.x, coord.y-10);
+    text("#"+this.getIndex(), coord.x, coord.y-10);
   }
 
   public void setPuller(Agent a) {

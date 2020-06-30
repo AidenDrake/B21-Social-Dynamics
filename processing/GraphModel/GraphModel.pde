@@ -12,6 +12,8 @@ ArrayList<Agent> agents = new ArrayList<Agent>();
 
 int j = 0;
 
+int activeCount = 0;
+
 void setup() {
   size(1000, 1000);
   PVector a = new PVector(30, 30);
