@@ -6,8 +6,8 @@
  **/
 public HashSet<Edge> edges = new HashSet<Edge>();
 
-public ArrayList<Edge> mfEdges = new ArrayList<Edge>();
-public ArrayList<Edge> mpEdges = new ArrayList<Edge>();
+public ArrayList<Edge> mfEdges = new ArrayList<Edge>(); // member - former edges
+public ArrayList<Edge> mpEdges = new ArrayList<Edge>(); //Member - potential edges
 
 class Edge {
   // Draws and represents an edge between two nodes

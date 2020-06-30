@@ -46,6 +46,10 @@ void setup() {
 
   //Edge egan = edges.get(0);
   //egan.highlight();
+
+  println(members + "  "+ members.size());
+  println("mp edges is " + mpEdges);
+  println("mf edges is " + mfEdges + "  "+ members.size());
 }
 
 void draw() {
@@ -55,19 +59,8 @@ void draw() {
   pushMatrix();
   translate(width/2, height/2);
 
-  // Draw the big circle.
-  // the wonky angles make it look pretty.
-
-  fill(255, 0, 51, 125); //light red
-  arc(0, 0, bigRadius*2, bigRadius*2, 7*PI/6, 11*PI/6, PIE);
-  fill(0, 153, 255, 125); //light blu
-  arc(0, 0, bigRadius*2, bigRadius*2, 11*PI/6, 15*PI/6, PIE);
-  fill(255, 255, 0, 125); //light yellow
-  arc(0, 0, bigRadius*2, bigRadius*2, 15*PI/6, 19*PI/6, PIE); 
-  //aka from PI/2 == 3PI/6 to 7PI/6
-
-  PVector mouse = new PVector(mouseX-width/2, mouseY-height/2);
-  stroke(0, 0, 125);
+  //PVector mouse = new PVector(mouseX-width/2, mouseY-height/2);
+  //stroke(0, 0, 125);
   ////line(20, 20, mouse.x, mouse.y);
   //float angle = atan2(mouse.y, mouse.x);
   //line(20, 20, cos(angle)*300, sin(angle)*300);
@@ -80,6 +73,8 @@ void draw() {
   //fill(0);
   //textSize(32);
   //text ("angle :" + degrees(angle), -300, -300);
+  
+  drawBigCircle();
 
   for (Edge e : edges) {
     e.display();
@@ -89,8 +84,10 @@ void draw() {
     a.display();
   }
 
-  for (Agent a : agents) {
-    a.update();
+  if (keyPressed && key == ' ') {
+    for (Agent a : agents) {
+      a.update();
+    }
   }
 
   if (mousePressed && (j < 1)) {
@@ -119,7 +116,6 @@ void newRandEdge() {
   Edge e = null;
   //println("contains e? " + edges.contains(e));
   while (((edges.contains(e)) && j<20) || e == null ) { // avoid duplicate edges
-    //println("eccl");
     // j is a dumb hack to avoid an infinite loop
     Agent randy = randAgent();
     Agent randall = randAgent();
@@ -127,10 +123,22 @@ void newRandEdge() {
       randall = randAgent();
     }
     e = new Edge(randy, randall);
-    //println("MOOP!!!");
     j ++;
-    println("new e is "+e);
+    //println("new e is "+e);
   }
-  println("added "+e);
+  //println("added "+e);
   edges.add(e);
+}
+
+void drawBigCircle() {
+  // Draw the big circle.
+  // the wonky angles make it look pretty.
+  // eventually this should work with the bounds array
+  fill(255, 0, 51, 125); //light red
+  arc(0, 0, bigRadius*2, bigRadius*2, 7*PI/6, 11*PI/6, PIE);
+  fill(0, 153, 255, 125); //light blu
+  arc(0, 0, bigRadius*2, bigRadius*2, 11*PI/6, 15*PI/6, PIE);
+  fill(255, 255, 0, 125); //light yellow
+  arc(0, 0, bigRadius*2, bigRadius*2, 15*PI/6, 19*PI/6, PIE); 
+  //aka from PI/2 == 3PI/6 to 7PI/6
 }

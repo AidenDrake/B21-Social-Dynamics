@@ -96,9 +96,10 @@ class Agent {
     ellipse(coord.x, coord.y, agentRadius*2, agentRadius*2);
 
     //debug
-   // textSize(16);
+    textSize(16);
     //text("velocity: <"+velocity.x+","+velocity.y+">", coord.x -20, coord.y-20);
     //text("zone: "+this.getZone(), coord.x -20, coord.y-20);
+    //text("#"+this.getIndex(), coord.x, coord.y-10);
   }
 
   public void setPuller(Agent a) {
