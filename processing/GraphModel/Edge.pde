@@ -21,12 +21,16 @@ class Edge {
   public Edge(Agent _a, Agent _b) {
     this.a = _a;
     this.b = _b;
+  }
 
+  public void store() {
     boolean hasPotential = a instanceof Potential || b instanceof Potential; //get it?
     boolean memberStatus = a instanceof Member || b instanceof Member;
     boolean isFormative = a instanceof Former || b instanceof Former;
 
+    edges.add(this);
 
+    // this isn't good right now, should process after list of edges made?
     if (isFormative && memberStatus) {
       mfEdges.add(this);
     }

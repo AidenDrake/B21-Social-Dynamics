@@ -93,7 +93,7 @@ void draw() {
   if (mousePressed && (j < 1)) {
     agents.set(1, AtoP(agents.get(1)));
     //println(agents.get(0).getType());
-
+    
     Agent c= agents.get(0);
     Agent d = agents.get(1);
 
@@ -126,8 +126,8 @@ void newRandEdge() {
     j ++;
     //println("new e is "+e);
   }
+  e.store();
   //println("added "+e);
-  edges.add(e);
 }
 
 void drawBigCircle() {
