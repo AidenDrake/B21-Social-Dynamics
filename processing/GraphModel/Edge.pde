@@ -1,5 +1,13 @@
+/**
+ * "So, I hear you're a real edgelord" -- XKCD #2036
+ * 
+ * Edges for the model, which represent social connections between agents
+ * in a community.
+ **/
 public HashSet<Edge> edges = new HashSet<Edge>();
 
+public ArrayList<Edge> mfEdges = new ArrayList<Edge>();
+public ArrayList<Edge> mpEdges = new ArrayList<Edge>();
 
 class Edge {
   // Draws and represents an edge between two nodes
@@ -9,12 +17,22 @@ class Edge {
   Agent a;
   Agent b;
   private boolean highlight = false;
-    
-  public ArrayList<Edge> mfEdges = new ArrayList<Edge>();
 
   public Edge(Agent _a, Agent _b) {
     this.a = _a;
     this.b = _b;
+
+    boolean hasPotential = a instanceof Potential || b instanceof Potential; //get it?
+    boolean memberStatus = a instanceof Member || b instanceof Member;
+    boolean isFormative = a instanceof Former || b instanceof Former;
+
+
+    if (isFormative && memberStatus) {
+      mfEdges.add(this);
+    }
+    if (hasPotential && memberStatus) {
+      mpEdges.add(this);
+    }
   }
 
   public void display() {
@@ -28,52 +46,50 @@ class Edge {
 
     line(a.coord.x, a.coord.y, b.coord.x, b.coord.y);
   }
-  
-   public void highlight(){
+
+  public void highlight() {
     this.highlight = true;
   }
-  
-  public void unHighlight(){
+
+  public void unHighlight() {
     this.highlight = true;
   }
-  
-  public void successfulRecruit(){
+
+  public void successfulRecruit() {
     //Make private
     highlight = true;
   }
-  
+
   @Override
-  public String toString(){
+    public String toString() {
     return("("+this.a+", "+this.b+")");
   }
-  
+
   @Override
-  public boolean equals(Object obj){
+    public boolean equals(Object obj) {
     // returns true if an edge has the same two objects as another
     // this is used for the hashset
-      if (!(obj instanceof Edge)){
+    if (!(obj instanceof Edge)) {
       return false;
     }
     Edge e = (Edge) obj; 
-    
-    if (this.a.equals(e.a)){
+
+    if (this.a.equals(e.a)) {
       return (this.b.equals(e.b));
-    }
-    else if (this.a.equals(e.b)){
+    } else if (this.a.equals(e.b)) {
       return (this.b.equals(e.a));
     }
     return false;
   }
-  
+
   @Override
-  public int hashCode() {
+    public int hashCode() {
     Agent x;
     Agent y;
-    if (a.getIndex()<b.getIndex()){
+    if (a.getIndex()<b.getIndex()) {
       x = a;
       y = b;
-    }
-    else {
+    } else {
       x = b;
       y = a;
     }
