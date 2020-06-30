@@ -5,8 +5,6 @@
 public static final float bounds[] = {0, PI/2, 7*PI/6, 11*PI/6};
 //bounds[] is theta of lines 1, 2, & 3 respectively. The zero is a spacer.
 
-static int pontentials;
-
 public ArrayList<Potential> potentials = new ArrayList();
 public ArrayList<Member> members = new ArrayList();
 public ArrayList<Former> formers = new ArrayList();
@@ -29,7 +27,7 @@ class Agent {
   public Agent puller = null;
   boolean isPulled = false;
   boolean centerCollide = true;
-  int index = counter++; 
+  int index = counter; 
 
 
   //Constructors
@@ -308,11 +306,13 @@ class Potential extends Agent {
     //Randomized constructor
     super(1, 2, speed);
     rmsq= sq(speed);
+    potentials.add(this);
   }
 
   public Potential(Agent a) {
     super(a);
     rmsq = sq(speed) ;
+    potentials.add(this);
   }
 
   public void checkLineCollision() {
@@ -341,11 +341,13 @@ class Member extends Agent {
   public Member() {
     //Randomized constructor
     super(2, 3, speed);
+    members.add(this);
   }
 
   public Member(Agent p) {
     super(p);
     rmsq = sq(speed) ;
+    members.add(this);
   }
 
 
@@ -379,11 +381,13 @@ class Former extends Agent {
   public Former() {
     //randomized constructor
     super(3, 1, speed);
+    formers.add(this);
   }
 
   public Former(Agent a) {
     super(a);
     rmsq = sq(speed) ;
+    formers.add(this);
   }
 
   public void checkLineCollision() {
