@@ -6,8 +6,8 @@
  **/
 public HashSet<Edge> edges = new HashSet<Edge>();
 
-public ArrayList<Edge> mfEdges = new ArrayList<Edge>(); // member - former edges
-public ArrayList<Edge> mpEdges = new ArrayList<Edge>(); //Member - potential edges
+public ArrayList<MF_Edge> mfEdges = new ArrayList<MF_Edge>(); // member - former edges
+public ArrayList<MP_Edge> mpEdges = new ArrayList<MP_Edge>(); //Member - potential edges
 
 class Edge {
   // Draws and represents an edge between two nodes
@@ -28,22 +28,29 @@ class Edge {
   } //super constructor
 
   public void store() {
+    // takes this, transforms it into a subclass if necessary, and stores it in the 
+    // edges hash set, or possibly the list of MF_ or MP_ edges. 
     boolean hasPotential = a instanceof Potential || b instanceof Potential;
     boolean memberStatus = a instanceof Member || b instanceof Member;
     boolean isFormative = a instanceof Former || b instanceof Former;
 
-    edges.add(this);
+    if (hasPotential && memberStatus) {
+      // If M - P edge, let's make one of those and store it instead of a 
+      // generic edge.
+      MP_Edge mpe = new MP_Edge(this.getMember(), this.getPotential());
+      mpEdges.add(mpe);
+      edges.add(mpe);
+    }
 
     if (isFormative && memberStatus) {
-      //MFedge egan = new mfEdge(this.getMember(), this.getPotential())
-      // MF_edges.add egan
-      // edges.add egan
-      mfEdges.add(this);
+      // If M - F edge, same as above
+      MF_Edge mfe = new MF_Edge(this.getMember(), this.getFormer());
+      mfEdges.add(mfe);
+      edges.add(mfe);
+    } else { 
+      // otherwise, let's store as a generic edge
+      edges.add(this);
     }
-    if (hasPotential && memberStatus) {
-      mpEdges.add(this);
-    }
-    //else { edges.add(this); }
   }
 
   public void display() {
