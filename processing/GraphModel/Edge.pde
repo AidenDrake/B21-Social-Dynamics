@@ -18,10 +18,14 @@ class Edge {
   Agent b;
   private boolean highlight = false;
 
+  //Constructor for a "generic edge"
   public Edge(Agent _a, Agent _b) {
     this.a = _a;
     this.b = _b;
   }
+
+  public Edge() {
+  } //super constructor
 
   public void store() {
     boolean hasPotential = a instanceof Potential || b instanceof Potential;
@@ -30,13 +34,16 @@ class Edge {
 
     edges.add(this);
 
-    // this isn't good right now, should process after list of edges made?
     if (isFormative && memberStatus) {
+      //MFedge egan = new mfEdge(this.getMember(), this.getPotential())
+      // MF_edges.add egan
+      // edges.add egan
       mfEdges.add(this);
     }
     if (hasPotential && memberStatus) {
       mpEdges.add(this);
     }
+    //else { edges.add(this); }
   }
 
   public void display() {
@@ -61,7 +68,6 @@ class Edge {
 
   public void recruitPtoM() {
     highlight = true;
-    
   }
 
   @Override
@@ -99,19 +105,65 @@ class Edge {
     }
     return Objects.hash(x, y);
   }
-  
-  protected Agent getMember(){
+
+  protected Member getMember() {
     // could be parameterized
     // returns a member if there is one
     // else returns null
-    if (a instanceof Member){
-      return a;
-    }
-    else if (b instanceof Member){
-      return b;
-    }
-    else {
+    if (a instanceof Member) {
+      return (Member) a;
+    } else if (b instanceof Member) {
+      return (Member) b;
+    } else {
       return null;
     }
+  }
+
+  protected Potential getPotential() {
+    // could be parameterized
+    // returns a potential if there is one
+    // else returns null
+    if (a instanceof Potential) {
+      return (Potential) a;
+    } else if (b instanceof Potential) {
+      return (Potential) b;
+    } else {
+      return null;
+    }
+  }
+
+  protected Former getFormer() {
+    // could be parameterized
+    // returns a former if there is one
+    // else returns null
+    if (a instanceof Former) {
+      return (Former) a;
+    } else if (b instanceof Former) {
+      return (Former) b;
+    } else {
+      return null;
+    }
+  }
+}
+
+class MP_Edge extends Edge {
+  Member m;
+  Potential p;
+
+  MP_Edge(Member m_, Potential p_) {
+    super(m_, p_);
+    this.p = p_;
+    this.m= m_;
+  }
+}
+
+class MF_Edge extends Edge {
+  Member m;
+  Former f;
+
+  MF_Edge(Member m_, Former f_) {
+    super(m_, f_);
+    this.m = m_;
+    this.f= f_;
   }
 }
