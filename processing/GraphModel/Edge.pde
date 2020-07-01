@@ -70,7 +70,7 @@ class Edge {
   }
 
   public void unHighlight() {
-    this.highlight = true;
+    this.highlight = false;
   }
 
   public void recruitPtoM() {
@@ -167,7 +167,7 @@ class MP_Edge extends Edge {
     // test test test
     
     this.highlight();
-    this.p.setPuller(this.m);
+    this.p.setPuller(this.m, this);
     Member newMem = AtoM(this.p);
     mpEdges.remove(this);
     Edge f = new Edge(newMem, this.m); // does this work to remove this.p

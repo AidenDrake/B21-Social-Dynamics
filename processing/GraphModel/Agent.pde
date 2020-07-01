@@ -22,12 +22,13 @@ class Agent {
   //Fields
   public PVector coord;
   PVector velocity;
-  float rmsq; //resting magnituded squared
+  float rmsq; //resting magnituded squared (could (should??) be removed);
 
   public Agent puller = null;
   boolean isPulled = false;
   boolean centerCollide = true;
-  int index = counter; 
+  int index = counter;
+  Edge pullEdge = null; 
 
 
   //Constructors
@@ -46,6 +47,7 @@ class Agent {
     this.isPulled = a.isPulled;
     this.centerCollide = a.centerCollide;
     this.index = a.index;
+    this.pullEdge = a.pullEdge;
   }
 
   //Each subclass will have its own random constructor
@@ -102,12 +104,13 @@ class Agent {
     text(this.toString(), coord.x-10, coord.y-10);
   }
 
-  public void setPuller(Agent a) {
+  public void setPuller(Agent a, Edge e) {
     //initiates pulling process. Should be called from edge
     this.puller = a;
     this.isPulled = true;
     this.centerCollide = false;
     println(""+this+" is pulled by "+a);
+    this.pullEdge = e;
   }
 
 
@@ -295,10 +298,12 @@ class Agent {
       } else {
         float magSquared = velocity.magSq();
         if ( magSquared > rmsq) {
-          //println("magSquared is: "+magSquared+" rmsq: "+rmsq);
+          println("magSquared is: "+magSquared+" rmsq: "+rmsq);
           velocity.mult(0.99);
         } else {
           isPulled = false;
+          pullEdge.unHighlight();
+          pullEdge = null;
           activeCount--;
         }
       }

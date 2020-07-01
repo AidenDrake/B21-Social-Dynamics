@@ -29,10 +29,10 @@ void setup() {
 
   Member milo = new Member();
   agents.add(milo);
-  
+
   newRandEdge();
-  
-  
+
+
 
   //Edge e = new Edge(steve, milo);
   //edges.add(e);
@@ -92,9 +92,9 @@ void draw() {
 
   if (keyPressed && key == ' ') {
     for (Agent a : agents) {
-      println(agents);
       a.update();
     }
+    //println(agents);
   }
 
   if (mousePressed && (j < 1)) {
