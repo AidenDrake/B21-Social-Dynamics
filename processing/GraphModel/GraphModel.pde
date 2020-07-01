@@ -19,9 +19,9 @@ void setup() {
   PVector a = new PVector(30, 30);
 
   //agents.add(new Agent((new PVector(200, 200)), (new PVector(2.10, -0.76))));
-  for (int i = 0; i < 10; i++) {
-    agents.add(new Potential());
-  }
+  //for (int i = 0; i < 10; i++) {
+  //  agents.add(new Potential());
+  //}
 
   Potential steve = new Potential();
   agents.add(steve);
@@ -29,22 +29,26 @@ void setup() {
 
   Member milo = new Member();
   agents.add(milo);
+  
+  newRandEdge();
+  
+  
 
   //Edge e = new Edge(steve, milo);
   //edges.add(e);
 
-  for (int i = 0; i < 9; i++) {
-    agents.add(new Member());
-  }
+  //for (int i = 0; i < 9; i++) {
+  //  agents.add(new Member());
+  //}
 
-  for (int i = 0; i < 9; i++) {
-    agents.add(new Former());
-  }
+  //for (int i = 0; i < 9; i++) {
+  //  agents.add(new Former());
+  //}
 
-  for (int i = 0; i < 10; i++) {
-    //println(edges);
-    newRandEdge();
-  }
+  //for (int i = 0; i < 10; i++) {
+  //  //println(edges);
+  //  newRandEdge();
+  //}
 
   //Edge egan = edges.get(0);
   //egan.highlight();
@@ -75,7 +79,7 @@ void draw() {
   //fill(0);
   //textSize(32);
   //text ("angle :" + degrees(angle), -300, -300);
-  
+
   drawBigCircle();
 
   for (Edge e : edges) {
@@ -88,18 +92,13 @@ void draw() {
 
   if (keyPressed && key == ' ') {
     for (Agent a : agents) {
+      println(agents);
       a.update();
     }
   }
 
   if (mousePressed && (j < 1)) {
-    agents.set(1, AtoP(agents.get(1)));
-    //println(agents.get(0).getType());
-    
-    Agent c= agents.get(0);
-    Agent d = agents.get(1);
-
-    d.setPuller(c);
+    mpEdges.get(0).recruitPtoM();
     j++;
   }
 
@@ -136,6 +135,7 @@ void drawBigCircle() {
   // Draw the big circle.
   // the wonky angles make it look pretty.
   // eventually this should work with the bounds array
+  strokeWeight(1);
   fill(255, 0, 51, 125); //light red
   arc(0, 0, bigRadius*2, bigRadius*2, 7*PI/6, 11*PI/6, PIE);
   fill(0, 153, 255, 125); //light blu
@@ -144,3 +144,13 @@ void drawBigCircle() {
   arc(0, 0, bigRadius*2, bigRadius*2, 15*PI/6, 19*PI/6, PIE); 
   //aka from PI/2 == 3PI/6 to 7PI/6
 }
+
+//void startStep() {
+//  float alpha = 0.01;
+//  // recruitment (Potential to Member)
+//  for (e : mpEdges) {
+//    if (random(1) <= alpha) {
+//      e.recruitPtoM();
+//    }
+//  }
+//}

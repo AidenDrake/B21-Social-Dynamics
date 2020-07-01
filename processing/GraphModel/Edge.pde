@@ -110,7 +110,7 @@ class Edge {
       x = b;
       y = a;
     }
-    return Objects.hash(x, y);
+    return Objects.hash(x, y, "Edge");
   }
 
   protected Member getMember() {
@@ -161,6 +161,19 @@ class MP_Edge extends Edge {
     super(m_, p_);
     this.p = p_;
     this.m= m_;
+  }
+  
+  public void recruitPtoM(){
+    // test test test
+    
+    this.highlight();
+    this.p.setPuller(this.m);
+    Member newMem = AtoM(this.p);
+    mpEdges.remove(this);
+    Edge f = new Edge(newMem, this.m); // does this work to remove this.p
+   // println(""+f.a.puller);
+    f.store(); 
+    activeCount++;
   }
 }
 

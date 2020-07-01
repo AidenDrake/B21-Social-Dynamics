@@ -9,7 +9,7 @@ public ArrayList<Potential> potentials = new ArrayList();
 public ArrayList<Member> members = new ArrayList();
 public ArrayList<Former> formers = new ArrayList();
 
-static int counter = 100;
+static int counter = 1;
 
 class Agent {
   // There's a set radius for all agents
@@ -68,7 +68,7 @@ class Agent {
 
     // generate a random distance from center,
     // and a random angle from center to randomly place the agent.
-    float dist = random(1, (bigRadius - 10));
+    float dist = random(10, (bigRadius - 10));
     coord = new PVector (dist*cos(theta), dist*sin(theta)); 
     velocity = PVector.random2D().mult(speed);
 
@@ -89,7 +89,7 @@ class Agent {
     }
     coord.add(velocity);
   }
-  
+
   public void display() {
     noStroke();
     fill(0);
@@ -99,7 +99,7 @@ class Agent {
     textSize(16);
     //text("velocity: <"+velocity.x+","+velocity.y+">", coord.x -20, coord.y-20);
     //text("zone: "+this.getZone(), coord.x -20, coord.y-20);
-    text("#"+this.getIndex(), coord.x, coord.y-10);
+    text(this.toString(), coord.x-10, coord.y-10);
   }
 
   public void setPuller(Agent a) {
@@ -107,6 +107,7 @@ class Agent {
     this.puller = a;
     this.isPulled = true;
     this.centerCollide = false;
+    println(""+this+" is pulled by "+a);
   }
 
 
@@ -149,15 +150,33 @@ class Agent {
       this.velocity = getNewVel(getPerpen(centerDistanceVect), true);
     }
   }
-  
+
   @Override
-  public String toString(){
+    public String toString() {
     return (this.getType() + " #"+ index);
   }
 
   public void checkLineCollision() {
     // will be implemented by the subclasses
   }  
+
+
+
+  @Override
+    public boolean equals(Object obj) {
+    if (obj instanceof Agent) {
+      Agent a = (Agent) obj;
+      return (a.index == this.index);
+    } else { 
+      return false;
+    }
+  }
+
+  @Override
+    public int hashCode() {
+    int a = 99; 
+    return Objects.hash(this.index, "Agent");
+  }
 
   //Protected methods
   protected float getAngle() {
@@ -231,10 +250,10 @@ class Agent {
     return hitAngle;
   }
 
- public int getIndex(){
+  public int getIndex() {
     return this.index;
   }
-  
+
   public char getZone() {
     //make protected
     float angle = getAngle();
@@ -280,6 +299,7 @@ class Agent {
           velocity.mult(0.99);
         } else {
           isPulled = false;
+          activeCount--;
         }
       }
     }
@@ -366,8 +386,6 @@ class Member extends Agent {
   public char getType() {
     return 'M';
   }
-  
- 
 }
 
 class Former extends Agent {
@@ -411,19 +429,28 @@ class Former extends Agent {
 // Conversion functions. Note that these are not part of the
 // Agent class. 
 public Potential AtoP(Agent a) {
-  Potential out = new Potential(a);
+  agents.remove(a);
+  formers.remove(a);
+  Potential out = new Potential(a); // out will be added to potentials list automatically
   a = null;
+  agents.add(out); 
   return out;
 }
 
 public Member AtoM(Agent a) {
+  agents.remove(a);
+  potentials.remove(a); // not sure if this works
   Member out = new Member(a);
-  a = null; 
+  a = null;
+  agents.add(out);
   return out;
 }
 
 public Former AtoF(Agent a) {
+  agents.remove(a);
+  members.remove(a);
   Former out = new Former(a);
   a = null; 
+  agents.add(out);
   return out;
 }
