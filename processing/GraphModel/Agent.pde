@@ -91,16 +91,20 @@ class Agent {
     }
     coord.add(velocity);
   }
-  
+
   public void display() {
-    noStroke();
     fill(0);
-    ellipse(coord.x, coord.y, agentRadius*2, agentRadius*2);
+    commonDisp();
 
     //debug
-   // textSize(16);
+    // textSize(16);
     //text("velocity: <"+velocity.x+","+velocity.y+">", coord.x -20, coord.y-20);
     //text("zone: "+this.getZone(), coord.x -20, coord.y-20);
+  }
+
+  protected void commonDisp() {
+    noStroke();
+    ellipse(coord.x, coord.y, agentRadius*2, agentRadius*2);
   }
 
   public void setPuller(Agent a) {
@@ -150,9 +154,9 @@ class Agent {
       this.velocity = getNewVel(getPerpen(centerDistanceVect), true);
     }
   }
-  
+
   @Override
-  public String toString(){
+    public String toString() {
     return (this.getType() + " #"+ index);
   }
 
@@ -232,10 +236,10 @@ class Agent {
     return hitAngle;
   }
 
- public int getIndex(){
+  public int getIndex() {
     return this.index;
   }
-  
+
   public char getZone() {
     //make protected
     float angle = getAngle();
@@ -324,6 +328,11 @@ class Potential extends Agent {
       doCollision(hitAngle);
     }
   }
+  
+  public void display() {
+    fill(255, 200, 0);
+    commonDisp();
+  }
 
   public char getType() {
     return 'P';
@@ -360,11 +369,14 @@ class Member extends Agent {
     }
   }
 
+  public void display() {
+    fill(255, 0, 0);
+    commonDisp();
+  }
+
   public char getType() {
     return 'M';
   }
-  
- 
 }
 
 class Former extends Agent {
@@ -396,7 +408,10 @@ class Former extends Agent {
     }
   }
 
-
+  public void display() {
+    fill(0, 0, 255);
+    commonDisp();
+  }
 
   public char getType() {
     return 'F';

@@ -17,7 +17,7 @@ void setup() {
   PVector a = new PVector(30, 30);
 
   //agents.add(new Agent((new PVector(200, 200)), (new PVector(2.10, -0.76))));
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 100; i++) {
     agents.add(new Potential());
   }
 
@@ -31,21 +31,22 @@ void setup() {
   //Edge e = new Edge(steve, milo);
   //edges.add(e);
 
-  for (int i = 0; i < 9; i++) {
+  for (int i = 0; i < 300; i++) {
     agents.add(new Member());
   }
 
-  for (int i = 0; i < 9; i++) {
+  for (int i = 0; i < 100; i++) {
     agents.add(new Former());
   }
 
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 100; i++) {
     //println(edges);
     newRandEdge();
   }
 
   //Edge egan = edges.get(0);
   //egan.highlight();
+  noSmooth();
 }
 
 void draw() {
@@ -58,11 +59,11 @@ void draw() {
   // Draw the big circle.
   // the wonky angles make it look pretty.
 
-  fill(255, 0, 51, 125); //light red
+  fill(255, 0, 51, 50); //light red
   arc(0, 0, bigRadius*2, bigRadius*2, 7*PI/6, 11*PI/6, PIE);
-  fill(0, 153, 255, 125); //light blu
+  fill(0, 153, 255, 50); //light blu
   arc(0, 0, bigRadius*2, bigRadius*2, 11*PI/6, 15*PI/6, PIE);
-  fill(255, 255, 0, 125); //light yellow
+  fill(255, 255, 0, 50); //light yellow
   arc(0, 0, bigRadius*2, bigRadius*2, 15*PI/6, 19*PI/6, PIE); 
   //aka from PI/2 == 3PI/6 to 7PI/6
 
