@@ -16,7 +16,7 @@ class Edge {
   //fields
   Agent a;
   Agent b;
-  private boolean highlight = false;
+  protected boolean highlight = false;
 
   //Constructor for a "generic edge"
   public Edge(Agent _a, Agent _b) {
@@ -38,7 +38,8 @@ class Edge {
       // If M - P edge, let's make one of those and store it instead of a 
       // generic edge.
       MP_Edge mpe = new MP_Edge(this.getMember(), this.getPotential());
-      mpEdges.add(mpe);
+      
+      mpEdges.add(mpe); //<>//
       edges.add(mpe);
     }
 
@@ -165,7 +166,6 @@ class MP_Edge extends Edge {
   
   public void recruitPtoM(){
     // test test test
-    
     this.highlight();
     this.p.setPuller(this.m, this);
     Member newMem = AtoM(this.p);
@@ -174,6 +174,18 @@ class MP_Edge extends Edge {
    // println(""+f.a.puller);
     f.store(); 
     activeCount++;
+  }
+  
+   public void display() {
+    if (this.highlight) {
+      strokeWeight(4);
+      stroke(0, 125, 0);
+    } else {
+      strokeWeight(2);
+      stroke(0, 0, 255);
+    }
+
+    line(a.coord.x, a.coord.y, b.coord.x, b.coord.y);
   }
 }
 

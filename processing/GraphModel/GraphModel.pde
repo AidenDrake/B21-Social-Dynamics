@@ -11,6 +11,7 @@ public final static float bigRadius = 400;
 ArrayList<Agent> agents = new ArrayList<Agent>(); 
 
 int j = 0;
+int step = 0;
 
 int activeCount = 0;
 
@@ -19,36 +20,41 @@ void setup() {
   PVector a = new PVector(30, 30);
 
   //agents.add(new Agent((new PVector(200, 200)), (new PVector(2.10, -0.76))));
-  //for (int i = 0; i < 10; i++) {
-  //  agents.add(new Potential());
-  //}
-
-  Potential steve = new Potential();
-  agents.add(steve);
 
 
-  Member milo = new Member();
-  agents.add(milo);
+  // Potential steve = new Potential();
+  // agents.add(steve);
 
-  newRandEdge();
+
+  //  Member milo = new Member();
+  //  agents.add(milo);
+
+  //  newRandEdge();
 
 
 
   //Edge e = new Edge(steve, milo);
   //edges.add(e);
 
-  //for (int i = 0; i < 9; i++) {
-  //  agents.add(new Member());
-  //}
+  for (int i = 0; i < 9; i++) {
+    agents.add(new Member());
+  }
 
-  //for (int i = 0; i < 9; i++) {
-  //  agents.add(new Former());
-  //}
+  for (int i = 0; i < 9; i++) {
+    agents.add(new Former());
+  }
 
-  //for (int i = 0; i < 10; i++) {
-  //  //println(edges);
-  //  newRandEdge();
-  //}
+  for (int i = 0; i < 10; i++) {
+    agents.add(new Potential());
+  }
+
+
+  for (int i = 0; i < 10; i++) {
+    //  //println(edges);
+    newRandEdge();
+  }
+
+
 
   //Edge egan = edges.get(0);
   //egan.highlight();
@@ -62,6 +68,7 @@ void draw() {
   background(245);
   stroke(0);
 
+  text("MP Edges: " + mpEdges.size() + "Step: "+ step +"Active: " + activeCount, 20, 20);
   pushMatrix();
   translate(width/2, height/2);
 
@@ -82,6 +89,7 @@ void draw() {
 
   drawBigCircle();
 
+
   for (Edge e : edges) {
     e.display();
   }
@@ -90,16 +98,20 @@ void draw() {
     a.display();
   }
 
-  if (keyPressed && key == ' ') {
-    for (Agent a : agents) {
-      a.update();
-    }
-    //println(agents);
+  //if (keyPressed && key == ' ') {
+  for (Agent a : agents) {
+    a.update();
   }
+  //println(agents);
+  //}
 
-  if (mousePressed && (j < 1)) {
-    mpEdges.get(0).recruitPtoM();
-    j++;
+  //if (mousePressed && (j < 1)) {
+  //  mpEdges.get(0).recruitPtoM();
+  //  j++;
+  //}
+  
+   if (activeCount == 0) {
+    startStep();
   }
 
 
@@ -145,12 +157,23 @@ void drawBigCircle() {
   //aka from PI/2 == 3PI/6 to 7PI/6
 }
 
-//void startStep() {
-//  float alpha = 0.01;
-//  // recruitment (Potential to Member)
-//  for (e : mpEdges) {
-//    if (random(1) <= alpha) {
-//      e.recruitPtoM();
-//    }
-//  }
-//}
+void startStep() {
+  step++; //<>//
+  float alpha = 0.1;
+  
+  for (Edge e : edges){
+    if (e instanceof MP_Edge){
+      mpEdges.add((MP_Edge) e);
+    }
+    if (e instanceof MF_Edge){
+      mfEdges.add((MF_Edge) e);
+    }
+  }
+  // recruitment (Potential to Member)
+  ArrayList<MP_Edge> pointers = (ArrayList<MP_Edge>) mpEdges.clone();
+  for (MP_Edge e : pointers ) {
+    if (random(1) <= alpha) {
+      e.recruitPtoM();
+    }
+  }
+}

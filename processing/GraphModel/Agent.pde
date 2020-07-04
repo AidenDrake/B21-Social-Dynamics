@@ -290,7 +290,7 @@ class Agent {
     strokeWeight(1);
 
     PVector accl = (new PVector(cos(angle)*0.1, sin(angle)* 0.1));
-    line(coord.x, coord.y, coord.x+accl.x*200, coord.y+accl.y*200);
+    //line(coord.x, coord.y, coord.x+accl.x*200, coord.y+accl.y*200);
 
     if (isPulled) {
       if (!centerCollide) {
@@ -299,7 +299,7 @@ class Agent {
         float magSquared = velocity.magSq();
         if ( magSquared > rmsq) {
           //println("magSquared is: "+magSquared+" rmsq: "+rmsq);
-          velocity.mult(0.99);
+          velocity.mult(0.94);
         } else {
           isPulled = false;
           pullEdge.unHighlight();
