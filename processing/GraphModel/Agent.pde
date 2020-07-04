@@ -298,7 +298,7 @@ class Agent {
       } else {
         float magSquared = velocity.magSq();
         if ( magSquared > rmsq) {
-          println("magSquared is: "+magSquared+" rmsq: "+rmsq);
+          //println("magSquared is: "+magSquared+" rmsq: "+rmsq);
           velocity.mult(0.99);
         } else {
           isPulled = false;
@@ -321,7 +321,7 @@ class Agent {
 
 //OOP city here we come, I didn't go to fancy programming school for nothing
 class Potential extends Agent {
-  static final float speed = 3.0;
+  static final float speed = 0.3;
 
   //Constructor 1 for debug
   public Potential(PVector inputCoord, PVector inputVel) {
@@ -357,7 +357,7 @@ class Potential extends Agent {
 }
 
 class Member extends Agent {
-  static final float speed = 4.0;
+  static final float speed = 0.4;
 
   //Constructor 1 -- debug
   public Member(PVector inputCoord, PVector inputVel) {
@@ -394,7 +394,7 @@ class Member extends Agent {
 }
 
 class Former extends Agent {
-  static final float speed = 1.0;
+  static final float speed = 0.1;
 
   //Constructor 1 -- debug
   public Former(PVector inputCoord, PVector inputVel) {
