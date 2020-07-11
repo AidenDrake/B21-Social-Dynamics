@@ -91,7 +91,7 @@ class Agent {
 
   public void display() {
     if (addBox){
-      fill(255); //<>//
+      fill(255); //<>// //<>//
       stroke(0);
       rect(coord.x, coord.y, 10, 10);
     }
@@ -286,12 +286,12 @@ class Agent {
     //PVector target = puller.coord.copy();
     //PVector target = new PVector(mouseX-width/2, mouseY-height/2);
     PVector target = puller.coord.copy();
-    float angle = atan2( target.y-coord.y, target.x - coord.x );
-
+    PVector distance = target.sub(coord);
+    
     stroke(0, 125, 0);
     strokeWeight(1);
 
-    PVector accl = (new PVector(cos(angle)*0.1, sin(angle)* 0.1));
+    PVector accl = distance.mult(0.001);
     //line(coord.x, coord.y, coord.x+accl.x*200, coord.y+accl.y*200);
 
     if (isPulled) {
