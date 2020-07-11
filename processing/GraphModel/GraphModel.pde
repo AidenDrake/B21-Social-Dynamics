@@ -161,7 +161,7 @@ void drawBigCircle() {
 
 void startStep() {
   step++; //<>//
-  println("mf edges is "+mfEdges+" before step");
+  println("mp edges is "+mpEdges+" before step");
   float alpha = 0.1;
 
   for (Edge e : edges) {
@@ -173,7 +173,7 @@ void startStep() {
     }
   }
   // recruitment (Potential to Member)
-  ArrayList<MP_Edge> pointers = (ArrayList<MP_Edge>) mpEdges.clone();
+  HashSet<MP_Edge> pointers = (HashSet<MP_Edge>) mpEdges.clone();
   for (MP_Edge e : pointers ) {
     if (random(1) <= alpha) {
       if (! active.contains(e)){
