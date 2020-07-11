@@ -163,7 +163,9 @@ void startStep() {
   step++; //<>//
   println("mp edges is "+mpEdges+" before step");
   float alpha = 0.1;
+  float beta = 0.1;
 
+//update
   for (Edge e : edges) {
     if (e instanceof MPEdge) {
       mpEdges.add((MPEdge) e);
@@ -172,12 +174,23 @@ void startStep() {
       mfEdges.add((MFEdge) e);
     }
   }
+  
+  
   // recruitment (Potential to Member)
   HashSet<MPEdge> pointers = (HashSet<MPEdge>) mpEdges.clone();
   for (MPEdge e : pointers ) {
     if (random(1) <= alpha) {
       if (! active.contains(e)){
       e.recruitPtoM();
+      }
+    }
+  }
+  
+  HashSet<MFEdge> mfpointers = (HashSet<MFEdge>) mfEdges.clone();
+  for (MFEdge e : mfpointers ) {
+    if (random(1) <= beta) {
+      if (! active.contains(e)){
+      e.recruitMtoF();
       }
     }
   }

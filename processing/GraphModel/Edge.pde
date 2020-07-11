@@ -168,11 +168,11 @@ class MPEdge extends Edge {
     mpEdges.remove(this);
     
     Member newMem = AtoM(this.p);
-    Edge f = new Edge(newMem, this.m); // does this work to remove this.p
-    // println(""+f.a.puller);
-    f.a.setPuller(this.m, f);
-    f.highlight();
-    f.store(); 
+    Edge ne = new Edge(newMem, this.m); // ne -> new edge
+    // println(""+ne.a.puller);
+    ne.a.setPuller(this.m, ne);
+    ne.highlight();
+    ne.store(); 
     activeCount++;
     active.add(this);
   }
@@ -198,5 +198,20 @@ class MFEdge extends Edge {
     super(m_, f_);
     this.m = m_;
     this.f= f_;
+  }
+  
+   public void recruitMtoF() {
+    // test test test
+    edges.remove(this);
+    mfEdges.remove(this);
+    
+    Former newForm = AtoF(this.m);
+    Edge ne = new Edge(newForm, this.f);
+    // println(""+ne.a.puller);
+    ne.a.setPuller(this.f, ne);
+    ne.highlight();
+    ne.store(); 
+    activeCount++;
+    active.add(this);
   }
 }
