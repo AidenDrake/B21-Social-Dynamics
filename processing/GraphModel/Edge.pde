@@ -1,4 +1,4 @@
-/**
+/** //<>//
  * "So, I hear you're a real edgelord" -- XKCD #2036
  * 
  * Edges for the model, which represent social connections between agents
@@ -38,12 +38,10 @@ class Edge {
       // If M - P edge, let's make one of those and store it instead of a 
       // generic edge.
       MP_Edge mpe = new MP_Edge(this.getMember(), this.getPotential());
-      
+
       mpEdges.add(mpe);
       edges.add(mpe);
-    }
-
-    else if (isFormative && memberStatus) {
+    } else if (isFormative && memberStatus) {
       // If M - F edge, same as above
       MF_Edge mfe = new MF_Edge(this.getMember(), this.getFormer());
       mfEdges.add(mfe);
@@ -163,22 +161,23 @@ class MP_Edge extends Edge {
     this.p = p_;
     this.m= m_;
   }
-  
-  public void recruitPtoM(){
+
+  public void recruitPtoM() {
     // test test test
-    this.highlight(); //<>//
-    this.p.setPuller(this.m, this);
-    Member newMem = AtoM(this.p);
     edges.remove(this);
     mpEdges.remove(this);
+    
+    Member newMem = AtoM(this.p);
     Edge f = new Edge(newMem, this.m); // does this work to remove this.p
-   // println(""+f.a.puller);
+    // println(""+f.a.puller);
+    f.a.setPuller(this.m, f);
+    f.highlight();
     f.store(); 
     activeCount++;
     active.add(this);
   }
-  
-   public void display() {
+
+  public void display() {
     if (this.highlight) {
       strokeWeight(4);
       stroke(0, 125, 0);
