@@ -9,6 +9,7 @@ import java.util.Objects;
 public final static float bigRadius = 400;
 
 ArrayList<Agent> agents = new ArrayList<Agent>(); 
+ArrayList<Edge> active = new ArrayList<Edge>();
 
 int j = 0;
 int step = 0;
@@ -68,7 +69,6 @@ void draw() {
   background(245);
   stroke(0);
 
-  text("MP Edges: " + mpEdges.size() + "Step: "+ step +"Active: " + activeCount, 20, 20);
   pushMatrix();
   translate(width/2, height/2);
 
@@ -109,13 +109,15 @@ void draw() {
   //  mpEdges.get(0).recruitPtoM();
   //  j++;
   //}
-  
-   if (activeCount == 0) {
+
+  if (activeCount == 0) {
     startStep();
   }
 
 
   popMatrix();
+  text("MP Edges: " + mpEdges.size() + "Step: "+ step +"Active: " + activeCount, 20, 20);
+  println(active);
 }
 
 Agent randAgent() {
@@ -160,12 +162,12 @@ void drawBigCircle() {
 void startStep() {
   step++; //<>//
   float alpha = 0.1;
-  
-  for (Edge e : edges){
-    if (e instanceof MP_Edge){
+
+  for (Edge e : edges) {
+    if (e instanceof MP_Edge) {
       mpEdges.add((MP_Edge) e);
     }
-    if (e instanceof MF_Edge){
+    if (e instanceof MF_Edge) {
       mfEdges.add((MF_Edge) e);
     }
   }

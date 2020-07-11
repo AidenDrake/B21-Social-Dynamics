@@ -39,7 +39,7 @@ class Edge {
       // generic edge.
       MP_Edge mpe = new MP_Edge(this.getMember(), this.getPotential());
       
-      mpEdges.add(mpe); //<>//
+      mpEdges.add(mpe);
       edges.add(mpe);
     }
 
@@ -169,11 +169,13 @@ class MP_Edge extends Edge {
     this.highlight();
     this.p.setPuller(this.m, this);
     Member newMem = AtoM(this.p);
+    edges.remove(this);
     mpEdges.remove(this);
     Edge f = new Edge(newMem, this.m); // does this work to remove this.p
    // println(""+f.a.puller);
     f.store(); 
     activeCount++;
+    active.add(this);
   }
   
    public void display() {

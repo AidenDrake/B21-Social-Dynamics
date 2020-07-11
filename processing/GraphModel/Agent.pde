@@ -302,6 +302,7 @@ class Agent {
           velocity.mult(0.94);
         } else {
           isPulled = false;
+          active.remove(pullEdge);
           pullEdge.unHighlight();
           pullEdge = null;
           activeCount--;
