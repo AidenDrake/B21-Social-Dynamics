@@ -19,6 +19,8 @@ int activeCount = 0;
 void setup() {
   size(1000, 1000);
   PVector a = new PVector(30, 30);
+  
+  rectMode(CENTER);
 
   //agents.add(new Agent((new PVector(200, 200)), (new PVector(2.10, -0.76))));
 
@@ -72,7 +74,7 @@ void draw() {
   pushMatrix();
   translate(width/2, height/2);
 
-  //PVector mouse = new PVector(mouseX-width/2, mouseY-height/2);
+
   //stroke(0, 0, 125);
   ////line(20, 20, mouse.x, mouse.y);
   //float angle = atan2(mouse.y, mouse.x);
@@ -88,7 +90,10 @@ void draw() {
   //text ("angle :" + degrees(angle), -300, -300);
 
   drawBigCircle();
-
+  
+  PVector mouse = new PVector(mouseX-width/2, mouseY-height/2);
+  fill(0);
+  rect(mouse.x, mouse.y, 10, 10);
 
   for (Edge e : edges) {
     e.display();
@@ -166,7 +171,7 @@ void startStep() {
   float beta = 0.1;
   float phi = 0.01;
 
-//update
+  //update
   for (Edge e : edges) {
     if (e instanceof MPEdge) {
       mpEdges.add((MPEdge) e);
@@ -175,32 +180,32 @@ void startStep() {
       mfEdges.add((MFEdge) e);
     }
   }
-  
-  
+
+
   // recruitment (Potential to Member)
   HashSet<MPEdge> pointers = (HashSet<MPEdge>) mpEdges.clone();
   for (MPEdge e : pointers ) {
     if (random(1) <= alpha) {
-      if (! active.contains(e)){
-      e.recruitPtoM();
+      if (! active.contains(e)) {
+        e.recruitPtoM();
       }
     }
   }
-  
+
   //Member to former recruitment
   HashSet<MFEdge> mfpointers = (HashSet<MFEdge>) mfEdges.clone();
   for (MFEdge e : mfpointers ) {
     if (random(1) <= beta) {
-      if (! active.contains(e)){
-      e.recruitMtoF();
+      if (! active.contains(e)) {
+        e.recruitMtoF();
       }
     }
   }
-  
+
   // Former defection
   HashSet<Former> fpointers = (HashSet<Former>) formers.clone();
-  for (Former f : fpointers){
-    if(random(1) <= phi){
+  for (Former f : fpointers) {
+    if (random(1) <= phi) {
       defect(f);
     }
   }

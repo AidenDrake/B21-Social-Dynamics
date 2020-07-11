@@ -91,8 +91,8 @@ class Agent {
 
   public void display() {
     if (addBox){
-      stroke(255);
-      fill(0);
+      fill(255); //<>//
+      stroke(0);
       rect(coord.x, coord.y, 10, 10);
     }
     noStroke();
@@ -465,5 +465,5 @@ public Former AtoF(Agent a) {
 
 public void defect(Former f){
   Potential np = AtoP(f);
-  f.addBox = true;
+  np.addBox = true;
 }
