@@ -9,7 +9,7 @@ import java.util.Objects;
 public final static float bigRadius = 400;
 
 ArrayList<Agent> agents = new ArrayList<Agent>(); 
-ArrayList<Edge> active = new ArrayList<Edge>();
+HashSet<Edge> active = new HashSet<Edge>();
 
 int j = 0;
 int step = 0;
@@ -110,14 +110,14 @@ void draw() {
   //  j++;
   //}
 
-  if (activeCount == 0) {
+  if (active.size() == 0) {
     startStep();
   }
 
 
   popMatrix();
   text("MP Edges: " + mpEdges.size() + "Step: "+ step +"Active: " + activeCount, 20, 20);
-  println(active);
+  println("active is " + active);
 }
 
 Agent randAgent() {
@@ -161,6 +161,7 @@ void drawBigCircle() {
 
 void startStep() {
   step++; //<>//
+  println("mf edges is "+mfEdges+" before step");
   float alpha = 0.1;
 
   for (Edge e : edges) {
@@ -175,7 +176,9 @@ void startStep() {
   ArrayList<MP_Edge> pointers = (ArrayList<MP_Edge>) mpEdges.clone();
   for (MP_Edge e : pointers ) {
     if (random(1) <= alpha) {
+      if (! active.contains(e)){
       e.recruitPtoM();
+      }
     }
   }
 }
