@@ -164,6 +164,7 @@ void startStep() {
   println("mp edges is "+mpEdges+" before step");
   float alpha = 0.1;
   float beta = 0.1;
+  float phi = 0.01;
 
 //update
   for (Edge e : edges) {
@@ -186,12 +187,21 @@ void startStep() {
     }
   }
   
+  //Member to former recruitment
   HashSet<MFEdge> mfpointers = (HashSet<MFEdge>) mfEdges.clone();
   for (MFEdge e : mfpointers ) {
     if (random(1) <= beta) {
       if (! active.contains(e)){
       e.recruitMtoF();
       }
+    }
+  }
+  
+  // Former defection
+  HashSet<Former> fpointers = (HashSet<Former>) formers.clone();
+  for (Former f : fpointers){
+    if(random(1) <= phi){
+      defect(f);
     }
   }
 }

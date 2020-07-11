@@ -5,9 +5,9 @@
 public static final float bounds[] = {0, PI/2, 7*PI/6, 11*PI/6};
 //bounds[] is theta of lines 1, 2, & 3 respectively. The zero is a spacer.
 
-public ArrayList<Potential> potentials = new ArrayList();
-public ArrayList<Member> members = new ArrayList();
-public ArrayList<Former> formers = new ArrayList();
+public HashSet<Potential> potentials = new HashSet<Potential>();
+public HashSet<Member> members = new HashSet<Member>();
+public HashSet<Former> formers = new HashSet<Former>();
 
 static int counter = 1;
 
@@ -24,7 +24,8 @@ class Agent {
   boolean isPulled = false;
   boolean centerCollide = true;
   int index = counter;
-  Edge pullEdge = null; 
+  Edge pullEdge = null;
+  boolean addBox = false;
 
 
   //Constructors
@@ -89,6 +90,11 @@ class Agent {
   }
 
   public void display() {
+    if (addBox){
+      stroke(255);
+      fill(0);
+      rect(coord.x, coord.y, 10, 10);
+    }
     noStroke();
     fill(0);
     ellipse(coord.x, coord.y, agentRadius*2, agentRadius*2);
@@ -455,4 +461,9 @@ public Former AtoF(Agent a) {
   a = null; 
   agents.add(out);
   return out;
+}
+
+public void defect(Former f){
+  Potential np = AtoP(f);
+  f.addBox = true;
 }
