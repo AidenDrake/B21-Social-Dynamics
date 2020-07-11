@@ -165,7 +165,7 @@ void drawBigCircle() {
 }
 
 void startStep() {
-  step++; //<>//
+  step++;
   println("mp edges is "+mpEdges+" before step");
   float alpha = 0.1;
   float beta = 0.1;

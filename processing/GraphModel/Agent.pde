@@ -1,4 +1,4 @@
-/**
+/** //<>//
  * Agent for our ABM
  */
 
@@ -90,8 +90,8 @@ class Agent {
   }
 
   public void display() {
-    if (addBox){
-      fill(255); //<>// //<>//
+    if (addBox) {
+      fill(255); //<>//
       stroke(0);
       rect(coord.x, coord.y, 10, 10);
     }
@@ -279,20 +279,23 @@ class Agent {
 
   public void getsPulled() {
     // change to protected, will be called from update
+    PVector target = new PVector();
     if (this.puller == null) { //should never come up, I hope
-      return;
+      if (this.getType() == 'P') {
+        target = new PVector(-500, 500); //<>//
+      }
+    } else {
+      target = puller.coord.copy();
     }
 
     //PVector target = puller.coord.copy();
     //PVector target = new PVector(mouseX-width/2, mouseY-height/2);
-    PVector target = puller.coord.copy();
     PVector distance = target.sub(coord);
-    
+
     stroke(0, 125, 0);
     strokeWeight(1);
 
     PVector accl = distance.mult(0.001);
-    //line(coord.x, coord.y, coord.x+accl.x*200, coord.y+accl.y*200);
 
     if (isPulled) {
       if (!centerCollide) {
@@ -304,9 +307,11 @@ class Agent {
           velocity.mult(0.94);
         } else {
           isPulled = false;
-          active.remove(pullEdge);
-          pullEdge.unHighlight();
-          pullEdge = null;
+          if (pullEdge != null) {
+            active.remove(pullEdge);
+            pullEdge.unHighlight();
+            pullEdge = null;
+          }
           activeCount--;
         }
       }
@@ -463,7 +468,9 @@ public Former AtoF(Agent a) {
   return out;
 }
 
-public void defect(Former f){
+public void defect(Former f) {
   Potential np = AtoP(f);
   np.addBox = true;
+  np.isPulled = true;
+  np.centerCollide = false;
 }
