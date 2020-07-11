@@ -43,7 +43,7 @@ class Edge {
       edges.add(mpe);
     }
 
-    if (isFormative && memberStatus) {
+    else if (isFormative && memberStatus) {
       // If M - F edge, same as above
       MF_Edge mfe = new MF_Edge(this.getMember(), this.getFormer());
       mfEdges.add(mfe);
@@ -166,7 +166,7 @@ class MP_Edge extends Edge {
   
   public void recruitPtoM(){
     // test test test
-    this.highlight();
+    this.highlight(); //<>//
     this.p.setPuller(this.m, this);
     Member newMem = AtoM(this.p);
     edges.remove(this);

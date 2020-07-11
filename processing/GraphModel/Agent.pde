@@ -15,10 +15,6 @@ class Agent {
   // There's a set radius for all agents
   public static final float agentRadius = 2.5;
 
-  // we're also going to get the bounds and bigRadius as finals:
-  public static final float bigRadius = GraphModel.bigRadius;
-
-
   //Fields
   public PVector coord;
   PVector velocity;
@@ -84,7 +80,7 @@ class Agent {
     if (isPulled) {
       this.getsPulled();
     }
-    this.checkBigCollision(bigRadius);
+    this.checkBigCollision();
 
     if (this.centerCollide) {
       this.checkLineCollision();
@@ -119,7 +115,7 @@ class Agent {
   }
 
 
-  public void checkBigCollision(float bigRadius) {
+  public void checkBigCollision() {
     // Collisions against the "outer wall" of the big circle
     // Correction vector procedure adapted from the processing "Collisions" example
 
