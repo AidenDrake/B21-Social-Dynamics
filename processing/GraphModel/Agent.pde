@@ -1,5 +1,7 @@
 /** //<>//
  * Agent for our ABM
+ * 
+ * 
  */
 
 public static final float bounds[] = {0, PI/2, 7*PI/6, 11*PI/6};
@@ -91,7 +93,9 @@ class Agent {
 
   public void display() {
     if (addBox) {
+      //draw a box around the agent
       fill(255); //<>//
+      strokeWeight(1);
       stroke(0);
       rect(coord.x, coord.y, 10, 10);
     }

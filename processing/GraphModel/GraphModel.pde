@@ -1,6 +1,15 @@
 /** 
- * An agent based simulation based off Hedstrom's ODE model of social groups.
+ * A visual, agent based simulation based off Hedstrom's ODE model of social groups.
  * 
+ * “At sufficiently high levels of abstraction, the logic of many of the processes studied 
+ * by epidemiologists, biologists, and sociologists are virtually isomorphic...
+ * Formal models required for analyzing social processes rarely need to be invented from scratch.”
+ * -- Peter Hedstrom
+ *
+ * See P Hedstrom, Explaining the growth patterns of social movements,
+ * Understanding Choice, Explaining Behavior (Oslo University Press,
+ * Norway, 2006).
+ *
  * Work in progress
  */
 import java.util.HashSet;
@@ -19,7 +28,7 @@ int activeCount = 0;
 void setup() {
   size(1000, 1000);
   PVector a = new PVector(30, 30);
-  
+
   rectMode(CENTER);
 
   //agents.add(new Agent((new PVector(200, 200)), (new PVector(2.10, -0.76))));
@@ -90,7 +99,7 @@ void draw() {
   //text ("angle :" + degrees(angle), -300, -300);
 
   drawBigCircle();
-  
+
   PVector mouse = new PVector(mouseX-width/2, mouseY-height/2);
   fill(0);
   rect(mouse.x, mouse.y, 10, 10);
@@ -167,7 +176,7 @@ void drawBigCircle() {
 void startStep() {
   step++;
   println("mp edges is "+mpEdges+" before step");
-  
+
   //Hedstrom's parameters
   float alpha = 0.1;
   float beta = 0.1;
@@ -212,7 +221,7 @@ void startStep() {
       defect(f);
     }
   }
-  
+
   //member defection
   HashSet<Member> mpointers = (HashSet<Member>) members.clone();
   for (Member m : mpointers) {
