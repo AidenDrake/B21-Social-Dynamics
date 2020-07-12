@@ -167,9 +167,12 @@ void drawBigCircle() {
 void startStep() {
   step++;
   println("mp edges is "+mpEdges+" before step");
+  
+  //Hedstrom's parameters
   float alpha = 0.1;
   float beta = 0.1;
   float phi = 0.01;
+  float c = 0.01;
 
   //update
   for (Edge e : edges) {
@@ -207,6 +210,14 @@ void startStep() {
   for (Former f : fpointers) {
     if (random(1) <= phi) {
       defect(f);
+    }
+  }
+  
+  //member defection
+  HashSet<Member> mpointers = (HashSet<Member>) members.clone();
+  for (Member m : mpointers) {
+    if (random(1) <= c) {
+      defect(m);
     }
   }
 }

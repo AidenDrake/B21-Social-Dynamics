@@ -280,9 +280,12 @@ class Agent {
   public void getsPulled() {
     // change to protected, will be called from update
     PVector target = new PVector();
-    if (this.puller == null) { //should never come up, I hope
+    if (this.puller == null) {
       if (this.getType() == 'P') {
-        target = new PVector(-500, 500); //<>//
+        target = new PVector(random(-400, -300), random(300, 400)); //<>//
+      }
+      if (this.getType() == 'F') {
+        target = new PVector(random(300, 400), random(300, 400));
       }
     } else {
       target = puller.coord.copy();
@@ -306,11 +309,15 @@ class Agent {
           //println("magSquared is: "+magSquared+" rmsq: "+rmsq);
           velocity.mult(0.94);
         } else {
+          // once we get in the right quadrent
           isPulled = false;
           if (pullEdge != null) {
             active.remove(pullEdge);
             pullEdge.unHighlight();
             pullEdge = null;
+          }
+          else{
+            this.addBox = false;
           }
           activeCount--;
         }
@@ -473,4 +480,11 @@ public void defect(Former f) {
   np.addBox = true;
   np.isPulled = true;
   np.centerCollide = false;
+}
+
+public void defect(Member m) {
+  Former nf = AtoF(m);
+  nf.addBox = true;
+  nf.isPulled = true;
+  nf.centerCollide = false;
 }
