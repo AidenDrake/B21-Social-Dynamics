@@ -279,9 +279,9 @@ def vsplot(agent_rec, diff_rec, agent_step, delta_t, final_t):
 
     fig, ax = plt.subplots()
 
-    ax.plot(agent_scale, agent_potsArr, label='Pots Agents', color='xkcd:goldenrod', )
-    ax.plot(agent_scale, agent_exArr, label='Ex-mems Agents', color='xkcd:dark blue')
-    ax.plot(agent_scale, agent_memArr, label='Mems Agents', color='xkcd:brick red')
+    ax.plot(agent_scale, agent_potsArr, label='Potential - Agents', color='xkcd:goldenrod', )
+    ax.plot(agent_scale, agent_exArr, label='Former - Agents', color='xkcd:dark blue')
+    ax.plot(agent_scale, agent_memArr, label='Mems - Agents', color='xkcd:brick red')
 
     ## Plot diff eqns
     diff_scale=np.arange(0, final_t, delta_t) 
@@ -289,14 +289,14 @@ def vsplot(agent_rec, diff_rec, agent_step, delta_t, final_t):
     diff_exArr = np.asarray(E_d)
     diff_memArr = np.asarray(M_d)
     
-    ax.plot(diff_scale, diff_potsArr, label='Pots Diff', color = 'xkcd:light yellow')
-    ax.plot(diff_scale, diff_exArr, label='Ex-mems Diff', color='xkcd:baby blue')
-    ax.plot(diff_scale, diff_memArr, label='Mems Diff', color='xkcd:pink')
+    ax.plot(diff_scale, diff_potsArr, label='Potential - ODE', color = 'xkcd:light yellow')
+    ax.plot(diff_scale, diff_exArr, label='Fromer - ODE', color='xkcd:baby blue')
+    ax.plot(diff_scale, diff_memArr, label='Member - ODE', color='xkcd:pink')
 
     ## matplotlib setup
     ax.set_xlabel('time')
     ax.set_ylabel('population')
-    ax.set_title('Members vs group populations, in ODE and ABM')
+    ax.set_title('Group membership over time, in ODE and ABM')
     ax.legend()
     plt.show()
 
