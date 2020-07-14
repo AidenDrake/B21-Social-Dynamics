@@ -100,9 +100,9 @@ void draw() {
 
   drawBigCircle();
 
-  PVector mouse = new PVector(mouseX-width/2, mouseY-height/2);
-  fill(0);
-  rect(mouse.x, mouse.y, 10, 10);
+  //PVector mouse = new PVector(mouseX-width/2, mouseY-height/2);
+  //fill(0);
+  //rect(mouse.x, mouse.y, 10, 10);
 
   for (Edge e : edges) {
     e.display();
@@ -124,13 +124,13 @@ void draw() {
   //  j++;
   //}
 
-  if (active.size() == 0) {
+  if (activeCount == 0) {
     startStep();
   }
 
 
   popMatrix();
-  text("MP Edges: " + mpEdges.size() + "Step: "+ step +"Active: " + activeCount, 20, 20);
+  text("MP Edges: " + mpEdges.size() + " Step: "+ step +" ActiveCount: " + activeCount, 20, 20);
   println("active is " + active);
 }
 

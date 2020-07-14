@@ -173,7 +173,7 @@ class MPEdge extends Edge {
     ne.a.setPuller(this.m, ne);
     ne.highlight();
     ne.store(); 
-    activeCount++;
+    activeCount++; //<>//
     active.add(this);
   }
 
@@ -211,7 +211,7 @@ class MFEdge extends Edge {
     ne.a.setPuller(this.f, ne);
     ne.highlight();
     ne.store(); 
-    activeCount++;
+    activeCount++; //<>//
     active.add(this);
   }
 }

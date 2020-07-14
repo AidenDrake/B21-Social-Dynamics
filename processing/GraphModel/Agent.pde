@@ -1,4 +1,4 @@
-/** //<>//
+/** //<>// //<>// //<>//
  * Agent for our ABM
  * 
  * 
@@ -94,7 +94,7 @@ class Agent {
   public void display() {
     if (addBox) {
       //draw a box around the agent
-      fill(255); //<>//
+      fill(255);
       strokeWeight(1);
       stroke(0);
       rect(coord.x, coord.y, 10, 10);
@@ -286,7 +286,7 @@ class Agent {
     PVector target = new PVector();
     if (this.puller == null) {
       if (this.getType() == 'P') {
-        target = new PVector(random(-400, -300), random(300, 400)); //<>//
+        target = new PVector(random(-400, -300), random(300, 400));
       }
       if (this.getType() == 'F') {
         target = new PVector(random(300, 400), random(300, 400));
@@ -297,15 +297,15 @@ class Agent {
 
     //PVector target = puller.coord.copy();
     //PVector target = new PVector(mouseX-width/2, mouseY-height/2);
-    PVector distance = target.sub(coord);
 
     stroke(0, 125, 0);
     strokeWeight(1);
 
-    PVector accl = distance.mult(0.001);
 
     if (isPulled) {
       if (!centerCollide) {
+        PVector distance = target.sub(coord);
+        PVector accl = distance.mult(0.001);
         velocity.add(accl);
       } else {
         float magSquared = velocity.magSq();
@@ -319,11 +319,11 @@ class Agent {
             active.remove(pullEdge);
             pullEdge.unHighlight();
             pullEdge = null;
-          }
-          else{
+            puller = null;
+          } else {
             this.addBox = false;
           }
-          activeCount--;
+          activeCount--; //<>//
         }
       }
     }
@@ -484,6 +484,7 @@ public void defect(Former f) {
   np.addBox = true;
   np.isPulled = true;
   np.centerCollide = false;
+  activeCount++; //<>//
 }
 
 public void defect(Member m) {
@@ -491,4 +492,5 @@ public void defect(Member m) {
   nf.addBox = true;
   nf.isPulled = true;
   nf.centerCollide = false;
+  activeCount++; //<>//
 }
