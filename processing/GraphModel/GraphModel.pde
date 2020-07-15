@@ -184,11 +184,22 @@ void startStep() {
   float c = 0.01;
 
   //update
-  for (Edge e : edges) {
-    if (e instanceof MPEdge) {
-      mpEdges.add((MPEdge) e);
+  HashSet<Edge> copy = (HashSet<Edge>) edges.clone();
+  for (Edge e : copy) {
+    //if (e instanceof MPEdge) {
+      //mpEdges.add((MPEdge) e);
+    //}
+    //if (e instanceof MFEdge) {
+    //  mfEdges.add((MFEdge) e);
+    //}
+    if (e.getMember() != null && e.getPotential() != null) {
+      mfEdges.remove(e);
+      edges.remove(e);
+      MPEdge ne = (MPEdge) e;
+      edges.add(ne);
+      mpEdges.add(ne);
     }
-    if (e instanceof MFEdge) {
+    if (e.getMember() != null && e.getFormer() != null) {
       mfEdges.add((MFEdge) e);
     }
   }
