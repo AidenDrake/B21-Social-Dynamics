@@ -54,17 +54,17 @@ class Agent {
   }
 
   // ***MUY IMPORTANTE*** - Constructor to be used by subclasses
-  protected Agent(int lbi, int ubi, float speed) {
+  protected Agent(int lowerBoundIndex, int upperBoundIndes, float speed) {
     // Each subclass provides the Lower Bound Index and Upper Bound index
     // to specify the lines that they bounce off of. The speed is also set 
     // on a subclass basis. This function takes those parameters and makes 
     // an agent of the appropriate type.
     float theta;
-    if (lbi > ubi ) {
+    if (lowerBoundIndex > upperBoundIndes ) {
       // this is to handle formers. Bit of a messy fix.
       theta = random((2*PI-bounds[3]), bounds[1]);
     } else {
-      theta = random(bounds[lbi], bounds[ubi]);
+      theta = random(bounds[lowerBoundIndex], bounds[upperBoundIndes]);
     }  
 
     // generate a random distance from center,
@@ -224,7 +224,7 @@ class Agent {
     return out ;
   }
 
-  protected Float hitEval(float angle, int lowerIndex, int upperIndex) {
+  protected Float evaluateCollision(float angle, int lowerIndex, int upperIndex) {
     // returns theta of collison line if there is one, else returns null;
     float theta1 = bounds[lowerIndex];
     float theta2 = bounds[upperIndex];
@@ -363,7 +363,7 @@ class Potential extends Agent {
   public void checkLineCollision() {
     float angle = getAngle();
 
-    Float hitObj = hitEval(angle, 1, 2);
+    Float hitObj = evaluateCollision(angle, 1, 2);
     if (hitObj != null) {
       float hitAngle = hitObj;
       doCollision(hitAngle);
@@ -400,7 +400,7 @@ class Member extends Agent {
     // println("ran for agent" + this.toString());
     float angle = getAngle();
 
-    Float hitObj = hitEval(angle, 2, 3);
+    Float hitObj = evaluateCollision(angle, 2, 3);
     if (hitObj != null) {
       float hitAngle = hitObj;
       doCollision(hitAngle);
@@ -436,7 +436,7 @@ class Former extends Agent {
   public void checkLineCollision() {
     float angle = getAngle();
 
-    Float hitObj = hitEval(angle, 3, 1);
+    Float hitObj = evaluateCollision(angle, 3, 1);
     if (hitObj != null) {
       float hitAngle = hitObj;
       doCollision(hitAngle);
