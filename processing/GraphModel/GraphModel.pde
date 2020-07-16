@@ -159,7 +159,7 @@ void newRandEdge() {
   //println("added "+e);
 }
 
-void drawBigCircle() {
+private void drawBigCircle() {
   // Draw the big circle.
   // the wonky angles make it look pretty.
   // eventually this should work with the bounds array
@@ -175,23 +175,70 @@ void drawBigCircle() {
 
 void startStep() {
   step++;
-  println("mp edges is "+mpEdges+" before step");
 
   //Hedstrom's parameters
   float alpha = 0.1;
   float beta = 0.1;
   float phi = 0.01;
   float c = 0.01;
+  
+  refill();
+  
+  // recruitment (Potential to Member)
+  recruitPotentialsToMembers(mpEdges, alpha);
 
-  //update
+  recruitMembersToFormers(mfEdges, beta);
+
+  // Former defection
+  defectFormers(formers, phi);
+
+  //member defection
+  defectMembers(members, c);
+}
+
+private void recruitMembersToFormers(HashSet<MFEdge> mfEdges, float beta) {
+  HashSet<MFEdge> mfpointers = (HashSet<MFEdge>) mfEdges.clone();
+  for (MFEdge e : mfpointers ) {
+    if (random(1) <= beta) {
+      if (! active.contains(e)) {
+        e.recruitMtoF();
+      }
+    }
+  }
+}
+
+private void recruitPotentialsToMembers(HashSet<MPEdge> mpEdges, float alpha) {
+  HashSet<MPEdge> pointers = (HashSet<MPEdge>) mpEdges.clone();
+  for (MPEdge e : pointers ) {
+    if (random(1) <= alpha) {
+      if (! active.contains(e)) {
+        e.recruitPtoM();
+      }
+    }
+  }
+}
+
+private void defectFormers(HashSet<Former> formers, float phi) {
+  HashSet<Former> fpointers = (HashSet<Former>) formers.clone();
+  for (Former f : fpointers) {
+    if (random(1) <= phi) {
+      defect(f);
+    }
+  }
+}
+
+private void defectMembers(HashSet<Member> members, float c) {
+  HashSet<Member> mpointers = (HashSet<Member>) members.clone();
+  for (Member m : mpointers) {
+    if (random(1) <= c) {
+      defect(m);
+    }
+  }
+}
+
+private void refill(){
   HashSet<Edge> copy = (HashSet<Edge>) edges.clone();
   for (Edge e : copy) {
-    //if (e instanceof MPEdge) {
-      //mpEdges.add((MPEdge) e);
-    //}
-    //if (e instanceof MFEdge) {
-    //  mfEdges.add((MFEdge) e);
-    //}
     if (e.getMember() != null && e.getPotential() != null) {
       mfEdges.remove(e);
       edges.remove(e);
@@ -201,43 +248,6 @@ void startStep() {
     }
     if (e.getMember() != null && e.getFormer() != null) {
       mfEdges.add((MFEdge) e);
-    }
-  }
-
-
-  // recruitment (Potential to Member)
-  HashSet<MPEdge> pointers = (HashSet<MPEdge>) mpEdges.clone();
-  for (MPEdge e : pointers ) {
-    if (random(1) <= alpha) {
-      if (! active.contains(e)) {
-        e.recruitPtoM();
-      }
-    }
-  }
-
-  //Member to former recruitment
-  HashSet<MFEdge> mfpointers = (HashSet<MFEdge>) mfEdges.clone();
-  for (MFEdge e : mfpointers ) {
-    if (random(1) <= beta) {
-      if (! active.contains(e)) {
-        e.recruitMtoF();
-      }
-    }
-  }
-
-  // Former defection
-  HashSet<Former> fpointers = (HashSet<Former>) formers.clone();
-  for (Former f : fpointers) {
-    if (random(1) <= phi) {
-      defect(f);
-    }
-  }
-
-  //member defection
-  HashSet<Member> mpointers = (HashSet<Member>) members.clone();
-  for (Member m : mpointers) {
-    if (random(1) <= c) {
-      defect(m);
     }
   }
 }
