@@ -31,23 +31,6 @@ void setup() {
 
   rectMode(CENTER);
 
-  //agents.add(new Agent((new PVector(200, 200)), (new PVector(2.10, -0.76))));
-
-
-  // Potential steve = new Potential();
-  // agents.add(steve);
-
-
-  //  Member milo = new Member();
-  //  agents.add(milo);
-
-  //  newRandEdge();
-
-
-
-  //Edge e = new Edge(steve, milo);
-  //edges.add(e);
-
   for (int i = 0; i < 9; i++) {
     agents.add(new Member());
   }
@@ -62,18 +45,8 @@ void setup() {
 
 
   for (int i = 0; i < 10; i++) {
-    //  //println(edges);
     newRandEdge();
   }
-
-
-
-  //Edge egan = edges.get(0);
-  //egan.highlight();
-
-  println(members + "  "+ members.size());
-  println("mp edges is " + mpEdges);
-  println("mf edges is " + mfEdges + "  "+ members.size());
 }
 
 void draw() {
@@ -83,26 +56,7 @@ void draw() {
   pushMatrix();
   translate(width/2, height/2);
 
-
-  //stroke(0, 0, 125);
-  ////line(20, 20, mouse.x, mouse.y);
-  //float angle = atan2(mouse.y, mouse.x);
-  //line(20, 20, cos(angle)*300, sin(angle)*300);
-
-
-  //if (angle < 0) {
-  //  angle = (2*PI+angle);
-  //}
-
-  //fill(0);
-  //textSize(32);
-  //text ("angle :" + degrees(angle), -300, -300);
-
   drawBigCircle();
-
-  //PVector mouse = new PVector(mouseX-width/2, mouseY-height/2);
-  //fill(0);
-  //rect(mouse.x, mouse.y, 10, 10);
 
   for (Edge e : edges) {
     e.display();
@@ -112,17 +66,9 @@ void draw() {
     a.display();
   }
 
-  //if (keyPressed && key == ' ') {
   for (Agent a : agents) {
     a.update();
   }
-  //println(agents);
-  //}
-
-  //if (mousePressed && (j < 1)) {
-  //  mpEdges.get(0).recruitPtoM();
-  //  j++;
-  //}
 
   if (activeCount == 0) {
     startStep();
@@ -140,10 +86,8 @@ Agent randomAgent() {
 }
 
 void newRandEdge() {
-  //println("this ran");
   int j = 0;
   Edge e = null;
-  //println("contains e? " + edges.contains(e));
   while (((edges.contains(e)) && j<20) || e == null ) { // avoid duplicate edges
     // j is a dumb hack to avoid an infinite loop
     Agent firstVertex = randomAgent();
@@ -153,10 +97,8 @@ void newRandEdge() {
     }
     e = new Edge(firstVertex, secondVertex);
     j ++;
-    //println("new e is "+e);
   }
   e.store();
-  //println("added "+e);
 }
 
 private void drawBigCircle() {
