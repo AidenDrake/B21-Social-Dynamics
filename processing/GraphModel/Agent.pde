@@ -81,7 +81,7 @@ class Agent {
     if (isPulled) {
       this.getsPulled();
     }
-    this.checkBigCollision();
+    this.checkOuterWallCollision();
 
     if (this.centerCollide) {
       this.checkLineCollision();
@@ -123,7 +123,7 @@ class Agent {
   }
 
 
-  public void checkBigCollision() {
+  public void checkOuterWallCollision() {
     // Collisions against the "outer wall" of the big circle
     // Correction vector procedure adapted from the processing "Collisions" example
 
@@ -133,7 +133,7 @@ class Agent {
     PVector centerDistanceVect = PVector.sub(coord, center);
 
     //magnitude of distance to center
-    float centerDistanceMag = centerDistanceVect.mag();
+    float distanceToCenter = centerDistanceVect.mag();
 
     //Maximum distance before touching edge
     float maxDist = bigRadius-agentRadius;
@@ -142,11 +142,11 @@ class Agent {
     //stroke(0, 200, 0);
     //line(coord.x, coord.y, coord.x+velocity.x*10, coord.y+velocity.y*10);
 
-    if (centerDistanceMag > maxDist) {
+    if (distanceToCenter > maxDist) {
       // if collision with outside
 
       //Calculate correction vector, which scoots the agent back inside the circle
-      float correction = (centerDistanceMag - maxDist) / 2.0;
+      float correction = (distanceToCenter - maxDist) / 2.0;
       PVector d = centerDistanceVect.copy();
       PVector correctionVector = d.normalize().mult(correction);
 

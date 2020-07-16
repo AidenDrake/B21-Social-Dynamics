@@ -134,7 +134,7 @@ void draw() {
   println("active is " + active);
 }
 
-Agent randAgent() {
+Agent randomAgent() {
   int index = int(random(0, agents.size()));
   return agents.get(index);
 }
@@ -146,12 +146,12 @@ void newRandEdge() {
   //println("contains e? " + edges.contains(e));
   while (((edges.contains(e)) && j<20) || e == null ) { // avoid duplicate edges
     // j is a dumb hack to avoid an infinite loop
-    Agent randy = randAgent();
-    Agent randall = randAgent();
-    while (randy.equals(randall)) { // if we pick one that's the same, pick again
-      randall = randAgent();
+    Agent firstVertex = randomAgent();
+    Agent secondVertex = randomAgent();
+    while (firstVertex.equals(secondVertex)) { // if we pick one that's the same, pick again
+      secondVertex = randomAgent();
     }
-    e = new Edge(randy, randall);
+    e = new Edge(firstVertex, secondVertex);
     j ++;
     //println("new e is "+e);
   }
