@@ -16,11 +16,11 @@ static int counter = 1;
 class Agent {
   // There's a set radius for all agents
   public static final float agentRadius = 2.5;
+  static final float speed = 0.4;
 
   //Fields
   public PVector coord;
   PVector velocity;
-  float rmsq; //resting magnituded squared (could (should??) be removed);
 
   public Agent puller = null;
   boolean isPulled = false;
@@ -41,7 +41,6 @@ class Agent {
   protected Agent(Agent a) {
     this.coord = a.coord;
     this.velocity = a.velocity;
-    this.rmsq = a.rmsq;
     this.puller = a.puller;
     this.isPulled = a.isPulled;
     this.centerCollide = a.centerCollide;
@@ -73,7 +72,6 @@ class Agent {
     coord = new PVector (dist*cos(theta), dist*sin(theta)); 
     velocity = PVector.random2D().mult(speed);
 
-    this.rmsq = velocity.magSq();
     this.index = counter++;
   }
 
@@ -309,7 +307,8 @@ class Agent {
         velocity.add(accl);
       } else {
         float magSquared = velocity.magSq();
-        if ( magSquared > rmsq) {
+        float restingSpeed = speed * speed; 
+        if ( magSquared > restingSpeed) {
           //println("magSquared is: "+magSquared+" rmsq: "+rmsq);
           velocity.mult(0.94);
         } else {
@@ -350,13 +349,11 @@ class Potential extends Agent {
   public Potential() {
     //Randomized constructor
     super(1, 2, speed);
-    rmsq= sq(speed);
     potentials.add(this);
   }
 
   public Potential(Agent a) {
     super(a);
-    rmsq = sq(speed) ;
     potentials.add(this);
   }
 
@@ -391,7 +388,6 @@ class Member extends Agent {
 
   public Member(Agent p) {
     super(p);
-    rmsq = sq(speed) ;
     members.add(this);
   }
 
@@ -429,7 +425,6 @@ class Former extends Agent {
 
   public Former(Agent a) {
     super(a);
-    rmsq = sq(speed) ;
     formers.add(this);
   }
 
