@@ -76,6 +76,7 @@ void draw() {
 
 
   popMatrix();
+
   text("MP Edges: " + mpEdges.size() + " Step: "+ step +" ActiveCount: " + activeCount, 20, 20);
   println("active is " + active);
 }
@@ -123,18 +124,15 @@ void startStep() {
   float beta = 0.1;
   float phi = 0.01;
   float c = 0.01;
-  
-  refill();
-  
-  // recruitment (Potential to Member)
+
+  refillEdges();
+
   recruitPotentialsToMembers(mpEdges, alpha);
 
   recruitMembersToFormers(mfEdges, beta);
 
-  // Former defection
   defectFormers(formers, phi);
 
-  //member defection
   defectMembers(members, c);
 }
 
@@ -178,7 +176,7 @@ private void defectMembers(HashSet<Member> members, float c) {
   }
 }
 
-private void refill(){
+private void refillEdges() {
   HashSet<Edge> copy = (HashSet<Edge>) edges.clone();
   for (Edge e : copy) {
     if (e.getMember() != null && e.getPotential() != null) {

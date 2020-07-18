@@ -169,11 +169,10 @@ class MPEdge extends Edge {
     
     Member newMem = AtoM(this.p);
     Edge ne = new Edge(newMem, this.m); // ne -> new edge
-    // println(""+ne.a.puller);
     ne.a.setPuller(this.m, ne);
     ne.highlight();
     ne.store(); 
-    activeCount++; //<>//
+    activeCount++; 
     active.add(this);
   }
 
@@ -207,11 +206,10 @@ class MFEdge extends Edge {
     
     Former newForm = AtoF(this.m);
     Edge ne = new Edge(newForm, this.f);
-    // println(""+ne.a.puller);
     ne.a.setPuller(this.f, ne);
     ne.highlight();
     ne.store(); 
-    activeCount++; //<>//
+    activeCount++; 
     active.add(this);
   }
 }

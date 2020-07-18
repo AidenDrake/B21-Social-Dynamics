@@ -53,17 +53,17 @@ class Agent {
   }
 
   // ***MUY IMPORTANTE*** - Constructor to be used by subclasses
-  protected Agent(int lowerBoundIndex, int upperBoundIndes, float speed) {
+  protected Agent(int lowerBoundIndex, int upperBoundIndex, float speed) {
     // Each subclass provides the Lower Bound Index and Upper Bound index
     // to specify the lines that they bounce off of. The speed is also set 
     // on a subclass basis. This function takes those parameters and makes 
     // an agent of the appropriate type.
     float theta;
-    if (lowerBoundIndex > upperBoundIndes ) {
+    if (lowerBoundIndex > upperBoundIndex ) {
       // this is to handle formers. Bit of a messy fix.
       theta = random((2*PI-bounds[3]), bounds[1]);
     } else {
-      theta = random(bounds[lowerBoundIndex], bounds[upperBoundIndes]);
+      theta = random(bounds[lowerBoundIndex], bounds[upperBoundIndex]);
     }  
 
     // generate a random distance from center,
@@ -101,10 +101,6 @@ class Agent {
     fill(0);
     ellipse(coord.x, coord.y, agentRadius*2, agentRadius*2);
 
-    //debug
-    textSize(16);
-    //text("velocity: <"+velocity.x+","+velocity.y+">", coord.x -20, coord.y-20);
-    //text("zone: "+this.getZone(), coord.x -20, coord.y-20);
     text(this.toString(), coord.x-10, coord.y-10);
   }
 
@@ -137,10 +133,6 @@ class Agent {
 
     //Maximum distance before touching edge
     float maxDist = bigRadius-agentRadius;
-
-    // vel line for debug
-    //stroke(0, 200, 0);
-    //line(coord.x, coord.y, coord.x+velocity.x*10, coord.y+velocity.y*10);
 
     if (distanceToCenter > maxDist) {
       // if collision with outside
@@ -213,8 +205,6 @@ class Agent {
 
     PVector normalPerp = perpen.normalize();
     PVector white = proj(normalPerp, velocopy);
-    //coord = coord.add(white);
-
     int mod = flip ? -2 : 2;
 
     PVector out = velocopy.add(white.mult(mod));
@@ -293,9 +283,6 @@ class Agent {
       target = puller.coord.copy();
     }
 
-    //PVector target = puller.coord.copy();
-    //PVector target = new PVector(mouseX-width/2, mouseY-height/2);
-
     stroke(0, 125, 0);
     strokeWeight(1);
 
@@ -309,7 +296,6 @@ class Agent {
         float magSquared = velocity.magSq();
         float restingSpeed = speed * speed; 
         if ( magSquared > restingSpeed) {
-          //println("magSquared is: "+magSquared+" rmsq: "+rmsq);
           velocity.mult(0.94);
         } else {
           // once we get in the right quadrent
@@ -328,10 +314,8 @@ class Agent {
     }
 
     if (this.getZone() == this.getType() && !centerCollide) { // really really need to fix this
-      //println("this ran");
       // need a Convert function
       centerCollide = true;
-      //this.velocity = new PVector(0,0);
     }
   }
 }
@@ -393,7 +377,6 @@ class Member extends Agent {
 
 
   public void checkLineCollision() {
-    // println("ran for agent" + this.toString());
     float angle = getAngle();
 
     Float hitObj = evaluateCollision(angle, 2, 3);
