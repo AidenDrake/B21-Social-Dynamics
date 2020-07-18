@@ -6,8 +6,8 @@
  **/
 public HashSet<Edge> edges = new HashSet<Edge>();
 
-public HashSet<MFEdge> mfEdges = new HashSet<MFEdge>(); // member - former edges
-public HashSet<MPEdge> mpEdges = new HashSet<MPEdge>(); //Member - potential edges
+public HashSet<MemberFormerEdge> mfEdges = new HashSet<MemberFormerEdge>(); // member - former edges
+public HashSet<MemberPotentialEdge> mpEdges = new HashSet<MemberPotentialEdge>(); //Member - potential edges
 
 class Edge {
   // Draws and represents an edge between two nodes
@@ -37,13 +37,13 @@ class Edge {
     if (hasPotential && memberStatus) {
       // If M - P edge, let's make one of those and store it instead of a 
       // generic edge.
-      MPEdge mpe = new MPEdge(this.getMember(), this.getPotential());
+      MemberPotentialEdge mpe = new MemberPotentialEdge(this.getMember(), this.getPotential());
 
       mpEdges.add(mpe);
       edges.add(mpe);
     } else if (isFormative && memberStatus) {
       // If M - F edge, same as above
-      MFEdge mfe = new MFEdge(this.getMember(), this.getFormer());
+      MemberFormerEdge mfe = new MemberFormerEdge(this.getMember(), this.getFormer());
       mfEdges.add(mfe);
       edges.add(mfe);
     } else { 
@@ -161,11 +161,11 @@ class Edge {
   }
 }
 
-class MPEdge extends Edge {
+class MemberPotentialEdge extends Edge {
   Member m;
   Potential p;
 
-  MPEdge(Member m_, Potential p_) {
+  MemberPotentialEdge(Member m_, Potential p_) {
     super(m_, p_);
     this.p = p_;
     this.m= m_;
@@ -198,11 +198,11 @@ class MPEdge extends Edge {
   }
 }
 
-class MFEdge extends Edge {
+class MemberFormerEdge extends Edge {
   Member m;
   Former f;
 
-  MFEdge(Member m_, Former f_) {
+   MemberFormerEdge(Member m_, Former f_) {
     super(m_, f_);
     this.m = m_;
     this.f= f_;

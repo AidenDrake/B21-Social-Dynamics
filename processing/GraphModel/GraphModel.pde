@@ -136,9 +136,9 @@ void startStep() {
   defectMembers(members, c);
 }
 
-private void recruitMembersToFormers(HashSet<MFEdge> mfEdges, float beta) {
-  HashSet<MFEdge> mfpointers = (HashSet<MFEdge>) mfEdges.clone();
-  for (MFEdge e : mfpointers ) {
+private void recruitMembersToFormers(HashSet<MemberFormerEdge> mfEdges, float beta) {
+  HashSet<MemberFormerEdge> mfpointers = (HashSet<MemberFormerEdge>) mfEdges.clone();
+  for (MemberFormerEdge e : mfpointers ) {
     if (random(1) <= beta) {
       if (! active.contains(e)) {
         e.recruitMtoF();
@@ -147,9 +147,9 @@ private void recruitMembersToFormers(HashSet<MFEdge> mfEdges, float beta) {
   }
 }
 
-private void recruitPotentialsToMembers(HashSet<MPEdge> mpEdges, float alpha) {
-  HashSet<MPEdge> pointers = (HashSet<MPEdge>) mpEdges.clone();
-  for (MPEdge e : pointers ) {
+private void recruitPotentialsToMembers(HashSet<MemberPotentialEdge> mpEdges, float alpha) {
+  HashSet<MemberPotentialEdge> pointers = (HashSet<MemberPotentialEdge>) mpEdges.clone();
+  for (MemberPotentialEdge e : pointers ) {
     if (random(1) <= alpha) {
       if (! active.contains(e)) {
         e.recruitPtoM();
@@ -182,12 +182,12 @@ private void refillEdges() {
     if (e.getMember() != null && e.getPotential() != null) {
       mfEdges.remove(e);
       edges.remove(e);
-      MPEdge ne = (MPEdge) e;
+      MemberPotentialEdge ne = (MemberPotentialEdge) e;
       edges.add(ne);
       mpEdges.add(ne);
     }
     if (e.getMember() != null && e.getFormer() != null) {
-      mfEdges.add((MFEdge) e);
+      mfEdges.add((MemberFormerEdge) e);
     }
   }
 }
