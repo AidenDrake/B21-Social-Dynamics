@@ -11,7 +11,6 @@
   }
 
   static PVector getPerpen(PVector a) {
-    // might be the wrong sort of perpen. If so, flip signs
     return new PVector(a.y, -a.x);
   }
 
