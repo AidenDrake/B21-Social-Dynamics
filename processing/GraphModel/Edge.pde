@@ -51,6 +51,7 @@ class Edge {
       edges.add(this);
     }
   }
+  
 
   public void display() {
     if (this.highlight) {
@@ -149,6 +150,14 @@ class Edge {
     } else {
       return null;
     }
+  }
+  
+  public Agent getA(){
+    return this.a;
+  }
+  
+  public Agent getB(){
+    return this.b;
   }
 }
 
