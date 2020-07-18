@@ -113,7 +113,7 @@ class Edge {
     return Objects.hash(x, y, "Edge");
   }
 
-  protected Member getMember() {
+  public Member getMember() {
     // could be parameterized
     // returns a member if there is one
     // else returns null
@@ -126,7 +126,7 @@ class Edge {
     }
   }
 
-  protected Potential getPotential() {
+  public Potential getPotential() {
     // could be parameterized
     // returns a potential if there is one
     // else returns null
@@ -139,7 +139,7 @@ class Edge {
     }
   }
 
-  protected Former getFormer() {
+  public Former getFormer() {
     // could be parameterized
     // returns a former if there is one
     // else returns null
