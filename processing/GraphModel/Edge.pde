@@ -162,13 +162,13 @@ class Edge {
 }
 
 class MemberPotentialEdge extends Edge {
-  Member m;
-  Potential p;
+  Member member;
+  Potential potential;
 
   MemberPotentialEdge(Member m_, Potential p_) {
     super(m_, p_);
-    this.p = p_;
-    this.m= m_;
+    this.potential = p_;
+    this.member = m_;
   }
 
   public void recruitPtoM() {
@@ -176,9 +176,9 @@ class MemberPotentialEdge extends Edge {
     edges.remove(this);
     mpEdges.remove(this);
     
-    Member newMem = AtoM(this.p);
-    Edge ne = new Edge(newMem, this.m); // ne -> new edge
-    ne.a.setPuller(this.m, ne);
+    Member newMem = AtoM(this.potential);
+    Edge ne = new Edge(newMem, this.member); // ne -> new edge
+    ne.a.setPuller(this.member, ne);
     ne.highlight();
     ne.store(); 
     activeCount++; 
@@ -199,13 +199,13 @@ class MemberPotentialEdge extends Edge {
 }
 
 class MemberFormerEdge extends Edge {
-  Member m;
-  Former f;
+  Member member;
+  Former former;
 
    MemberFormerEdge(Member m_, Former f_) {
     super(m_, f_);
-    this.m = m_;
-    this.f= f_;
+    this.member = m_;
+    this.former= f_;
   }
   
    public void recruitMtoF() {
@@ -213,9 +213,9 @@ class MemberFormerEdge extends Edge {
     edges.remove(this);
     mfEdges.remove(this);
     
-    Former newForm = AtoF(this.m);
-    Edge ne = new Edge(newForm, this.f);
-    ne.a.setPuller(this.f, ne);
+    Former newForm = AtoF(this.member);
+    Edge ne = new Edge(newForm, this.former);
+    ne.a.setPuller(this.former, ne);
     ne.highlight();
     ne.store(); 
     activeCount++; 
