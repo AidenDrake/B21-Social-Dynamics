@@ -4,10 +4,11 @@ public interface SpecialEdgeFactory {
 
 public class SpecialEdgeFactoryImpl implements SpecialEdgeFactory {
   boolean thereIsPotential, thereIsMember, thereIsFormer;
+  Agent a, b;
 
   public Edge  makeSpecialEdge(Edge e) throws NullPointerException {
-    Agent a = e.getA();
-    Agent b = e.getB();
+    a = e.getA();
+    b = e.getB();
 
     checkIfNull(a);
     checkIfNull(b);
@@ -16,18 +17,14 @@ public class SpecialEdgeFactoryImpl implements SpecialEdgeFactory {
 
     if (thereIsPotential && thereIsMember) {
       return memberPotentialEdgeFromSimpleEdge(e);
-    }
-
-    else if (thereIsMember && thereIsFormer) {
+    } else if (thereIsMember && thereIsFormer) {
       return memberFormerEdgeFromSimpleEdge(e);
-    }
-    
-    else{
-      //TODO throw new error!! fin
+    } else {
+      throw new ArithmeticException("makeSpecialEdge called with wrong values");
     }
   }
 
-  private void checkIfNull throws NullPointerException(Agent a) {
+  private void checkIfNull(Agent a) throws NullPointerException {
     if (a == null) {
       throw new NullPointerException();
     }
@@ -42,16 +39,20 @@ public class SpecialEdgeFactoryImpl implements SpecialEdgeFactory {
   private MemberFormerEdge memberFormerEdgeFromSimpleEdge(Edge e) {
     Member m = e.getMember();
     Former f = e.getFormer();
+
     checkIfNull(m);
     checkIfNull(f);
+
     return new MemberFormerEdge(m, f);
   }
 
-  private MemberPotentialEdgeFromSimpleEdge(Edge e) {
+  private MemberPotentialEdge memberPotentialEdgeFromSimpleEdge(Edge e) {
     Potential p = e.getPotential();
     Member m = e.getMember();
+
     checkIfNull(m);
     checkIfNull(p);
+
     return new MemberPotentialEdge(m, p);
   }
 }
