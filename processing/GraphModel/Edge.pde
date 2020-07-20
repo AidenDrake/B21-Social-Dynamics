@@ -26,33 +26,7 @@ class Edge {
 
   public Edge() {
   } //super constructor
-
-  public void store() {
-    // takes this, transforms it into a subclass if necessary, and stores it in the 
-    // edges hash set, or possibly the list of MF_ or MP_ edges. 
-    boolean hasPotential = a instanceof Potential || b instanceof Potential;
-    boolean memberStatus = a instanceof Member || b instanceof Member;
-    boolean isFormative = a instanceof Former || b instanceof Former;
-
-    if (hasPotential && memberStatus) {
-      // If M - P edge, let's make one of those and store it instead of a 
-      // generic edge.
-      MemberPotentialEdge mpe = new MemberPotentialEdge(this.getMember(), this.getPotential());
-
-      mpEdges.add(mpe);
-      edges.add(mpe);
-    } else if (isFormative && memberStatus) {
-      // If M - F edge, same as above
-      MemberFormerEdge mfe = new MemberFormerEdge(this.getMember(), this.getFormer());
-      mfEdges.add(mfe);
-      edges.add(mfe);
-    } else { 
-      // otherwise, let's store as a generic edge
-      edges.add(this);
-    }
-  }
   
-
   public void display() {
     if (this.highlight) {
       strokeWeight(4);
@@ -129,7 +103,7 @@ class MemberPotentialEdge extends Edge {
     Edge ne = new Edge(newMem, this.member); // ne -> new edge
     ne.a.setPuller(this.member, ne);
     ne.highlight();
-    ne.store(); 
+    //ne.store(); 
     activeCount++; 
     active.add(this);
   }
@@ -166,7 +140,7 @@ class MemberFormerEdge extends Edge {
     Edge ne = new Edge(newForm, this.former);
     ne.a.setPuller(this.former, ne);
     ne.highlight();
-    ne.store(); 
+    //ne.store(); 
     activeCount++; 
     active.add(this);
   }

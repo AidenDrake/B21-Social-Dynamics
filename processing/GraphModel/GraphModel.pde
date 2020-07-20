@@ -14,6 +14,7 @@
  */
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.LinkedList;
 
 public final static float bigRadius = 400;
 
@@ -99,7 +100,7 @@ void newRandEdge() {
     e = new Edge(firstVertex, secondVertex);
     j ++;
   }
-  e.store();
+  //e.store();
 }
 
 private void drawBigCircle() {
@@ -125,7 +126,7 @@ void startStep() {
   float phi = 0.01;
   float c = 0.01;
 
-  refillEdges();
+  //refillEdges();
 
   recruitPotentialsToMembers(mpEdges, alpha);
 
@@ -172,22 +173,6 @@ private void defectMembers(HashSet<Member> members, float c) {
   for (Member m : mpointers) {
     if (random(1) <= c) {
       defect(m);
-    }
-  }
-}
-
-private void refillEdges() {
-  HashSet<Edge> copy = (HashSet<Edge>) edges.clone();
-  for (Edge e : copy) {
-    if (e.getMember() != null && e.getPotential() != null) {
-      mfEdges.remove(e);
-      edges.remove(e);
-      MemberPotentialEdge ne = (MemberPotentialEdge) e;
-      edges.add(ne);
-      mpEdges.add(ne);
-    }
-    if (e.getMember() != null && e.getFormer() != null) {
-      mfEdges.add((MemberFormerEdge) e);
     }
   }
 }

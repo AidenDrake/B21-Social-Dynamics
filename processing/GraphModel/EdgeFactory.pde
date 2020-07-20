@@ -1,19 +1,22 @@
 public interface EdgeFactory {
-  public Edge makeEdge(EdgeRecord er);
+  public Edge makeEdge();
 }
 
 public class EdgeFactoryImpl implements EdgeFactory {
   boolean thereIsPotential, thereIsMember, thereIsFormer;
   Agent a, b;
+  EdgeRecord er;
 
-  public Edge  makeEdge(EdgeRecord er) throws NullPointerException {
+  public EdgeFactoryImpl(EdgeRecord _er) {
     a = er.getA();
     b = er.getB();
+    er = _er;
+    setBooleans();
+  }
 
+  public Edge  makeEdge() throws NullPointerException {
     checkIfNull(a);
     checkIfNull(b);
-
-    setBooleans();
     
     return makeAppropriateEdge(er);
   }

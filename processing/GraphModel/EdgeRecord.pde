@@ -7,6 +7,9 @@ public class EdgeRecord {
   public EdgeRecord(Agent inputA, Agent inputB) {
     this.a = inputA;
     this.b = inputB;
+    
+    EdgeFactoryImpl factory = new EdgeFactoryImpl(this);
+    this.edge = factory.makeEdge();
   }
 
   public Member getMember() {
@@ -49,4 +52,15 @@ public class EdgeRecord {
 }
 
 public class EdgeRecordStorage {
+  ArrayList<LinkedList<EdgeRecord>> structure;
+  
+  public EdgeRecordStorage(HashSet<Agent> agents){
+    structure = new ArrayList<LinkedList<EdgeRecord>>();
+    structure.add(null); // for 0, which does not correspond to an agent index
+    for (Agent agent : agents){
+     //something something
+    }
+  }
+  
+  
 }
