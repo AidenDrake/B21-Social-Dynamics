@@ -1,13 +1,12 @@
-public interface SpecialEdgeFactory {
-  public Edge makeSpecialEdge(EdgeRecord er);
+public interface EdgeFactory {
+  public Edge makeEdge(EdgeRecord er);
 }
 
-public class SpecialEdgeFactoryImpl implements SpecialEdgeFactory {
-  // returns NULL if there's no edge to be made
+public class EdgeFactoryImpl implements EdgeFactory {
   boolean thereIsPotential, thereIsMember, thereIsFormer;
   Agent a, b;
 
-  public Edge  makeSpecialEdge(EdgeRecord er) throws NullPointerException {
+  public Edge  makeEdge(EdgeRecord er) throws NullPointerException {
     a = er.getA();
     b = er.getB();
 
@@ -16,16 +15,16 @@ public class SpecialEdgeFactoryImpl implements SpecialEdgeFactory {
 
     setBooleans();
     
-    return makeAppropriateSpecialEdge(er);
+    return makeAppropriateEdge(er);
   }
 
-  private Edge makeAppropriateSpecialEdge(EdgeRecord er) {
+  private Edge makeAppropriateEdge(EdgeRecord er) {
     if (thereIsPotential && thereIsMember) {
       return memberPotentialEdgeFromSimpleEdge(er);
     } else if (thereIsMember && thereIsFormer) {
       return memberFormerEdgeFromSimpleEdge(er);
     } else {
-      return null;
+      return new Edge(a, b);
     }
   }
 

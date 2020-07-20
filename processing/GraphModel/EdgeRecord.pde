@@ -2,7 +2,7 @@ public class EdgeRecord {
 
   //fields
   Agent a, b;
-  Edge specialEdge, drawEdge;
+  Edge edge;
 
   public EdgeRecord(Agent inputA, Agent inputB) {
     this.a = inputA;
