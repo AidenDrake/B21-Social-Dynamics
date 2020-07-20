@@ -1,31 +1,36 @@
 public interface SpecialEdgeFactory {
-  public Edge makeSpecialEdge(Edge e);
+  public Edge makeSpecialEdge(EdgeRecord er);
 }
 
 public class SpecialEdgeFactoryImpl implements SpecialEdgeFactory {
+  // returns NULL if there's no edge to be made
   boolean thereIsPotential, thereIsMember, thereIsFormer;
   Agent a, b;
 
-  public Edge  makeSpecialEdge(Edge e) throws NullPointerException {
-    a = e.getA();
-    b = e.getB();
+  public Edge  makeSpecialEdge(EdgeRecord er) throws NullPointerException {
+    a = er.getA();
+    b = er.getB();
 
     checkIfNull(a);
     checkIfNull(b);
 
     setBooleans();
+    
+    return makeAppropriateSpecialEdge(er);
+  }
 
+  private Edge makeAppropriateSpecialEdge(EdgeRecord er) {
     if (thereIsPotential && thereIsMember) {
-      return memberPotentialEdgeFromSimpleEdge(e);
+      return memberPotentialEdgeFromSimpleEdge(er);
     } else if (thereIsMember && thereIsFormer) {
-      return memberFormerEdgeFromSimpleEdge(e);
+      return memberFormerEdgeFromSimpleEdge(er);
     } else {
-      throw new ArithmeticException("makeSpecialEdge called with wrong values");
+      return null;
     }
   }
 
-  private void checkIfNull(Agent a) throws NullPointerException {
-    if (a == null) {
+  private void checkIfNull(Agent agent) throws NullPointerException {
+    if (agent == null) {
       throw new NullPointerException();
     }
   }
@@ -36,9 +41,9 @@ public class SpecialEdgeFactoryImpl implements SpecialEdgeFactory {
     thereIsFormer = a instanceof Former || b instanceof Former;
   }
 
-  private MemberFormerEdge memberFormerEdgeFromSimpleEdge(Edge e) {
-    Member m = e.getMember();
-    Former f = e.getFormer();
+  private MemberFormerEdge memberFormerEdgeFromSimpleEdge(EdgeRecord er) {
+    Member m = er.getMember();
+    Former f = er.getFormer();
 
     checkIfNull(m);
     checkIfNull(f);
@@ -46,9 +51,9 @@ public class SpecialEdgeFactoryImpl implements SpecialEdgeFactory {
     return new MemberFormerEdge(m, f);
   }
 
-  private MemberPotentialEdge memberPotentialEdgeFromSimpleEdge(Edge e) {
-    Potential p = e.getPotential();
-    Member m = e.getMember();
+  private MemberPotentialEdge memberPotentialEdgeFromSimpleEdge(EdgeRecord er) {
+    Potential p = er.getPotential();
+    Member m = er.getMember();
 
     checkIfNull(m);
     checkIfNull(p);

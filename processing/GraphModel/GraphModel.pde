@@ -6,8 +6,8 @@
  * Formal models required for analyzing social processes rarely need to be invented from scratch.”
  * -- Peter Hedstrom
  *
- * See P Hedstrom, Explaining the growth patterns of social movements,
- * Understanding Choice, Explaining Behavior (Oslo University Press,
+ * See P Hedstrom. Explaining the growth patterns of social movements.
+ * Understanding Choice, Explaining Behavior. (Oslo University Press,
  * Norway, 2006).
  *
  * Work in progress

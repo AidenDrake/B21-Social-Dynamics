@@ -73,10 +73,6 @@ class Edge {
     this.highlight = false;
   }
 
-  public void recruitPtoM() {
-    highlight = true;
-  }
-
   @Override
     public String toString() {
     return("("+this.a+", "+this.b+")");
@@ -111,53 +107,6 @@ class Edge {
       y = a;
     }
     return Objects.hash(x, y, "Edge");
-  }
-
-  public Member getMember() {
-    // could be parameterized
-    // returns a member if there is one
-    // else returns null
-    if (a instanceof Member) {
-      return (Member) a;
-    } else if (b instanceof Member) {
-      return (Member) b;
-    } else {
-      return null;
-    }
-  }
-
-  public Potential getPotential() {
-    // could be parameterized
-    // returns a potential if there is one
-    // else returns null
-    if (a instanceof Potential) {
-      return (Potential) a;
-    } else if (b instanceof Potential) {
-      return (Potential) b;
-    } else {
-      return null;
-    }
-  }
-
-  public Former getFormer() {
-    // could be parameterized
-    // returns a former if there is one
-    // else returns null
-    if (a instanceof Former) {
-      return (Former) a;
-    } else if (b instanceof Former) {
-      return (Former) b;
-    } else {
-      return null;
-    }
-  }
-  
-  public Agent getA(){
-    return this.a;
-  }
-  
-  public Agent getB(){
-    return this.b;
   }
 }
 
