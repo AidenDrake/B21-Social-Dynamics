@@ -9,7 +9,8 @@ public class SpecialEdgeFactoryImpl implements SpecialEdgeFactory {
     Agent a = e.getA();
     Agent b = e.getB();
 
-    checkIfNull(a, b);
+    checkIfNull(a);
+    checkIfNull(b);
 
     setBooleans();
 
@@ -26,8 +27,8 @@ public class SpecialEdgeFactoryImpl implements SpecialEdgeFactory {
     }
   }
 
-  private void checkIfNull throws NullPointerException(Agent a, Agent b) {
-    if (a == null || b == null) {
+  private void checkIfNull throws NullPointerException(Agent a) {
+    if (a == null) {
       throw new NullPointerException();
     }
   }
@@ -41,14 +42,16 @@ public class SpecialEdgeFactoryImpl implements SpecialEdgeFactory {
   private MemberFormerEdge memberFormerEdgeFromSimpleEdge(Edge e) {
     Member m = e.getMember();
     Former f = e.getFormer();
-    checkIfNull(m, f);
+    checkIfNull(m);
+    checkIfNull(f);
     return new MemberFormerEdge(m, f);
   }
 
   private MemberPotentialEdgeFromSimpleEdge(Edge e) {
     Potential p = e.getPotential();
     Member m = e.getMember();
-    checkIfNull(m, p);
+    checkIfNull(m);
+    checkIfNull(p);
     return new MemberPotentialEdge(m, p);
   }
 }
