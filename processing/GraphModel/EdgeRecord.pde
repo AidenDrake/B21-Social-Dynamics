@@ -7,7 +7,7 @@ public class EdgeRecord {
   public EdgeRecord(Agent inputA, Agent inputB) {
     this.a = inputA;
     this.b = inputB;
-    
+
     EdgeFactoryImpl factory = new EdgeFactoryImpl(this);
     this.edge = factory.makeEdge();
   }
@@ -41,26 +41,39 @@ public class EdgeRecord {
       return null;
     }
   }
-  
-   public Agent getA(){
+
+  public Agent getA() {
     return this.a;
   }
-  
-  public Agent getB(){
+
+  public Agent getB() {
     return this.b;
   }
 }
 
 public class EdgeRecordStorage {
   ArrayList<LinkedList<EdgeRecord>> structure;
-  
-  public EdgeRecordStorage(HashSet<Agent> agents){
+
+  public EdgeRecordStorage(HashSet<Agent> agents, HashSet<EdgeRecord> edgeRecords) {
     structure = new ArrayList<LinkedList<EdgeRecord>>();
     structure.add(null); // for 0, which does not correspond to an agent index
-    for (Agent agent : agents){
-     //something something
+    for (int i = 1; i < agents.size(); i++) {
+      //setup
+      structure.add(new LinkedList<EdgeRecord>());
+    }
+    for (EdgeRecord er : edgeRecords) {
+      store(er);
     }
   }
-  
-  
+
+  public void store (EdgeRecord er) {
+    Agent a = er.getA();
+    Agent b = er.getB();
+
+    int aIndex = a.getIndex();
+    int bIndex = b.getIndex();
+
+    structure.get(aIndex).add(er);
+    structure.get(bIndex).add(er);
+  }
 }

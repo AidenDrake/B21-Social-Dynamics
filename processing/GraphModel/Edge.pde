@@ -19,11 +19,18 @@ class Edge {
   protected boolean highlight = false;
 
   //Constructor for a "generic edge"
-  public Edge(Agent _a, Agent _b) {
+  public Edge(EdgeRecord er) {
+    this.a = er.getA();
+    this.b = er.getB();
+  }
+  
+  //protected because don't want outside classes to make edges in this
+  // "data structure" way
+  protected Edge(Agent _a, Agent _b) {
     this.a = _a;
     this.b = _b;
   }
-
+  
   public Edge() {
   } //super constructor
   

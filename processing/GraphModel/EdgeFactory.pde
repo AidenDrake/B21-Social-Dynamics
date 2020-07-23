@@ -27,7 +27,7 @@ public class EdgeFactoryImpl implements EdgeFactory {
     } else if (thereIsMember && thereIsFormer) {
       return memberFormerEdgeFromSimpleEdge(er);
     } else {
-      return new Edge(a, b);
+      return new Edge(er);
     }
   }
 
