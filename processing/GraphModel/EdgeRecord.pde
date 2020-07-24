@@ -49,10 +49,42 @@ public class EdgeRecord {
   public Agent getB() {
     return this.b;
   }
+
+  @Override
+    public boolean equals(Object obj) {
+    // returns true if an edge has the same two objects as another
+    // this is used for the hashset
+    if (!(obj instanceof Edge)) {
+      return false;
+    }
+    EdgeRecord er = (EdgeRecord) obj; 
+
+    if (this.a.equals(er.a)) {
+      return (this.b.equals(er.b));
+    } else if (this.a.equals(er.b)) {
+      return (this.b.equals(er.a));
+    }
+    return false;
+  }
+
+  @Override
+    public int hashCode() {
+    Agent x;
+    Agent y;
+    if (a.getIndex()<b.getIndex()) {
+      x = a;
+      y = b;
+    } else {
+      x = b;
+      y = a;
+    }
+    return Objects.hash(x, y, "EdgeRecord");
+  }
 }
 
 public class EdgeRecordStorage {
-  ArrayList<LinkedList<EdgeRecord>> structure;
+  ArrayList<LinkedList<EdgeRecord>> structure; // should also be a hashmap
+  HashSet<EdgeRecord> hashset = new HashSet<EdgeRecord>();
 
   public EdgeRecordStorage(HashSet<Agent> agents, HashSet<EdgeRecord> edgeRecords) {
     structure = new ArrayList<LinkedList<EdgeRecord>>();
@@ -67,6 +99,8 @@ public class EdgeRecordStorage {
   }
 
   public void store (EdgeRecord er) {
+    hashset.add(er);
+    
     Agent a = er.getA();
     Agent b = er.getB();
 
@@ -75,6 +109,15 @@ public class EdgeRecordStorage {
 
     structure.get(aIndex).add(er);
     structure.get(bIndex).add(er);
+  }
+  
+  public boolean isStored(EdgeRecord ertest) {
+    boolean out = hashset.contains(ertest);
+    return out;
+  }
+  
+  public void newRandEdgeRecord() {
+    
   }
 
   @Override 

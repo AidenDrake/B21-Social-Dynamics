@@ -147,7 +147,6 @@ class MemberFormerEdge extends Edge {
     Edge ne = new Edge(newForm, this.former);
     ne.a.setPuller(this.former, ne);
     ne.highlight();
-    //ne.store(); 
     activeCount++; 
     active.add(this);
   }

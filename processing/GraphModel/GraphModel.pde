@@ -34,6 +34,7 @@ void setup() {
 
   for (int i = 0; i < 9; i++) {
     agents.add(new Member());
+    // TODO fold agents.add into the super constructor??
   }
 
   for (int i = 0; i < 9; i++) {
@@ -48,6 +49,9 @@ void setup() {
   for (int i = 0; i < 20; i++) {
     newRandEdge();
   }
+  
+  
+  
 }
 
 void draw() {
@@ -74,12 +78,11 @@ void draw() {
   if (activeCount == 0) {
     startStep();
   }
-
-
+  
+  //println(
   popMatrix();
 
   text("MP Edges: " + mpEdges.size() + " Step: "+ step +" ActiveCount: " + activeCount, 20, 20);
-  println("active is " + active);
 }
 
 Agent randomAgent() {
