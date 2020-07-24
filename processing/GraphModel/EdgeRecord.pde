@@ -76,4 +76,9 @@ public class EdgeRecordStorage {
     structure.get(aIndex).add(er);
     structure.get(bIndex).add(er);
   }
+
+  @Override 
+    String toString() {
+    return (this.structure.toString());
+  }
 }
