@@ -8,16 +8,17 @@ public class EdgeFactoryImpl implements EdgeFactory {
   EdgeRecord er;
 
   public EdgeFactoryImpl(EdgeRecord _er) {
+    er = _er;
+
     a = er.getA();
     b = er.getB();
-    er = _er;
     setBooleans();
   }
 
   public Edge  makeEdge() throws NullPointerException {
     checkIfNull(a);
     checkIfNull(b);
-    
+
     return makeAppropriateEdge(er);
   }
 

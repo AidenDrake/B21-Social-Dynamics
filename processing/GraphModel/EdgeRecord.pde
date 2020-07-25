@@ -5,11 +5,21 @@ public class EdgeRecord {
   Edge edge;
 
   public EdgeRecord(Agent inputA, Agent inputB) {
+    
     this.a = inputA;
     this.b = inputB;
 
+    checkIfNull(a);
+    checkIfNull(b);
+
     EdgeFactoryImpl factory = new EdgeFactoryImpl(this);
     this.edge = factory.makeEdge();
+  }
+
+  private void checkIfNull(Agent agent) throws NullPointerException {
+    if (agent == null) {
+      throw new NullPointerException();
+    }
   }
 
   public Member getMember() {
@@ -89,7 +99,7 @@ public class EdgeRecordStorage {
   public EdgeRecordStorage(HashSet<Agent> agents) {
     structure = new ArrayList<LinkedList<EdgeRecord>>();
     structure.add(null); // for 0, which does not correspond to an agent index
-    for (int i = 1; i < agents.size(); i++) {
+    for (int i = 1; i <= agents.size(); i++) {
       //setup
       structure.add(new LinkedList<EdgeRecord>());
     }
