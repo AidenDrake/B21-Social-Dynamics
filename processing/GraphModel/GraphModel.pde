@@ -85,26 +85,7 @@ void draw() {
   text("MP Edges: " + mpEdges.size() + " Step: "+ step +" ActiveCount: " + activeCount, 20, 20);
 }
 
-Agent randomAgent() {
-  int index = int(random(0, agents.size()));
-  return agents.get(index);
-}
 
-void newRandEdge() {
-  int j = 0;
-  Edge e = null;
-  while (((edges.contains(e)) && j<20) || e == null ) { // avoid duplicate edges
-    // j is a dumb hack to avoid an infinite loop
-    Agent firstVertex = randomAgent();
-    Agent secondVertex = randomAgent();
-    while (firstVertex.equals(secondVertex)) { // if we pick one that's the same, pick again
-      secondVertex = randomAgent();
-    }
-    e = new Edge(firstVertex, secondVertex);
-    j ++;
-  }
-  //e.store();
-}
 
 private void drawBigCircle() {
   // Draw the big circle.

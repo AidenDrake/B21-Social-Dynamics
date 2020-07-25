@@ -472,3 +472,8 @@ public void defect(Member m) {
   nf.centerCollide = false;
   activeCount++; //<>//
 }
+
+Agent randomAgent() {
+  int index = int(random(0, agents.size()));
+  return agents.get(index);
+}

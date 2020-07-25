@@ -100,7 +100,7 @@ public class EdgeRecordStorage {
 
   public void store (EdgeRecord er) {
     hashset.add(er);
-    
+
     Agent a = er.getA();
     Agent b = er.getB();
 
@@ -110,14 +110,26 @@ public class EdgeRecordStorage {
     structure.get(aIndex).add(er);
     structure.get(bIndex).add(er);
   }
-  
-  public boolean isStored(EdgeRecord ertest) {
+
+  public boolean hasStored(EdgeRecord ertest) {
     boolean out = hashset.contains(ertest);
     return out;
   }
-  
+
   public void newRandEdgeRecord() {
-    
+    int j = 0;
+    EdgeRecord er = null;
+    while (((this.hasStored(er)) && j<20) || er == null ) { // avoid duplicate edges
+      // j is a dumb hack to avoid an infinite loop
+      Agent firstVertex = randomAgent();
+      Agent secondVertex = randomAgent();
+      while (firstVertex.equals(secondVertex)) { // if we pick one that's the same, pick again
+        secondVertex = randomAgent();
+      }
+      er = new EdgeRecord(firstVertex, secondVertex);
+      j ++;
+    }
+    store(er);
   }
 
   @Override 
