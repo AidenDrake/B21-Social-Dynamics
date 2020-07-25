@@ -15,11 +15,13 @@
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.LinkedList;
+import java.util.Iterator;
 
 public final static float bigRadius = 400;
 
-ArrayList<Agent> agents = new ArrayList<Agent>(); 
+HashSet<Agent> agents = new HashSet<Agent>(); 
 HashSet<Edge> active = new HashSet<Edge>();
+EdgeRecordStorage edgeRecStorage;
 
 int j = 0;
 int step = 0;
@@ -44,10 +46,11 @@ void setup() {
   for (int i = 0; i < 10; i++) {
     agents.add(new Potential());
   }
-
-
+  
+  edgeRecStorage = new EdgeRecordStorage(agents);
+  
   for (int i = 0; i < 20; i++) {
-    newRandEdge();
+    edgeRecStorage.newRandEdgeRecord();
   }
   
   
@@ -84,7 +87,6 @@ void draw() {
 
   text("MP Edges: " + mpEdges.size() + " Step: "+ step +" ActiveCount: " + activeCount, 20, 20);
 }
-
 
 
 private void drawBigCircle() {

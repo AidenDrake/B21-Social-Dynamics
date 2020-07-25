@@ -474,6 +474,14 @@ public void defect(Member m) {
 }
 
 Agent randomAgent() {
+  //
   int index = int(random(0, agents.size()));
-  return agents.get(index);
+  Iterator<Agent> iter = agents.iterator();
+  for (int j = 0; j < index - 1; j++){
+    iter.next();
+  }
+  Agent out = iter.next();
+  //
+  
+  return out;
 }

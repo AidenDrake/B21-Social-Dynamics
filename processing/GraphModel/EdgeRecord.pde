@@ -86,15 +86,12 @@ public class EdgeRecordStorage {
   ArrayList<LinkedList<EdgeRecord>> structure; // should also be a hashmap
   HashSet<EdgeRecord> hashset = new HashSet<EdgeRecord>();
 
-  public EdgeRecordStorage(HashSet<Agent> agents, HashSet<EdgeRecord> edgeRecords) {
+  public EdgeRecordStorage(HashSet<Agent> agents) {
     structure = new ArrayList<LinkedList<EdgeRecord>>();
     structure.add(null); // for 0, which does not correspond to an agent index
     for (int i = 1; i < agents.size(); i++) {
       //setup
       structure.add(new LinkedList<EdgeRecord>());
-    }
-    for (EdgeRecord er : edgeRecords) {
-      store(er);
     }
   }
 
@@ -117,6 +114,7 @@ public class EdgeRecordStorage {
   }
 
   public void newRandEdgeRecord() {
+    // this might be a problem with extremely dense edges, but I don't know how to handle it
     int j = 0;
     EdgeRecord er = null;
     while (((this.hasStored(er)) && j<20) || er == null ) { // avoid duplicate edges
