@@ -92,7 +92,7 @@ public class EdgeRecord {
   }
 }
 
-public class EdgeRecordStorage {
+public class EdgeRecordStorage implements Iterable {
   ArrayList<LinkedList<EdgeRecord>> structure; // should also be a hashmap
   HashSet<EdgeRecord> hashset = new HashSet<EdgeRecord>();
 
@@ -103,6 +103,10 @@ public class EdgeRecordStorage {
       //setup
       structure.add(new LinkedList<EdgeRecord>());
     }
+  }
+  
+  public Iterator<EdgeRecord> iterator(){
+    return (Iterator<EdgeRecord>) hashset.iterator();
   }
 
   public void store (EdgeRecord er) {

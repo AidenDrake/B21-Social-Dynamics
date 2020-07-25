@@ -30,7 +30,6 @@ int activeCount = 0;
 
 void setup() {
   size(1000, 1000);
-  PVector a = new PVector(30, 30);
 
   rectMode(CENTER);
 
@@ -77,7 +76,7 @@ void draw() {
   for (Agent a : agents) {
     a.update();
   }
-
+  
   if (activeCount == 0) {
     startStep();
   }
