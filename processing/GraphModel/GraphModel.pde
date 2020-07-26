@@ -45,19 +45,15 @@ void setup() {
   for (int i = 0; i < 10; i++) {
     agents.add(new Potential());
   }
-  
+
   edgeRecStorage = new EdgeRecordStorage(agents);
-  
+
   for (int i = 0; i < 20; i++) {
     edgeRecStorage.newRandEdgeRecord();
   }
-  
-  for(EdgeRecord er : edgeRecStorage){
-    
+
+  for (EdgeRecord er : edgeRecStorage) {
   }
-  
-  
-  
 }
 
 void draw() {
@@ -69,26 +65,38 @@ void draw() {
 
   drawBigCircle();
 
-  for (Edge e : drawnEdges) {
-    e.display();
-  }
+  displayEdges();
 
-  for (Agent a : agents) { 
-    a.display();
-  }
+  displayAgents();
 
-  for (Agent a : agents) {
-    a.update();
-  }
-  
+  updateAgents();
+
+
   if (activeCount == 0) {
     startStep();
   }
-  
+
   //println(
   popMatrix();
 
   text("MP Edges: " + mpEdges.size() + " Step: "+ step +" ActiveCount: " + activeCount, 20, 20);
+}
+
+private void displayEdges() {
+  for (Edge e : drawnEdges) {
+    e.display();
+  }
+}
+
+private void displayAgents() {
+  for (Agent a : agents) { 
+    a.display();
+  }
+}
+private void updateAgents() {
+  for (Agent a : agents) {
+    a.update();
+  }
 }
 
 
