@@ -173,7 +173,6 @@ class Agent {
 
   @Override
     public int hashCode() {
-    int a = 99; 
     return Objects.hash(this.index, "Agent");
   }
 

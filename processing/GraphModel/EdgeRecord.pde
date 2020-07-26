@@ -94,15 +94,13 @@ public class EdgeRecord {
 
 public class EdgeRecordStorage implements Iterable<EdgeRecord> {
   // object is meant to be an abstraction from   the data structures it contains
-  private ArrayList<LinkedList<EdgeRecord>> structure; // should also be a hashmap
+  private HashMap<Agent, LinkedList<EdgeRecord>> structure; // should also be a hashmap
   private HashSet<EdgeRecord> hashset = new HashSet<EdgeRecord>();
 
   public EdgeRecordStorage(HashSet<Agent> agents) {
-    structure = new ArrayList<LinkedList<EdgeRecord>>();
-    structure.add(null); // for 0, which does not correspond to an agent index
-    for (int i = 1; i <= agents.size(); i++) {
-      //setup
-      structure.add(new LinkedList<EdgeRecord>());
+    structure = new HashMap<Agent, LinkedList<EdgeRecord>>();
+    for (Agent agent : agents){
+      structure.put(agent, new LinkedList<EdgeRecord>());
     }
   }
   
@@ -116,11 +114,8 @@ public class EdgeRecordStorage implements Iterable<EdgeRecord> {
     Agent a = er.getA();
     Agent b = er.getB();
 
-    int aIndex = a.getIndex();
-    int bIndex = b.getIndex();
-
-    structure.get(aIndex).add(er);
-    structure.get(bIndex).add(er);
+    structure.get(a).add(er);
+    structure.get(b).add(er);
   }
 
   public boolean hasStored(EdgeRecord ertest) {
