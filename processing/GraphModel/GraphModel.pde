@@ -51,9 +51,6 @@ void setup() {
   for (int i = 0; i < 20; i++) {
     edgeRecStorage.newRandEdgeRecord();
   }
-
-  for (EdgeRecord er : edgeRecStorage) {
-  }
 }
 
 void draw() {

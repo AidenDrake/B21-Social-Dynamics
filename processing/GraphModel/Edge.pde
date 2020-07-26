@@ -121,7 +121,7 @@ class MemberPotentialEdge extends Edge {
       stroke(0, 125, 0);
     } else {
       strokeWeight(2);
-      stroke(0, 0, 255);
+      stroke(0, 0, 255); //Blue
     }
 
     line(a.coord.x, a.coord.y, b.coord.x, b.coord.y);
@@ -149,5 +149,17 @@ class MemberFormerEdge extends Edge {
     ne.highlight();
     activeCount++; 
     active.add(this);
+  }
+  
+    public void display() {
+    if (this.highlight) {
+      strokeWeight(4);
+      stroke(0, 125, 0);
+    } else {
+      strokeWeight(2);
+      stroke(0, 255, 0); //Green
+    }
+
+    line(a.coord.x, a.coord.y, b.coord.x, b.coord.y);
   }
 }
