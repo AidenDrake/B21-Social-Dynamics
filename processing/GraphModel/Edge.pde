@@ -4,7 +4,7 @@
  * Edges for the model, which represent social connections between agents
  * in a community.
  **/
-public HashSet<Edge> edges = new HashSet<Edge>();
+public HashSet<Edge> drawnEdges = new HashSet<Edge>();
 
 public HashSet<MemberFormerEdge> mfEdges = new HashSet<MemberFormerEdge>(); // member - former edges
 public HashSet<MemberPotentialEdge> mpEdges = new HashSet<MemberPotentialEdge>(); //Member - potential edges
@@ -103,7 +103,7 @@ class MemberPotentialEdge extends Edge {
 
   public void recruitPtoM() {
     // test test test
-    edges.remove(this);
+    drawnEdges.remove(this);
     mpEdges.remove(this);
     
     Member newMem = AtoM(this.potential);
@@ -140,7 +140,7 @@ class MemberFormerEdge extends Edge {
   
    public void recruitMtoF() {
     // test test test
-    edges.remove(this);
+    drawnEdges.remove(this);
     mfEdges.remove(this);
     
     Former newForm = AtoF(this.member);

@@ -52,6 +52,10 @@ void setup() {
     edgeRecStorage.newRandEdgeRecord();
   }
   
+  for(EdgeRecord er : edgeRecStorage){
+    
+  }
+  
   
   
 }
@@ -65,7 +69,7 @@ void draw() {
 
   drawBigCircle();
 
-  for (Edge e : edges) {
+  for (Edge e : drawnEdges) {
     e.display();
   }
 

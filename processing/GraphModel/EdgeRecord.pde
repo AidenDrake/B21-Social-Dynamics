@@ -92,9 +92,10 @@ public class EdgeRecord {
   }
 }
 
-public class EdgeRecordStorage implements Iterable {
-  ArrayList<LinkedList<EdgeRecord>> structure; // should also be a hashmap
-  HashSet<EdgeRecord> hashset = new HashSet<EdgeRecord>();
+public class EdgeRecordStorage implements Iterable<EdgeRecord> {
+  // object is meant to be an abstraction from   the data structures it contains
+  private ArrayList<LinkedList<EdgeRecord>> structure; // should also be a hashmap
+  private HashSet<EdgeRecord> hashset = new HashSet<EdgeRecord>();
 
   public EdgeRecordStorage(HashSet<Agent> agents) {
     structure = new ArrayList<LinkedList<EdgeRecord>>();
@@ -106,7 +107,7 @@ public class EdgeRecordStorage implements Iterable {
   }
   
   public Iterator<EdgeRecord> iterator(){
-    return (Iterator<EdgeRecord>) hashset.iterator();
+    return this.hashset.iterator();
   }
 
   public void store (EdgeRecord er) {
