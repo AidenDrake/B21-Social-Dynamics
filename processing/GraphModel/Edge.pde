@@ -57,7 +57,7 @@ class Edge {
 
   @Override
     public String toString() {
-    return("("+this.a+", "+this.b+")");
+    return("(" + this.getClass().getName()+": "+this.a+", "+this.b+")");
   }
 
   @Override
@@ -140,19 +140,19 @@ class MemberFormerEdge extends Edge {
     this.former= f_;
   }
   
-   public void recruitMtoF() {
-    // test test test
-    drawnEdges.remove(this);
-    mfEdges.remove(this);
-    mfEdges.add(this);
+  // public void recruitMtoF() {
+  //  // test test test
+  //  drawnEdges.remove(this);
+  //  mfEdges.remove(this);
+  //  mfEdges.add(this);
     
-    Former newForm = AtoF(this.member);
-    Edge ne = new Edge(newForm, this.former);
-    ne.a.setPuller(this.former, ne);
-    ne.highlight();
-    activeCount++; 
-    active.add(this);
-  }
+  //  Former newForm = AtoF(this.member);
+  //  Edge ne = new Edge(newForm, this.former);
+  //  ne.a.setPuller(this.former, ne);
+  //  ne.highlight();
+  //  activeCount++; 
+  //  active.add(this);
+  //}
   
     public void display() {
     if (this.highlight) {

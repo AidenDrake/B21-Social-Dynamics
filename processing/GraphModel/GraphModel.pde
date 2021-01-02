@@ -33,24 +33,17 @@ void setup() {
 
   rectMode(CENTER);
 
-  for (int i = 0; i < 9; i++) {
-    agents.add(new Member());
-    // TODO fold agents.add into the super constructor??
-  }
+  Potential p = new Potential();
+  agents.add(p);
 
-  for (int i = 0; i < 9; i++) {
-    agents.add(new Former());
-  }
+  Member m = new Member();
+  agents.add(m);
 
-  for (int i = 0; i < 10; i++) {
-    agents.add(new Potential());
-  }
+  EdgeRecord er = new EdgeRecord(m, p);
 
   edgeRecs = new EdgeRecordStorage(agents);
 
-  for (int i = 0; i < 20; i++) {
-    edgeRecs.newRandEdgeRecord();
-  }
+  edgeRecs.store(er);
 }
 
 void draw() {
@@ -63,20 +56,27 @@ void draw() {
   drawBigCircle();
 
   displayEdges();
+  
+  updateEdges();
 
   displayAgents();
 
   updateAgents();
+  
 
-
-  if (activeCount == 0) {
-    startStep();
+  if (keyPressed && key =='k' && j<1) {
+    for (Member m : members) {
+      defect(m);
+      print("event");
+    }
+    j++; //<>//
   }
 
   //println(
   popMatrix();
 
   text("drawnEdges: " + drawnEdges.size() + "MP Edges: " + mpEdges.size() + " Step: "+ step +" ActiveCount: " + activeCount, 20, 20);
+  println("Agents: " + agents);
 }
 
 private void displayEdges() {
@@ -85,10 +85,12 @@ private void displayEdges() {
   }
 }
 
-private void updateEdges(){
-  for (EdgeRecord er: edgeRecs){
+private void updateEdges() {
+  drawnEdges.clear();
+  for (EdgeRecord er : edgeRecs) {
     er.remakeEdge();
   }
+  println(drawnEdges);
 }
 private void displayAgents() {
   for (Agent a : agents) { 
@@ -142,7 +144,7 @@ private void recruitMembersToFormers(HashSet<MemberFormerEdge> mfEdges, float be
   for (MemberFormerEdge e : mfpointers ) {
     if (random(1) <= beta) {
       if (! active.contains(e)) {
-        e.recruitMtoF();
+       // e.recruitMtoF();
       }
     }
   }

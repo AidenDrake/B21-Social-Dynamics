@@ -307,7 +307,7 @@ class Agent {
           } else {
             this.addBox = false;
           }
-          activeCount--; //<>//
+          activeCount--; //<>// //<>//
         }
       }
     }
@@ -447,29 +447,29 @@ public Member AtoM(Agent a) {
   return out;
 }
 
-public Former AtoF(Agent a) {
+public void AtoF(Agent a) {
   agents.remove(a);
   members.remove(a);
-  Former out = new Former(a);
-  a = null; 
-  agents.add(out);
-  return out;
+  a = new Former(a);
+  agents.add(a);
+  //formers.add(a) ?? not sure if I should add this 
 }
 
 public void defect(Former f) {
-  Potential np = AtoP(f);
-  np.addBox = true;
-  np.isPulled = true;
-  np.centerCollide = false;
-  activeCount++; //<>//
+  AtoP(f);
+  defectMain(f);
 }
 
 public void defect(Member m) {
-  Former nf = AtoF(m);
-  nf.addBox = true;
-  nf.isPulled = true;
-  nf.centerCollide = false;
-  activeCount++; //<>//
+  AtoF(m); //<>//
+  defectMain(m);
+}
+
+private void defectMain(Agent a){
+  a.addBox = true;
+  a.isPulled = true;
+  a.centerCollide = false;
+  activeCount++; //<>// //<>//
 }
 
 Agent randomAgent() {
