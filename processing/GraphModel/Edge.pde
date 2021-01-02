@@ -1,4 +1,4 @@
-/** //<>//
+/** //<>// //<>//
  * "So, I hear you're a real edgelord" -- XKCD #2036
  * 
  * Edges for the model, which represent social connections between agents
@@ -29,6 +29,7 @@ class Edge {
   protected Edge(Agent _a, Agent _b) {
     this.a = _a;
     this.b = _b;
+    drawnEdges.add(this);
   }
   
   public Edge() {
@@ -99,6 +100,7 @@ class MemberPotentialEdge extends Edge {
     super(m_, p_);
     this.potential = p_;
     this.member = m_;
+    mpEdges.add(this);
   }
 
   public void recruitPtoM() {
@@ -142,6 +144,7 @@ class MemberFormerEdge extends Edge {
     // test test test
     drawnEdges.remove(this);
     mfEdges.remove(this);
+    mfEdges.add(this);
     
     Former newForm = AtoF(this.member);
     Edge ne = new Edge(newForm, this.former);

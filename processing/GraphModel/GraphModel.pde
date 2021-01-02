@@ -76,7 +76,7 @@ void draw() {
   //println(
   popMatrix();
 
-  text("MP Edges: " + mpEdges.size() + " Step: "+ step +" ActiveCount: " + activeCount, 20, 20);
+  text("drawnEdges: " + drawnEdges.size() + "MP Edges: " + mpEdges.size() + " Step: "+ step +" ActiveCount: " + activeCount, 20, 20);
 }
 
 private void displayEdges() {
@@ -130,6 +130,7 @@ void startStep() {
 
   defectMembers(members, c);
 }
+
 
 private void recruitMembersToFormers(HashSet<MemberFormerEdge> mfEdges, float beta) {
   HashSet<MemberFormerEdge> mfpointers = (HashSet<MemberFormerEdge>) mfEdges.clone();

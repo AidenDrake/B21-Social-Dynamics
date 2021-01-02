@@ -93,8 +93,8 @@ public class EdgeRecord {
 }
 
 public class EdgeRecordStorage implements Iterable<EdgeRecord> {
-  // object is meant to be an abstraction from   the data structures it contains
-  private HashMap<Agent, LinkedList<EdgeRecord>> structure; // should also be a hashmap
+  // object is meant to be an abstraction from the data structures it contains
+  private HashMap<Agent, LinkedList<EdgeRecord>> structure;
   private HashSet<EdgeRecord> hashset = new HashSet<EdgeRecord>();
 
   public EdgeRecordStorage(HashSet<Agent> agents) {
@@ -124,7 +124,7 @@ public class EdgeRecordStorage implements Iterable<EdgeRecord> {
   }
 
   public void newRandEdgeRecord() {
-    // this might be a problem with extremely dense edges, but I don't know how to handle it
+    // the j<20 might be a problem with extremely dense edges, but I don't know how to handle it
     int j = 0;
     EdgeRecord er = null;
     while (((this.hasStored(er)) && j<20) || er == null ) { // avoid duplicate edges
