@@ -3,6 +3,7 @@ public class EdgeRecord {
   //fields
   Agent a, b;
   Edge edge;
+  EdgeFactoryImpl factory;
 
   public EdgeRecord(Agent inputA, Agent inputB) {
     
@@ -12,7 +13,7 @@ public class EdgeRecord {
     checkIfNull(a);
     checkIfNull(b);
 
-    EdgeFactoryImpl factory = new EdgeFactoryImpl(this);
+    factory = new EdgeFactoryImpl(this);
     this.edge = factory.makeEdge();
   }
 
@@ -58,6 +59,10 @@ public class EdgeRecord {
 
   public Agent getB() {
     return this.b;
+  }
+  
+  public void remakeEdge(){
+    this.edge = factory.makeEdge();
   }
 
   @Override

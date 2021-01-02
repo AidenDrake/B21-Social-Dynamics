@@ -18,6 +18,7 @@ public class EdgeFactoryImpl implements EdgeFactory {
   public Edge  makeEdge() throws NullPointerException {
     checkIfNull(a);
     checkIfNull(b);
+    setBooleans();
 
     return makeAppropriateEdge(er);
   }

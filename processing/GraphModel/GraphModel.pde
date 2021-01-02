@@ -21,7 +21,7 @@ public final static float bigRadius = 400;
 
 HashSet<Agent> agents = new HashSet<Agent>(); 
 HashSet<Edge> active = new HashSet<Edge>();
-EdgeRecordStorage edgeRecStorage;
+EdgeRecordStorage edgeRecs;
 
 int j = 0;
 int step = 0;
@@ -46,10 +46,10 @@ void setup() {
     agents.add(new Potential());
   }
 
-  edgeRecStorage = new EdgeRecordStorage(agents);
+  edgeRecs = new EdgeRecordStorage(agents);
 
   for (int i = 0; i < 20; i++) {
-    edgeRecStorage.newRandEdgeRecord();
+    edgeRecs.newRandEdgeRecord();
   }
 }
 
@@ -85,6 +85,11 @@ private void displayEdges() {
   }
 }
 
+private void updateEdges(){
+  for (EdgeRecord er: edgeRecs){
+    er.remakeEdge();
+  }
+}
 private void displayAgents() {
   for (Agent a : agents) { 
     a.display();
