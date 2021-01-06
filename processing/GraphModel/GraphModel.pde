@@ -66,19 +66,19 @@ void draw() {
   updateAgents();
   
 
-  if (keyPressed && key =='k' && j<1) {
-    for (Agent m : members) {
+  if (keyPressed && key =='k') { //&& j<1
+    for (Agent m : members) { // no one in mems
       m.defectTo(former);
-      print("event");
+      print("event" + j);
     }
-    j++; //<>// //<>//
+    j++; //<>//
   }
 
   //println(
   popMatrix();
 
   text("drawnEdges: " + drawnEdges.size() + "MP Edges: " + mpEdges.size() + " Step: "+ step +" ActiveCount: " + activeCount, 20, 20);
-  println("Agents: " + agents);
+  //println("Agents: " + agents);
 }
 
 private void displayEdges() {
@@ -92,7 +92,7 @@ private void updateEdges() {
   for (EdgeRecord er : edgeRecs) {
     er.remakeEdge();
   }
-  println(drawnEdges);
+  //println(drawnEdges);
 }
 private void displayAgents() {
   for (Agent a : agents) { 

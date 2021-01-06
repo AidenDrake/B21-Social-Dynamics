@@ -43,16 +43,17 @@ class Agent {
     this.velocity = inputVelocity;
   }
 
-  // ***MUY IMPORTANTE*** - Constructor to be used by subclasses
-  protected Agent(AgentType type) { //TODO fix for new types, should be Agent(AgentType type)
-    // Each subclass provides the Lower Bound Index and Upper Bound index
+  // ***VERY IMPORTANT*** - Main constructor
+  protected Agent(AgentType type) {
+    // Each type provides the Lower Bound Index and Upper Bound index
     // to specify the lines that they bounce off of. The speed is also set 
-    // on a subclass basis. This function takes those parameters and makes 
-    // an agent of the appropriate type.
+    // on a type basis.
+    
     this.type = type;
+    
     float theta;
     if (type.lowerbound > type.upperbound ) {
-      // this is to handle formers. Bit of a messy fix.
+      // this is to handle formers. Bad fix. NOTE hardcoded values. 
       theta = random((2*PI-bounds[3]), bounds[1]);
     } else {
       theta = random(bounds[type.lowerbound], bounds[type.upperbound]);
@@ -65,6 +66,8 @@ class Agent {
     velocity = PVector.random2D().mult(speed);
 
     this.index = counter++;
+    
+    this.addToTypeSet();
   }
 
 

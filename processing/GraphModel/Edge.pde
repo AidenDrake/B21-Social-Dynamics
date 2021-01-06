@@ -1,4 +1,4 @@
-/** //<>// //<>//
+/** //<>// //<>// //<>//
  * "So, I hear you're a real edgelord" -- XKCD #2036
  * 
  * Edges for the model, which represent social connections between agents
@@ -93,24 +93,25 @@ class Edge {
 }
 
 class MemberPotentialEdge extends Edge {
-  Member member;
-  Potential potential;
+  Agent memberInstance;
+  Agent potentialInstance;
 
-  MemberPotentialEdge(Member m_, Potential p_) {
+  MemberPotentialEdge(Agent m_, Agent p_) {
     super(m_, p_);
-    this.potential = p_;
-    this.member = m_;
+    this.potentialInstance = p_;
+    this.memberInstance = m_;
     mpEdges.add(this);
   }
 
   public void recruitPtoM() {
-    // test test test
+    // test test test -- I doubt this will work at ALLL now 
     drawnEdges.remove(this);
     mpEdges.remove(this);
     
-    Member newMem = AtoM(this.potential);
-    Edge ne = new Edge(newMem, this.member); // ne -> new edge
-    ne.a.setPuller(this.member, ne);
+    this.potentialInstance.toType(member);
+    Agent newMem = this.potentialInstance;
+    Edge ne = new Edge(newMem, this.memberInstance); // ne -> new edge
+    ne.a.setPuller(this.memberInstance, ne);
     ne.highlight();
     //ne.store(); 
     activeCount++; 
@@ -131,13 +132,13 @@ class MemberPotentialEdge extends Edge {
 }
 
 class MemberFormerEdge extends Edge {
-  Member member;
-  Former former;
+  Agent memberInstance;
+  Agent formerInstance;
 
-   MemberFormerEdge(Member m_, Former f_) {
+   MemberFormerEdge(Agent m_, Agent f_) {
     super(m_, f_);
-    this.member = m_;
-    this.former= f_;
+    this.memberInstance = m_;
+    this.formerInstance = f_;
   }
   
   // public void recruitMtoF() {
