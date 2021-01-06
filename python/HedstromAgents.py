@@ -290,7 +290,7 @@ def vsplot(agent_rec, diff_rec, agent_step, delta_t, final_t):
     diff_memArr = np.asarray(M_d)
     
     ax.plot(diff_scale, diff_potsArr, label='Potential - ODE', color = 'xkcd:light yellow')
-    ax.plot(diff_scale, diff_exArr, label='Fromer - ODE', color='xkcd:baby blue')
+    ax.plot(diff_scale, diff_exArr, label='Former - ODE', color='xkcd:baby blue')
     ax.plot(diff_scale, diff_memArr, label='Member - ODE', color='xkcd:pink')
 
     ## matplotlib setup
