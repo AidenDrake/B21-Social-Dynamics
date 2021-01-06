@@ -35,10 +35,10 @@ void setup() {
   
   initAgentTypes();
 
-  Potential p = new Potential();
+  Agent p = new Agent(potential);
   agents.add(p);
 
-  Member m = new Member();
+  Agent m = new Agent(member);
   agents.add(m);
 
   EdgeRecord er = new EdgeRecord(m, p);
@@ -67,8 +67,8 @@ void draw() {
   
 
   if (keyPressed && key =='k' && j<1) {
-    for (Member m : members) {
-      defect(m);
+    for (Agent m : members) {
+      m.defectTo(former);
       print("event");
     }
     j++; //<>//
@@ -163,20 +163,20 @@ private void recruitPotentialsToMembers(HashSet<MemberPotentialEdge> mpEdges, fl
   }
 }
 
-private void defectFormers(HashSet<Former> formers, float phi) {
-  HashSet<Former> fpointers = (HashSet<Former>) formers.clone();
-  for (Former f : fpointers) {
+private void defectFormers(HashSet<Agent> formers, float phi) {
+  HashSet<Agent> fpointers = (HashSet<Agent>) formers.clone();
+  for (Agent f : fpointers) {
     if (random(1) <= phi) {
-      defect(f);
+      f.defectTo(potential);
     }
   }
 }
 
-private void defectMembers(HashSet<Member> members, float c) {
-  HashSet<Member> mpointers = (HashSet<Member>) members.clone();
-  for (Member m : mpointers) {
+private void defectMembers(HashSet<Agent> members, float c) {
+  HashSet<Agent> mpointers = (HashSet<Agent>) members.clone();
+  for (Agent m : mpointers) {
     if (random(1) <= c) {
-      defect(m);
+      m.defectTo(former);
     }
   }
 }

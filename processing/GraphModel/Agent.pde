@@ -43,33 +43,19 @@ class Agent {
     this.velocity = inputVelocity;
   }
 
-  // this one is used for conversions
-  protected Agent(Agent a) {
-    this.coord = a.coord;
-    this.velocity = a.velocity;
-    this.puller = a.puller;
-    this.isPulled = a.isPulled;
-    this.centerCollide = a.centerCollide;
-    this.index = a.index;
-    this.pullEdge = a.pullEdge;
-  }
-
-  //Each subclass will have its own random constructor
-  protected Agent() {
-  }
-
   // ***MUY IMPORTANTE*** - Constructor to be used by subclasses
-  protected Agent(int lowerBoundIndex, int upperBoundIndex, float speed) { //TODO fix for new types, should be Agent(AgentType type)
+  protected Agent(AgentType type) { //TODO fix for new types, should be Agent(AgentType type)
     // Each subclass provides the Lower Bound Index and Upper Bound index
     // to specify the lines that they bounce off of. The speed is also set 
     // on a subclass basis. This function takes those parameters and makes 
     // an agent of the appropriate type.
+    this.type = type;
     float theta;
-    if (lowerBoundIndex > upperBoundIndex ) {
+    if (type.lowerbound > type.upperbound ) {
       // this is to handle formers. Bit of a messy fix.
       theta = random((2*PI-bounds[3]), bounds[1]);
     } else {
-      theta = random(bounds[lowerBoundIndex], bounds[upperBoundIndex]);
+      theta = random(bounds[type.lowerbound], bounds[type.upperbound]);
     }  
 
     // generate a random distance from center,
@@ -119,12 +105,6 @@ class Agent {
     this.pullEdge = e;
   }
 
-
-  public char getType() {
-    return 'S'; //SUPER
-  }
-
-
   public void checkOuterWallCollision() {
     // Collisions against the "outer wall" of the big circle
     // Correction vector procedure adapted from the processing "Collisions" example
@@ -158,7 +138,7 @@ class Agent {
 
   @Override
     public String toString() {
-    return (this.getType() + " #"+ index);
+    return (this.type + " #"+ index);
   }
 
 
@@ -284,10 +264,10 @@ class Agent {
     // change to protected, will be called from update
     PVector target = new PVector();
     if (this.puller == null) {
-      if (this.getType() == 'P') {
+      if (this.type == potential) {
         target = new PVector(random(-400, -300), random(300, 400));
       }
-      if (this.getType() == 'F') {
+      if (this.type == former) {
         target = new PVector(random(300, 400), random(300, 400));
       }
     } else {
@@ -324,7 +304,8 @@ class Agent {
       }
     }
 
-    if (this.getZone() == this.getType() && !centerCollide) { // really really need to fix this
+    if (("" + this.getZone()) == this.type.toString() && !centerCollide) {
+      //toString is a cludgy fix to match the char output produced by getZone
       centerCollide = true;
     }
   }
