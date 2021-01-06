@@ -365,69 +365,6 @@ void initAgentTypes() {
   former = new AgentType(0.1, 3, 1, 'F');
 }
 
-class Potential extends AgentType {
-  static final float speed = 0.3;
-  static final int upperbound
-
-    //public Potential() {
-    //  //Randomized constructor
-    //  super(1, 2, speed);
-    //  potentials.add(this);
-    //}
-
-    public String toString() {
-    return 'P';
-  }
-}
-
-class Member extends AgentType {
-  static final float speed = 0.4;
-
-  //Constructor 1 -- debug
-  public Member(PVector inputCoord, PVector inputVel) {
-    super(inputCoord, inputVel);
-  }
-
-  public Member() {
-    //Randomized constructor
-    super(2, 3, speed);
-    members.add(this);
-  }
-
-  public Member(Agent p) {
-    super(p);
-    members.add(this);
-  }
-
-  public char getType() {
-    return 'M';
-  }
-}
-
-class Former extends AgentType {
-  static final float speed = 0.1;
-
-  //Constructor 1 -- debug
-  public Former(PVector inputCoord, PVector inputVel) {
-    super(inputCoord, inputVel);
-  }
-
-
-  public Former() {
-    //randomized constructor
-    super(3, 1, speed);
-    formers.add(this);
-  }
-
-  public Former(Agent a) {
-    super(a);
-    formers.add(this);
-  }
-
-  public char getType() {
-    return 'F';
-  }
-}
 
 // Conversion functions. Note that these are not part of the
 // Agent class. 
