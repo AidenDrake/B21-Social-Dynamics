@@ -43,14 +43,14 @@ public class EdgeFactoryImpl implements EdgeFactory {
   }
 
   private void setBooleans() {
-    thereIsPotential = a instanceof Potential || b instanceof Potential;
-    thereIsMember = a instanceof Member || b instanceof Member;
-    thereIsFormer = a instanceof Former || b instanceof Former;
+    thereIsPotential = a.isType(potential) || b.isType(potential);
+    thereIsMember = a.isType(member) || b.isType(member);
+    thereIsFormer = a.isType(former) || b.isType(former);
   }
 
   private MemberFormerEdge memberFormerEdgeFromSimpleEdge(EdgeRecord er) {
-    Member m = er.getMember();
-    Former f = er.getFormer();
+    Agent m = er.getType(member);
+    Agent f = er.getType(former);
 
     checkIfNull(m);
     checkIfNull(f);
@@ -59,8 +59,8 @@ public class EdgeFactoryImpl implements EdgeFactory {
   }
 
   private MemberPotentialEdge memberPotentialEdgeFromSimpleEdge(EdgeRecord er) {
-    Potential p = er.getPotential();
-    Member m = er.getMember();
+    Agent p = er.getType(potential);
+    Agent m = er.getType(member);
 
     checkIfNull(m);
     checkIfNull(p);
