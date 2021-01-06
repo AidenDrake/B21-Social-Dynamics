@@ -71,7 +71,7 @@ void draw() {
       m.defectTo(former);
       print("event");
     }
-    j++; //<>//
+    j++; //<>// //<>//
   }
 
   //println(

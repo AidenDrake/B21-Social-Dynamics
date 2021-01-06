@@ -23,33 +23,14 @@ public class EdgeRecord {
     }
   }
 
-  public Member getMember() {
-    if (a instanceof Member) {
-      return (Member) a;
-    } else if (b instanceof Member) {
-      return (Member) b;
+  public Agent getType(AgentType t) {
+    //Note : for t-t edges, this will always return a
+    if (a.isType(t)) {
+      return a;
+    } else if (b.isType(t)) {
+      return b;
     } else {
-      return null;
-    }
-  }
-
-  public Potential getPotential() {
-    if (a instanceof Potential) {
-      return (Potential) a;
-    } else if (b instanceof Potential) {
-      return (Potential) b;
-    } else {
-      return null;
-    }
-  }
-
-  public Former getFormer() {
-    if (a instanceof Former) {
-      return (Former) a;
-    } else if (b instanceof Former) {
-      return (Former) b;
-    } else {
-      return null;
+      return null; // yikes
     }
   }
 

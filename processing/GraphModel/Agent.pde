@@ -136,6 +136,10 @@ class Agent {
     }
   }
 
+  public boolean isType (AgentType t) {
+    return this.type.equals(t);
+  }
+
   @Override
     public String toString() {
     return (this.type + " #"+ index);
@@ -264,10 +268,10 @@ class Agent {
     // change to protected, will be called from update
     PVector target = new PVector();
     if (this.puller == null) {
-      if (this.type == potential) {
+      if (this.type.equals(potential)) {
         target = new PVector(random(-400, -300), random(300, 400));
       }
-      if (this.type == former) {
+      if (this.type.equals(former)) {
         target = new PVector(random(300, 400), random(300, 400));
       }
     } else {
@@ -299,7 +303,7 @@ class Agent {
           } else {
             this.addBox = false;
           }
-          activeCount--; //<>//
+          activeCount--;
         }
       }
     }
