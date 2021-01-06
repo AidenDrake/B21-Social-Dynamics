@@ -68,6 +68,7 @@ class Agent {
     this.index = counter++;
     
     this.addToTypeSet();
+    agents.add(this);
   }
 
 

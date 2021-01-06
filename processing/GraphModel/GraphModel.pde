@@ -36,10 +36,8 @@ void setup() {
   initAgentTypes();
 
   Agent p = new Agent(potential);
-  agents.add(p);
 
   Agent m = new Agent(member);
-  agents.add(m);
 
   EdgeRecord er = new EdgeRecord(m, p);
 
