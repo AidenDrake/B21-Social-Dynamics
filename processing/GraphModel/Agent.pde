@@ -269,9 +269,12 @@ class Agent {
   }
 
   public void getsPulled() {
-    // change to protected, will be called from update
+    //will be called from update
+    // we should make it so that target isn't repeatedly set.
     PVector target = new PVector();
+   println(this.puller == null);
     if (this.puller == null) {
+      // this is a case for defections.
       if (this.type.equals(potential)) {
         target = new PVector(random(-400, -300), random(300, 400));
       }
@@ -282,7 +285,7 @@ class Agent {
       target = puller.coord.copy();
     }
 
-    stroke(0, 125, 0);
+    stroke(0, 125, 0); //<>//
     strokeWeight(1);
 
 
@@ -312,10 +315,9 @@ class Agent {
       }
     }
     
-    println(" zone: " + ("" + this.getZone()) + " type : " + this.type.toString());
-
     if (("" + this.getZone()).equals(this.type.toString()) && !centerCollide) {
       //toString is a cludgy fix to match the char output produced by getZone
+      // this runs a lot for some reason, but I don't think that's a problem
       centerCollide = true;
     }
   }
@@ -373,7 +375,7 @@ class AgentType {
     if (!(obj instanceof AgentType)) {
       return false;
     } else {
-      return (this.toString() == obj.toString()); //quality programming
+      return (this.toString().equals(obj.toString())); //quality programming
     }
   }
 }
