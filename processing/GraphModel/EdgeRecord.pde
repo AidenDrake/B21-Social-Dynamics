@@ -6,6 +6,7 @@ public class EdgeRecord {
   EdgeFactoryImpl factory;
 
   public EdgeRecord(Agent inputA, Agent inputB) {
+    //Note: constructor does not store
     
     this.a = inputA;
     this.b = inputB;

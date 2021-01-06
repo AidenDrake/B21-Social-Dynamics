@@ -42,8 +42,8 @@ void setup() {
   EdgeRecord er = new EdgeRecord(m, p);
 
   edgeRecs = new EdgeRecordStorage(agents);
-
   edgeRecs.store(er);
+
 }
 
 void draw() {
@@ -72,9 +72,10 @@ void draw() {
     j++;
   }
   
-  if (j>=1){
-    println(edgeRecs); //<>//
-  }
+  //if (j>=1){
+    //println("storage" + edgeRecs); //<>//
+    //println("drawn edges" + drawnEdges);
+  //}
 
   //println(
   popMatrix();
@@ -93,6 +94,7 @@ private void updateEdges() {
   drawnEdges.clear();
   for (EdgeRecord er : edgeRecs) {
     er.remakeEdge();
+    drawnEdges.add(er.edge);
   }
   //println(drawnEdges);
 }
