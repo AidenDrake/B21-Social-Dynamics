@@ -1,4 +1,4 @@
-/** //<>// //<>// //<>//
+/** //<>// //<>// //<>// //<>// //<>// //<>//
  * Agent for our ABM
  * 
  * 
@@ -10,6 +10,8 @@ public static final float bounds[] = {0, PI/2, 7*PI/6, 11*PI/6};
 public HashSet<Potential> potentials = new HashSet<Potential>();
 public HashSet<Member> members = new HashSet<Member>();
 public HashSet<Former> formers = new HashSet<Former>();
+
+public AgentType potential, member, former;
 
 static int counter = 1;
 
@@ -28,6 +30,8 @@ class Agent {
   int index = counter;
   Edge pullEdge = null;
   boolean addBox = false;
+
+  AgentType type;
 
 
   //Constructors
@@ -53,7 +57,7 @@ class Agent {
   }
 
   // ***MUY IMPORTANTE*** - Constructor to be used by subclasses
-  protected Agent(int lowerBoundIndex, int upperBoundIndex, float speed) {
+  protected Agent(int lowerBoundIndex, int upperBoundIndex, float speed) { //TODO fix for new types, should be Agent(AgentType type)
     // Each subclass provides the Lower Bound Index and Upper Bound index
     // to specify the lines that they bounce off of. The speed is also set 
     // on a subclass basis. This function takes those parameters and makes 
@@ -155,11 +159,6 @@ class Agent {
     return (this.getType() + " #"+ index);
   }
 
-  public void checkLineCollision() {
-    // will be implemented by the subclasses
-  }  
-
-
 
   @Override
     public boolean equals(Object obj) {
@@ -175,6 +174,17 @@ class Agent {
     public int hashCode() {
     return Objects.hash(this.index, "Agent");
   }
+
+  public void checkLineCollision() {
+    float angle = getAngle();
+
+    Float hitObj = evaluateCollision(angle, type.lowerbound, type.upperbound); 
+    if (hitObj != null) {
+      float hitAngle = hitObj;
+      doCollision(hitAngle);
+    }
+  }
+
 
   //Protected methods
   protected float getAngle() {
@@ -307,7 +317,7 @@ class Agent {
           } else {
             this.addBox = false;
           }
-          activeCount--; //<>// //<>//
+          activeCount--; //<>//
         }
       }
     }
@@ -321,41 +331,56 @@ class Agent {
 
 
 //OOP city here we come, I didn't go to fancy programming school for nothing
-class Potential extends Agent {
-  static final float speed = 0.3;
+class AgentType {
+  float speed;
+  int upperbound, lowerbound; // should be final in the subclasses
+  char abbv;
 
-  //Constructor 1 for debug
-  public Potential(PVector inputCoord, PVector inputVel) {
-    super(inputCoord, inputVel);
+  public AgentType(float speed, int lowerbound, int upperbound, char abbv) {
+    this.upperbound = upperbound;
+    this.lowerbound = lowerbound;
+    this.speed = speed;
+    this.abbv = abbv;
   }
 
-  public Potential() {
-    //Randomized constructor
-    super(1, 2, speed);
-    potentials.add(this);
+  @Override
+    public String toString() { // replaces "get Type"
+    return ""+abbv;
   }
 
-  public Potential(Agent a) {
-    super(a);
-    potentials.add(this);
-  }
-
-  public void checkLineCollision() {
-    float angle = getAngle();
-
-    Float hitObj = evaluateCollision(angle, 1, 2);
-    if (hitObj != null) {
-      float hitAngle = hitObj;
-      doCollision(hitAngle);
+  @Override
+    public boolean equals(Object obj) {
+    if (!(obj instanceof AgentType)) {
+      return false;
+    } else {
+      return (this.toString() == obj.toString()); //quality programming
     }
   }
+}
 
-  public char getType() {
+void initAgentTypes() {
+  //here's where we hardcode a bunch of values. Not the end of the world
+  potential = new AgentType(0.3, 1, 2, 'P'); // not sure if lower/upper is perfect
+  member = new AgentType(0.4, 2, 3, 'M');
+  former = new AgentType(0.1, 3, 1, 'F');
+}
+
+class Potential extends AgentType {
+  static final float speed = 0.3;
+  static final int upperbound
+
+    //public Potential() {
+    //  //Randomized constructor
+    //  super(1, 2, speed);
+    //  potentials.add(this);
+    //}
+
+    public String toString() {
     return 'P';
   }
 }
 
-class Member extends Agent {
+class Member extends AgentType {
   static final float speed = 0.4;
 
   //Constructor 1 -- debug
@@ -374,23 +399,12 @@ class Member extends Agent {
     members.add(this);
   }
 
-
-  public void checkLineCollision() {
-    float angle = getAngle();
-
-    Float hitObj = evaluateCollision(angle, 2, 3);
-    if (hitObj != null) {
-      float hitAngle = hitObj;
-      doCollision(hitAngle);
-    }
-  }
-
   public char getType() {
     return 'M';
   }
 }
 
-class Former extends Agent {
+class Former extends AgentType {
   static final float speed = 0.1;
 
   //Constructor 1 -- debug
@@ -410,18 +424,6 @@ class Former extends Agent {
     formers.add(this);
   }
 
-  public void checkLineCollision() {
-    float angle = getAngle();
-
-    Float hitObj = evaluateCollision(angle, 3, 1);
-    if (hitObj != null) {
-      float hitAngle = hitObj;
-      doCollision(hitAngle);
-    }
-  }
-
-
-
   public char getType() {
     return 'F';
   }
@@ -430,11 +432,8 @@ class Former extends Agent {
 // Conversion functions. Note that these are not part of the
 // Agent class. 
 public Potential AtoP(Agent a) {
-  agents.remove(a);
   formers.remove(a);
-  Potential out = new Potential(a); // out will be added to potentials list automatically
-  a = null;
-  agents.add(out); 
+  // change a's type, probably add to Pontentials list here
   return out;
 }
 
@@ -452,7 +451,7 @@ public void AtoF(Agent a) {
   members.remove(a);
   a = new Former(a);
   agents.add(a);
-  //formers.add(a) ?? not sure if I should add this 
+  //formers.add(a) ?? not sure if I should add this
 }
 
 public void defect(Former f) {
@@ -461,26 +460,26 @@ public void defect(Former f) {
 }
 
 public void defect(Member m) {
-  AtoF(m); //<>//
+  AtoF(m);
   defectMain(m);
 }
 
-private void defectMain(Agent a){
+private void defectMain(Agent a) {
   a.addBox = true;
   a.isPulled = true;
   a.centerCollide = false;
-  activeCount++; //<>// //<>//
+  activeCount++;
 }
 
 Agent randomAgent() {
   //
   int index = int(random(0, agents.size()));
   Iterator<Agent> iter = agents.iterator();
-  for (int j = 0; j < index - 1; j++){
+  for (int j = 0; j < index - 1; j++) {
     iter.next();
   }
   Agent out = iter.next();
   //
-  
+
   return out;
 }

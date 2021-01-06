@@ -32,6 +32,8 @@ void setup() {
   size(1000, 1000);
 
   rectMode(CENTER);
+  
+  initAgentTypes();
 
   Potential p = new Potential();
   agents.add(p);
