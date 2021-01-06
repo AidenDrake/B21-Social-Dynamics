@@ -7,9 +7,11 @@
 public static final float bounds[] = {0, PI/2, 7*PI/6, 11*PI/6};
 //bounds[] is theta of lines 1, 2, & 3 respectively. The zero is a spacer.
 
-public HashSet<Potential> potentials = new HashSet<Potential>();
-public HashSet<Member> members = new HashSet<Member>();
-public HashSet<Former> formers = new HashSet<Former>();
+public HashSet<Agent> potentials = new HashSet<Agent>(); 
+//we don't have insurance that members will never end up in the formers list, since these are all agents
+//we'll have to mantain the lists seperately, (and we can also implement some checks.)
+public HashSet<Agent> members = new HashSet<Agent>();
+public HashSet<Agent> formers = new HashSet<Agent>();
 
 public AgentType potential, member, former;
 
@@ -323,24 +325,51 @@ class Agent {
     }
 
     if (this.getZone() == this.getType() && !centerCollide) { // really really need to fix this
-      // need a Convert function
       centerCollide = true;
     }
+  }
+
+  private void removeFromTypeSet() {
+    this.type.set.remove(this);
+  }
+
+  private void addToTypeSet() {
+    this.type.set.add(this);
+  }
+
+  public void toType(AgentType t) {
+    this.removeFromTypeSet();
+    this.type = t;
+    this.addToTypeSet();
+  }
+
+  public void defectTo(AgentType t) {
+    this.toType(t);
+    this.defectEffects();
+  }
+
+  private void defectEffects() {
+    this.addBox = true;
+    this.isPulled = true;
+    this.centerCollide = false;
+    activeCount++;
   }
 }
 
 
-//OOP city here we come, I didn't go to fancy programming school for nothing
 class AgentType {
+  // these should all be associated with certain lists as well. 
   float speed;
-  int upperbound, lowerbound; // should be final in the subclasses
+  public int upperbound, lowerbound; // should be final in the subclasses
   char abbv;
+  public HashSet<Agent> set;
 
-  public AgentType(float speed, int lowerbound, int upperbound, char abbv) {
+  public AgentType(float speed, int lowerbound, int upperbound, char abbv, HashSet<Agent> set) {
     this.upperbound = upperbound;
     this.lowerbound = lowerbound;
     this.speed = speed;
     this.abbv = abbv;
+    this.set = set;
   }
 
   @Override
@@ -360,53 +389,12 @@ class AgentType {
 
 void initAgentTypes() {
   //here's where we hardcode a bunch of values. Not the end of the world
-  potential = new AgentType(0.3, 1, 2, 'P'); // not sure if lower/upper is perfect
-  member = new AgentType(0.4, 2, 3, 'M');
-  former = new AgentType(0.1, 3, 1, 'F');
+  potential = new AgentType(0.3, 1, 2, 'P', potentials); // not sure if lower/upper is perfect
+  member = new AgentType(0.4, 2, 3, 'M', members);
+  former = new AgentType(0.1, 3, 1, 'F', formers);
 }
 
 
-// Conversion functions. Note that these are not part of the
-// Agent class. 
-public Potential AtoP(Agent a) {
-  formers.remove(a);
-  // change a's type, probably add to Pontentials list here
-  return out;
-}
-
-public Member AtoM(Agent a) {
-  agents.remove(a);
-  potentials.remove(a); // not sure if this works
-  Member out = new Member(a);
-  a = null;
-  agents.add(out);
-  return out;
-}
-
-public void AtoF(Agent a) {
-  agents.remove(a);
-  members.remove(a);
-  a = new Former(a);
-  agents.add(a);
-  //formers.add(a) ?? not sure if I should add this
-}
-
-public void defect(Former f) {
-  AtoP(f);
-  defectMain(f);
-}
-
-public void defect(Member m) {
-  AtoF(m);
-  defectMain(m);
-}
-
-private void defectMain(Agent a) {
-  a.addBox = true;
-  a.isPulled = true;
-  a.centerCollide = false;
-  activeCount++;
-}
 
 Agent randomAgent() {
   //
