@@ -62,6 +62,11 @@ public class EdgeRecord {
     }
     return false;
   }
+  
+  @Override
+  public String toString(){
+    return ("<" + a +", " + b + ">");
+  }
 
   @Override
     public int hashCode() {

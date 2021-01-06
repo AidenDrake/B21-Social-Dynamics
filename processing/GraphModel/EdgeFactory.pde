@@ -19,6 +19,7 @@ public class EdgeFactoryImpl implements EdgeFactory {
     checkIfNull(a);
     checkIfNull(b);
     setBooleans();
+    
     if (thereIsMember && thereIsFormer){
       println("at least this works");
     }

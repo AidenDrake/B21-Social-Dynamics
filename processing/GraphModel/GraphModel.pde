@@ -64,12 +64,16 @@ void draw() {
   updateAgents();
 
 
-  if (keyPressed && key =='k') { //&& j<1
+  if (keyPressed && j<1 && key =='k') {
     for (Agent m : members) { // no one in mems
       m.defectTo(former);
       print("event" + j);
     }
     j++;
+  }
+  
+  if (j>=1){
+    println(edgeRecs); //<>//
   }
 
   //println(
