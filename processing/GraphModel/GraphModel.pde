@@ -35,14 +35,31 @@ void setup() {
 
   initAgentTypes();
 
-  Agent p = new Agent(potential);
+  //Agent p = new Agent(potential);
 
-  Agent m = new Agent(member);
+  //Agent m = new Agent(member);
 
-  EdgeRecord er = new EdgeRecord(m, p);
+  //EdgeRecord er = new EdgeRecord(m, p);
 
   edgeRecs = new EdgeRecordStorage(agents);
-  edgeRecs.store(er);
+  //edgeRecs.store(er);
+
+  for (int i = 0; i < 9; i++) {
+    agents.add(new Agent(member));
+  }
+
+  for (int i = 0; i < 9; i++) {
+    agents.add(new Agent(former));
+  }
+
+  for (int i = 0; i < 10; i++) {
+    agents.add(new Agent(potential));
+  }
+
+
+  //  for (int i = 0; i < 20; i++) {
+  //    edgeRecs.newRandEdgeRecord();
+  //  }
 }
 
 void draw() {
@@ -68,15 +85,16 @@ void draw() {
     j++;
   }
   if (j == 1) {
-    for (Agent m : members) { // no one in mems
+    HashSet<Agent> mpointers = (HashSet<Agent>) members.clone();
+    for (Agent m : mpointers) {
       m.defectTo(former);
-      println("event" + j);
     }
+    print("event" + j);
   }
   if (j == 10) {
     HashSet<Agent> fpointers = (HashSet<Agent>) formers.clone();
     for (Agent f : fpointers) {
-        f.defectTo(potential);
+      f.defectTo(potential);
     }
     print("event" + j);
   }
