@@ -1,4 +1,4 @@
-/** //<>// //<>// //<>// //<>// //<>// //<>//
+/** //<>// //<>// //<>// //<>// //<>// //<>// //<>//
  * Agent for our ABM
  * 
  * 
@@ -25,6 +25,7 @@ class Agent {
   //Fields
   public PVector coord;
   PVector velocity;
+  private PVector target;
 
   public Agent puller = null;
   boolean isPulled = false;
@@ -32,6 +33,7 @@ class Agent {
   int index = counter;
   Edge pullEdge = null;
   boolean addBox = false;
+
 
   AgentType type;
 
@@ -48,9 +50,9 @@ class Agent {
     // Each type provides the Lower Bound Index and Upper Bound index
     // to specify the lines that they bounce off of. The speed is also set 
     // on a type basis.
-    
+
     this.type = type;
-    
+
     float theta;
     if (type.lowerbound > type.upperbound ) {
       // this is to handle formers. Bad fix. NOTE hardcoded values. 
@@ -66,7 +68,7 @@ class Agent {
     velocity = PVector.random2D().mult(speed);
 
     this.index = counter++;
-    
+
     this.addToTypeSet();
     agents.add(this);
   }
@@ -270,28 +272,39 @@ class Agent {
 
   public void getsPulled() {
     //will be called from update
-    // we should make it so that target isn't repeatedly set.
-    PVector target = new PVector();
-   println(this.puller == null);
+     
+    if (this.target == null) {
+      this.setTarget();
+    }
+    
+    if (isPulled) {
+      this.doPulling();
+    }
+
+    if (("" + this.getZone()).equals(this.type.toString()) && !centerCollide) {
+      //toString is a cludgy fix to match the char output produced by getZone
+      // this runs a lot for some reason, but I don't think that's a problem
+      centerCollide = true;
+    }
+  }
+
+  private void setTarget() {
     if (this.puller == null) {
       // this is a case for defections.
       if (this.type.equals(potential)) {
-        target = new PVector(random(-400, -300), random(300, 400));
+        target = new PVector(-350, 350);
       }
       if (this.type.equals(former)) {
-        target = new PVector(random(300, 400), random(300, 400));
+        target = new PVector(350, 350);
       }
     } else {
       target = puller.coord.copy();
     }
-
-    stroke(0, 125, 0); //<>//
-    strokeWeight(1);
-
-
-    if (isPulled) {
-      if (!centerCollide) {
-        PVector distance = target.sub(coord);
+  }
+  
+  private void doPulling(){
+    if (!centerCollide) {
+        PVector distance = target.copy().sub(coord);
         PVector accl = distance.mult(0.001);
         velocity.add(accl);
       } else {
@@ -313,13 +326,6 @@ class Agent {
           activeCount--;
         }
       }
-    }
-    
-    if (("" + this.getZone()).equals(this.type.toString()) && !centerCollide) {
-      //toString is a cludgy fix to match the char output produced by getZone
-      // this runs a lot for some reason, but I don't think that's a problem
-      centerCollide = true;
-    }
   }
 
   private void removeFromTypeSet() {
