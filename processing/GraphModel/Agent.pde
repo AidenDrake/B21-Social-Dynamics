@@ -344,6 +344,7 @@ class Agent {
 
   public void defectTo(AgentType t) {
     this.toType(t);
+    this.target = null;
     this.defectEffects();
   }
 

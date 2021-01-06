@@ -1,4 +1,4 @@
-/**  //<>//
+/**  //<>// //<>//
  * A visual, agent based simulation based off Hedstrom's ODE model of social groups.
  * 
  * “At sufficiently high levels of abstraction, the logic of many of the processes studied 
@@ -43,7 +43,6 @@ void setup() {
 
   edgeRecs = new EdgeRecordStorage(agents);
   edgeRecs.store(er);
-
 }
 
 void draw() {
@@ -64,18 +63,23 @@ void draw() {
   updateAgents();
 
 
-  if (keyPressed && j<1 && key =='k') {
-    for (Agent m : members) { // no one in mems
-      m.defectTo(former);
-      print("event" + j);
-    }
+
+  if (keyPressed && key =='k') {
     j++;
   }
-  
-  //if (j>=1){
-    //println("storage" + edgeRecs); //<>//
-    //println("drawn edges" + drawnEdges);
-  //}
+  if (j == 1) {
+    for (Agent m : members) { // no one in mems
+      m.defectTo(former);
+      println("event" + j);
+    }
+  }
+  if (j == 10) {
+    HashSet<Agent> fpointers = (HashSet<Agent>) formers.clone();
+    for (Agent f : fpointers) {
+        f.defectTo(potential);
+    }
+    print("event" + j);
+  }
 
   //println(
   popMatrix();
