@@ -311,8 +311,10 @@ class Agent {
         }
       }
     }
+    
+    println(" zone: " + ("" + this.getZone()) + " type : " + this.type.toString());
 
-    if (("" + this.getZone()) == this.type.toString() && !centerCollide) {
+    if (("" + this.getZone()).equals(this.type.toString()) && !centerCollide) {
       //toString is a cludgy fix to match the char output produced by getZone
       centerCollide = true;
     }
