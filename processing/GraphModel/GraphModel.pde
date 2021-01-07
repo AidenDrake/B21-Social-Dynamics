@@ -41,7 +41,6 @@ void setup() {
 
   //EdgeRecord er = new EdgeRecord(m, p);
 
-  edgeRecs = new EdgeRecordStorage(agents);
   //edgeRecs.store(er);
 
   for (int i = 0; i < 9; i++) {
@@ -56,10 +55,11 @@ void setup() {
     agents.add(new Agent(potential));
   }
 
+  edgeRecs = new EdgeRecordStorage(agents);
 
-  //  for (int i = 0; i < 20; i++) {
-  //    edgeRecs.newRandEdgeRecord();
-  //  }
+  for (int i = 0; i < 20; i++) {
+    edgeRecs.newRandEdgeRecord();
+  }
 }
 
 void draw() {
@@ -85,10 +85,11 @@ void draw() {
     j++;
   }
   if (j == 1) {
-    HashSet<Agent> mpointers = (HashSet<Agent>) members.clone();
-    for (Agent m : mpointers) {
-      m.defectTo(former);
-    }
+    //HashSet<Agent> mpointers = (HashSet<Agent>) members.clone();
+    //for (Agent m : mpointers) {
+    //  m.defectTo(former);
+    //}
+    recruitPotentialsToMembers(mpEdges, 1);
     print("event" + j);
   }
   if (j == 10) {
@@ -102,7 +103,7 @@ void draw() {
   //println(
   popMatrix();
 
-  text("drawnEdges: " + drawnEdges.size() + "MP Edges: " + mpEdges.size() + " Step: "+ step +" ActiveCount: " + activeCount, 20, 20);
+  text("drawnEdges: " + drawnEdges.size() + " MP Edges: " + mpEdges.size() + " MF Edges: " + mfEdges.size()+ " Step: "+ step +" ActiveCount: " + activeCount, 20, 20);
   //println("Agents: " + agents);
 }
 
@@ -169,10 +170,11 @@ void startStep() {
 
 private void recruitMembersToFormers(HashSet<MemberFormerEdge> mfEdges, float beta) {
   HashSet<MemberFormerEdge> mfpointers = (HashSet<MemberFormerEdge>) mfEdges.clone();
+  //println("mfpointers" + mfpointers);
   for (MemberFormerEdge e : mfpointers ) {
     if (random(1) <= beta) {
       if (! active.contains(e)) {
-        // e.recruitMtoF();
+        e.recruitMtoF();
       }
     }
   }

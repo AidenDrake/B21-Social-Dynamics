@@ -20,10 +20,6 @@ public class EdgeFactoryImpl implements EdgeFactory {
     checkIfNull(b);
     setBooleans();
     
-    if (thereIsMember && thereIsFormer){
-      println("at least this works");
-    }
-
     return makeAppropriateEdge(er);
   }
 

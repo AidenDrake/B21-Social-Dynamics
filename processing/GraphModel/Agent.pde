@@ -71,6 +71,7 @@ class Agent {
 
     this.addToTypeSet();
     agents.add(this);
+    // add new agents to the edge record storage
   }
 
 
@@ -323,7 +324,9 @@ class Agent {
           } else {
             this.addBox = false;
           }
-          activeCount--;
+          activeCount--; // active count is not always accurate for some reason. 
+          //Should be fine under normal conditions. 
+          //println("active count minus " + this);
         }
       }
   }
@@ -353,6 +356,7 @@ class Agent {
     this.isPulled = true;
     this.centerCollide = false;
     activeCount++;
+    //println("active count plus" + this);
   }
 }
 

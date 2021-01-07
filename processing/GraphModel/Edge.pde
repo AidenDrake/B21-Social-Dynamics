@@ -113,7 +113,6 @@ class MemberPotentialEdge extends Edge {
     Edge ne = new Edge(newMem, this.memberInstance); // ne -> new edge
     ne.a.setPuller(this.memberInstance, ne);
     ne.highlight();
-    //ne.store(); 
     activeCount++; 
     active.add(this);
   }
@@ -139,21 +138,23 @@ class MemberFormerEdge extends Edge {
     super(m_, f_);
     this.memberInstance = m_;
     this.formerInstance = f_;
+    mfEdges.add(this);
   }
   
-  // public void recruitMtoF() {
-  //  // test test test
-  //  drawnEdges.remove(this);
-  //  mfEdges.remove(this);
-  //  mfEdges.add(this);
+   public void recruitMtoF() {
+    // test test test
+    drawnEdges.remove(this);
+    mfEdges.remove(this);
     
-  //  Former newForm = AtoF(this.member);
-  //  Edge ne = new Edge(newForm, this.former);
-  //  ne.a.setPuller(this.former, ne);
-  //  ne.highlight();
-  //  activeCount++; 
-  //  active.add(this);
-  //}
+    this.memberInstance.toType(former);
+    Agent newFormer = this.memberInstance;
+    
+    Edge ne = new Edge(newFormer, this.formerInstance);
+    ne.a.setPuller(this.formerInstance, ne);
+    ne.highlight();
+    activeCount++; 
+    active.add(this);
+  }
   
     public void display() {
     if (this.highlight) {
