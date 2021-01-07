@@ -16,7 +16,7 @@ class Edge {
   //fields
   Agent a;
   Agent b;
-  protected boolean highlight = false;
+  boolean highlight = false;
 
   //Constructor for a "generic edge"
   public Edge(EdgeRecord er) {

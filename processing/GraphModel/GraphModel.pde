@@ -84,7 +84,7 @@ void draw() {
   if (keyPressed && key =='k') {
     j++;
   }
-  if (j == 1) {
+  if (j == 1 || j==5) {
     //HashSet<Agent> mpointers = (HashSet<Agent>) members.clone();
     //for (Agent m : mpointers) {
     //  m.defectTo(former);
