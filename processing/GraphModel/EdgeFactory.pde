@@ -19,17 +19,20 @@ public class EdgeFactoryImpl implements EdgeFactory {
     checkIfNull(a);
     checkIfNull(b);
     setBooleans();
-    
-    Edge temp = this.er.edge;//
-    
+
+    Edge temp = this.er.edge;
+
     boolean tempHighlight = (temp == null) ? false : temp.highlight;
-    
+    if (tempHighlight) {
+      println("tempHighlight" + tempHighlight);
+    }
+
     //println("temp " + temp);
-    
-    Edge newEdge = makeAppropriateEdge(er); //<>//
-    
+
+    Edge newEdge = makeAppropriateEdge(er);
+
     newEdge.highlight= tempHighlight;
-    
+
     return newEdge;
   }
 

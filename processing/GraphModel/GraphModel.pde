@@ -20,11 +20,13 @@ import java.util.Iterator;
 public final static float bigRadius = 400;
 
 HashSet<Agent> agents = new HashSet<Agent>(); 
-HashSet<Edge> active = new HashSet<Edge>();
+HashSet<Edge> activeEdges = new HashSet<Edge>();
 EdgeRecordStorage edgeRecs;
+//Agent[] agentsA;
 
 int j = 0;
 int step = 0;
+//int k = 0;
 
 int activeCount = 0;
 
@@ -68,12 +70,15 @@ void draw() {
 
   pushMatrix();
   translate(width/2, height/2);
+  
+  //agentsA = agents.toArray(new Agent[0]);
+  //For debug -- it's easier to read an array than a hashmap
 
   drawBigCircle();
 
   displayEdges();
 
-  updateEdges();
+  //updateEdges();
 
   displayAgents();
 
@@ -99,12 +104,20 @@ void draw() {
     }
     print("event" + j);
   }
+  
+  if (keyPressed && key == ' '){
+     println("space"); //<>//
+  }
 
   //println(
   popMatrix();
 
-  text("drawnEdges: " + drawnEdges.size() + " MP Edges: " + mpEdges.size() + " MF Edges: " + mfEdges.size()+ " Step: "+ step +" ActiveCount: " + activeCount, 20, 20);
+  text("drawnEdges: " + drawnEdges.size() + " MP Edges: " + mpEdges.size() + " MF Edges: " + mfEdges.size()+ " Step: "+ step +" ActiveCount: " + activeCount + "active edge list size" + activeEdges.size(), 20, 20);
   //println("Agents: " + agents);
+  //if (k%20 ==0 ){
+  //  println("hi"); //<>//
+  //}
+ //k++;
 }
 
 private void displayEdges() {
@@ -173,7 +186,7 @@ private void recruitMembersToFormers(HashSet<MemberFormerEdge> mfEdges, float be
   //println("mfpointers" + mfpointers);
   for (MemberFormerEdge e : mfpointers ) {
     if (random(1) <= beta) {
-      if (! active.contains(e)) {
+      if (! activeEdges.contains(e)) {
         e.recruitMtoF();
       }
     }
@@ -184,7 +197,7 @@ private void recruitPotentialsToMembers(HashSet<MemberPotentialEdge> mpEdges, fl
   HashSet<MemberPotentialEdge> pointers = (HashSet<MemberPotentialEdge>) mpEdges.clone();
   for (MemberPotentialEdge e : pointers ) {
     if (random(1) <= alpha) {
-      if (! active.contains(e)) {
+      if (! activeEdges.contains(e)) {
         e.recruitPtoM();
       }
     }

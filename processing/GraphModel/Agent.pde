@@ -317,16 +317,14 @@ class Agent {
           // once we get in the right quadrent
           isPulled = false;
           if (pullEdge != null) {
-            active.remove(pullEdge);
+            activeEdges.remove(pullEdge);
             pullEdge.unHighlight();
             pullEdge = null;
             puller = null;
           } else {
             this.addBox = false;
           }
-          activeCount--; // active count is not always accurate for some reason. 
-          //Should be fine under normal conditions. 
-          //println("active count minus " + this);
+          activeCount--;
         }
       }
   }

@@ -1,4 +1,4 @@
-/** //<>// //<>// //<>//
+/** //<>// //<>// //<>// //<>//
  * "So, I hear you're a real edgelord" -- XKCD #2036
  * 
  * Edges for the model, which represent social connections between agents
@@ -16,7 +16,7 @@ class Edge {
   //fields
   Agent a;
   Agent b;
-  boolean highlight = false;
+  boolean highlight;
 
   //Constructor for a "generic edge"
   public Edge(EdgeRecord er) {
@@ -110,11 +110,12 @@ class MemberPotentialEdge extends Edge {
     
     this.potentialInstance.toType(member);
     Agent newMem = this.potentialInstance;
+    
     Edge ne = new Edge(newMem, this.memberInstance); // ne -> new edge
     ne.a.setPuller(this.memberInstance, ne);
     ne.highlight();
     activeCount++; 
-    active.add(this);
+    activeEdges.add(this);
   }
 
   public void display() {
@@ -146,14 +147,14 @@ class MemberFormerEdge extends Edge {
     drawnEdges.remove(this);
     mfEdges.remove(this);
     
-    this.memberInstance.toType(former);
+    this.memberInstance.toType(former) ;
     Agent newFormer = this.memberInstance;
     
     Edge ne = new Edge(newFormer, this.formerInstance);
     ne.a.setPuller(this.formerInstance, ne);
     ne.highlight();
     activeCount++; 
-    active.add(this);
+    activeEdges.add(this);
   }
   
     public void display() {
