@@ -20,7 +20,7 @@ static int counter = 1;
 class Agent {
   // There's a set radius for all agents
   public static final float agentRadius = 2.5;
-  static final float speed = 0.4;
+  //static final float speed = 0.4;
 
   //Fields
   public PVector coord;
@@ -65,7 +65,7 @@ class Agent {
     // and a random angle from center to randomly place the agent.
     float dist = random(10, (bigRadius - 10));
     coord = new PVector (dist*cos(theta), dist*sin(theta)); 
-    velocity = PVector.random2D().mult(speed);
+    velocity = PVector.random2D().mult(type.speed);
 
     this.index = counter++;
 
@@ -273,11 +273,11 @@ class Agent {
 
   public void getsPulled() {
     //will be called from update
-     
+
     if (this.target == null) {
       this.setTarget();
     }
-    
+
     if (isPulled) {
       this.doPulling();
     }
@@ -302,31 +302,43 @@ class Agent {
       target = puller.coord.copy();
     }
   }
-  
-  private void doPulling(){
+
+  private void doPulling() {
     if (!centerCollide) {
-        PVector distance = target.copy().sub(coord);
-        PVector accl = distance.mult(0.001);
-        velocity.add(accl);
+      springAccelerationToTarget();
+    } else {
+      if (this.shouldSlowDown()) {
+        velocity.mult(0.94);
       } else {
-        float magSquared = velocity.magSq();
-        float restingSpeed = speed * speed; 
-        if ( magSquared > restingSpeed) {
-          velocity.mult(0.94);
-        } else {
-          // once we get in the right quadrent
-          isPulled = false;
-          if (pullEdge != null) {
-            activeEdges.remove(pullEdge);
-            pullEdge.unHighlight();
-            pullEdge = null;
-            puller = null;
-          } else {
-            this.addBox = false;
-          }
-          activeCount--;
-        }
+        // once we get in the correct quadrent and slowed down to resting speed
+        this.unpull();
       }
+    }
+  }
+
+  private void springAccelerationToTarget() {
+    PVector distance = target.copy().sub(coord);
+    PVector accl = distance.mult(0.001);
+    velocity.add(accl);
+  }
+
+  private boolean shouldSlowDown() {
+    float magSquared = velocity.magSq();
+    float restingSpeedSq = type.speed * type.speed; 
+    return magSquared > restingSpeedSq;
+  }
+
+  private void unpull() {
+    isPulled = false;
+    if (pullEdge != null) {
+      activeEdges.remove(pullEdge);
+      pullEdge.unHighlight();
+      pullEdge = null;
+      puller = null;
+    } else {
+      this.addBox = false;
+    }
+    activeCount--;
   }
 
   private void removeFromTypeSet() {
@@ -391,7 +403,7 @@ class AgentType {
 
 void initAgentTypes() {
   //here's where we hardcode a bunch of values. Not the end of the world
-  potential = new AgentType(0.3, 1, 2, 'P', potentials); // not sure if lower/upper is perfect
+  potential = new AgentType(0.3, 1, 2, 'P', potentials);
   member = new AgentType(0.4, 2, 3, 'M', members);
   former = new AgentType(0.1, 3, 1, 'F', formers);
 }

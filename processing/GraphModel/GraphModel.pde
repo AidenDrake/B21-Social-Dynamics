@@ -72,7 +72,7 @@ void draw() {
   translate(width/2, height/2);
   
   //agentsA = agents.toArray(new Agent[0]);
-  //For debug -- it's easier to read an array than a hashmap
+  //For debug -- it's easier to read an array than a hashset
 
   drawBigCircle();
 
